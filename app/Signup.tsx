@@ -1,24 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, TextInput, Pressable, StyleSheet } from "react-native";
 import { IsError, checkField } from "@/utils/utils";
 import { router } from "expo-router";
-
 import { createUser } from "@/utils/api";
+import { UserContext } from "@/contexts/UserContext";
+
 interface SignUpProps {
   setIsSignupOpen: (isLoginOpen: boolean) => void;
-  setUserDetails: (userDetails: object | void) => void;
+  
 }
 
-export default function Signup({
-  setIsSignupOpen,
-  setUserDetails,
-}: SignUpProps) {
+export default function Signup({ setIsSignupOpen }: SignUpProps) {
   const [usernameInput, setUsernameInput] = React.useState("");
   const [passwordInput, setPasswordInput] = React.useState("");
   const [confirmPasswordInput, setConfirmPasswordInput] = React.useState("");
   const [emailInput, setEmailInput] = React.useState("");
-
+  const [, setUserDetails] = useContext(UserContext)
   const [isError, setIsError] = React.useState<IsError>({});
 
   async function handleSubmit() {
@@ -60,7 +58,7 @@ export default function Signup({
       >
         <Text>X</Text>
       </Pressable>
-      <Text style={styles.title}>Sign Up page</Text>
+      <Text style={styles.title}>Sign Up</Text>
       <Text style={styles.label}>Username</Text>
       <TextInput
         style={styles.input}
@@ -78,7 +76,7 @@ export default function Signup({
         placeholder="username"
         id="username"
       />
-      {isError.username && <Text>{isError.username}</Text>}
+       {isError.username?.length? <Text>{isError.username}</Text>:<></>}
       <Text style={styles.label}>Email</Text>
       <TextInput
         style={styles.input}
@@ -95,7 +93,7 @@ export default function Signup({
         }}
         id="email"
       />
-      {isError.email && <Text>{isError.email}</Text>}
+       {isError.email?.length? <Text>{isError.email}</Text>:<></>}
       <Text style={styles.label}>Password</Text>
 
       <TextInput
@@ -114,7 +112,7 @@ export default function Signup({
         textContentType="password"
         id="password"
       />
-      {isError.password && <Text>{isError.password}</Text>}
+   {isError.password?.length? <Text>{isError.password}</Text>:<></>}
       <Text style={styles.label}>Confirm password</Text>
       <TextInput
         style={styles.input}
@@ -137,7 +135,7 @@ export default function Signup({
         textContentType="password"
         id="confirmPassword"
       />
-      {isError.confirmPassword && <Text>{isError.confirmPassword}</Text>}
+     {isError.confirmPassword?.length? <Text>{isError.confirmPassword}</Text>:<></>}
 
       <Pressable onPress={handleSubmit}>
         <Text style={styles.button}>Sign Up</Text>

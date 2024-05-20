@@ -14,11 +14,13 @@ export function checkField(e, setIsError, valueInput) {
       console.log(currentError);
       return { ...currentError, username: "Please enter a valid username" };
     });
+
   }
   if (e.target.id === "password" && !passRegex.test(valueInput)) {
     setIsError((currentError: IsError) => {
       return { ...currentError, password: "Please enter a valid password" };
     });
+
   }
   if (e.target.id === "confirmPassword" && !valueInput) {
     setIsError((currentError: IsError) => {
@@ -27,10 +29,13 @@ export function checkField(e, setIsError, valueInput) {
         confirmPassword: "Please confirm your password",
       };
     });
+
   }
   if (e.target.id === "email" && !emailRegex.test(valueInput)) {
     setIsError((currentError: IsError) => {
       return { ...currentError, email: "Please enter a valid email" };
     });
+
   }
+  
 }
