@@ -1,36 +1,146 @@
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, TextInput, Pressable, StyleSheet } from "react-native";
+import { IsError, checkField } from "@/utils/utils";
+import { router } from "expo-router";
 
-export default function Signup({setIsSignupOpen}) {
+import { createUser } from "@/utils/api";
+interface SignUpProps {
+  setIsSignupOpen: (isLoginOpen: boolean) => void;
+  setUserDetails: (userDetails: object | void) => void;
+}
+
+export default function Signup({
+  setIsSignupOpen,
+  setUserDetails,
+}: SignUpProps) {
   const [usernameInput, setUsernameInput] = React.useState("");
   const [passwordInput, setPasswordInput] = React.useState("");
+  const [confirmPasswordInput, setConfirmPasswordInput] = React.useState("");
+  const [emailInput, setEmailInput] = React.useState("");
 
-  function checkUserExists() {
-    console.log("user exists!");
+  const [isError, setIsError] = React.useState<IsError>({});
+
+  async function handleSubmit() {
+    if (!passwordInput && !usernameInput && !emailInput) {
+      setIsError({
+        ...isError,
+        password: "Please enter a password",
+        username: "Please enter a valid username",
+        email: "Please enter a valid email",
+      });
+    } else if (!usernameInput) {
+      setIsError({ ...isError, username: "Please enter a valid username" });
+    } else if (!passwordInput) {
+      setIsError({ ...isError, password: "Please enter a password" });
+    } else if (!emailInput) {
+      setIsError({ ...isError, email: "Please enter a valid email" });
+    } else {
+      try {
+        const userDetails = await createUser(
+          usernameInput,
+          passwordInput,
+          emailInput
+        );
+        setUserDetails(userDetails);
+      } catch (err) {
+        console.log(err); //error component
+      } finally {
+        router.replace("/home");
+      }
+    }
   }
 
   return (
     <SafeAreaView>
-       <Pressable onPress={()=>{setIsSignupOpen(false)}}>X</Pressable>
-      <Text style={styles.title}>Log in page</Text>
+      <Pressable
+        onPress={() => {
+          setIsSignupOpen(false);
+        }}
+      >
+        <Text>X</Text>
+      </Pressable>
+      <Text style={styles.title}>Sign Up page</Text>
       <Text style={styles.label}>Username</Text>
       <TextInput
         style={styles.input}
-        onChangeText={setUsernameInput}
+        onChangeText={(text) => {
+          setUsernameInput(text);
+          setIsError({
+            ...isError,
+            username: "",
+          });
+        }}
+        onBlur={(e) => {
+          checkField(e, setIsError, usernameInput);
+        }}
         value={usernameInput}
         placeholder="username"
+        id="username"
       />
-      <Text style={styles.label}>Password</Text>
+      {isError.username && <Text>{isError.username}</Text>}
+      <Text style={styles.label}>Email</Text>
       <TextInput
         style={styles.input}
-        onChangeText={setPasswordInput}
+        onChangeText={(text) => {
+          setEmailInput(text);
+
+          setIsError({ ...isError, email: "" });
+        }}
+        value={emailInput}
+        placeholder="email"
+        textContentType="emailAddress"
+        onBlur={(e) => {
+          checkField(e, setIsError, emailInput);
+        }}
+        id="email"
+      />
+      {isError.email && <Text>{isError.email}</Text>}
+      <Text style={styles.label}>Password</Text>
+
+      <TextInput
+        style={styles.input}
+        onChangeText={(text) => {
+          setPasswordInput(text);
+
+          setIsError({ ...isError, password: "" });
+        }}
+        onBlur={(e) => {
+          checkField(e, setIsError, passwordInput);
+        }}
         value={passwordInput}
         placeholder="password"
+        secureTextEntry={true}
         textContentType="password"
+        id="password"
       />
-      <Pressable onPress={checkUserExists}>
-        <Text style={styles.button}>Log in</Text>
+      {isError.password && <Text>{isError.password}</Text>}
+      <Text style={styles.label}>Confirm password</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={(text) => {
+          setConfirmPasswordInput(text);
+
+          setIsError({ ...isError, confirmPassword: "" });
+        }}
+        onBlur={(e) => {
+          checkField(e, setIsError, confirmPasswordInput);
+          if (confirmPasswordInput && passwordInput !== confirmPasswordInput)
+            setIsError({
+              ...isError,
+              confirmPassword: "passwords do not match",
+            });
+        }}
+        value={confirmPasswordInput}
+        placeholder="confirm your password"
+        secureTextEntry={true}
+        textContentType="password"
+        id="confirmPassword"
+      />
+      {isError.confirmPassword && <Text>{isError.confirmPassword}</Text>}
+
+      <Pressable onPress={handleSubmit}>
+        <Text style={styles.button}>Sign Up</Text>
       </Pressable>
     </SafeAreaView>
   );
