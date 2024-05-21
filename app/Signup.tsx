@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, TextInput, Pressable, StyleSheet } from "react-native";
 import { IsError, checkField } from "@/utils/utils";
@@ -15,9 +15,9 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
   const [passwordInput, setPasswordInput] = React.useState("");
   const [confirmPasswordInput, setConfirmPasswordInput] = React.useState("");
   const [emailInput, setEmailInput] = React.useState("");
-  const [, setUserDetails] = useContext(UserContext);
+  const [userDetails, setUserDetails] = useContext(UserContext);
   const [isError, setIsError] = React.useState<IsError>({});
-
+  const [tempUser, setTempUser] = React.useState({ user: "ana" });
   async function handleSubmit() {
     if (!passwordInput && !usernameInput && !emailInput) {
       setIsError({
@@ -45,16 +45,23 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
         !isError.email
       ) {
         try {
-          const userDetails = await createUser(
+          const newUserDetails = await createUser(
             usernameInput,
             passwordInput,
             emailInput
           );
-          setUserDetails(userDetails);
+
+          await setUserDetails(newUserDetails);
+          console.log(tempUser, "<-- temp user");
+          console.log(newUserDetails, " <--received user details");
+          setTempUser(newUserDetails);
         } catch (err) {
           console.log(err); //error component
         } finally {
-          router.replace("/home");
+          setTimeout(() => {
+            router.replace("/home");
+          }, 1000);
+          console.log(userDetails, "<---user state in signup");
         }
       } else {
         alert("there are errors :(");
@@ -83,7 +90,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
           });
         }}
         onBlur={() => {
-          checkField('username', setIsError, usernameInput);
+          checkField("username", setIsError, usernameInput);
         }}
         value={usernameInput}
         placeholder="username"
@@ -102,7 +109,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
         placeholder="email"
         textContentType="emailAddress"
         onBlur={() => {
-          checkField('email', setIsError, emailInput);
+          checkField("email", setIsError, emailInput);
         }}
         id="email"
       />
@@ -117,7 +124,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
           setIsError({ ...isError, password: "" });
         }}
         onBlur={() => {
-          checkField('password', setIsError, passwordInput);
+          checkField("password", setIsError, passwordInput);
         }}
         value={passwordInput}
         placeholder="password"
@@ -135,7 +142,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
           setIsError({ ...isError, confirmPassword: "" });
         }}
         onBlur={() => {
-          checkField('confirmPassword', setIsError, confirmPasswordInput);
+          checkField("confirmPassword", setIsError, confirmPasswordInput);
           if (confirmPasswordInput && passwordInput !== confirmPasswordInput)
             setIsError({
               ...isError,

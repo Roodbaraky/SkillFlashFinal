@@ -8,13 +8,16 @@ export default function RootLayout() {
     password?: string;
     email?: string;
     user_id?: string;
-    decks?: number[] | null
+    decks?: number[] | null;
+    _id?: string;
   }
 
   const [userDetails, setUserDetails] = useState<User>({});
+  console.log(userDetails);
+
   return (
     <Stack>
-      <UserContext.Provider value={[userDetails, setUserDetails]}>
+      <UserContext.Provider value={{ userDetails, setUserDetails }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="Login" />
         <Stack.Screen name="Signup" />
@@ -23,4 +26,3 @@ export default function RootLayout() {
     </Stack>
   );
 }
-

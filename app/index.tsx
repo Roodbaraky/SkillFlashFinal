@@ -7,13 +7,11 @@ import Login from "./Login";
 import Signup from "./Signup";
 import { UserContext } from "@/contexts/UserContext";
 
-
-
 export default function Index() {
   const navigation = useNavigation();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
-  const [userDetails, setUserDetails] = useContext(UserContext)
+  const [userDetails, setUserDetails] = useContext(UserContext);
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
@@ -37,17 +35,17 @@ export default function Index() {
     );
   }
   if (isSignupOpen) {
-    return (<Signup setIsSignupOpen={setIsSignupOpen} />);
+    return <Signup setIsSignupOpen={setIsSignupOpen} />;
   }
 
   return (
     <SafeAreaView>
       <UserContext.Provider value={[userDetails, setUserDetails]}>
         <Text>SkillFlash</Text>
-        <Pressable onPress={() => handlePress('login')} >
+        <Pressable onPress={() => handlePress("login")}>
           <Text style={styles.button}>Log in</Text>
         </Pressable>
-        <Pressable onPress={() => handlePress('signup')} >
+        <Pressable onPress={() => handlePress("signup")}>
           <Text style={styles.button}>Sign up</Text>
         </Pressable>
       </UserContext.Provider>
