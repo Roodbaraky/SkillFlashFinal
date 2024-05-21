@@ -1,35 +1,29 @@
-import React, { useState } from "react";
-
-import { Link, Stack, useNavigation } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useContext, useState } from "react";
+import { useNavigation } from "expo-router";
+import { Pressable, StyleSheet, Text } from "react-native";
 import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Login from "./Login";
 import Signup from "./Signup";
+import { UserContext } from "@/contexts/UserContext";
 
-interface User {
-  username: string;
-  password: string;
-  email: string;
-  user_id: string;
-  decks: Array<number | null>;
-}
+
 
 export default function Index() {
   const navigation = useNavigation();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
-  const [userDetails, setUserDetails] = useState<User | undefined>(undefined);
+  const [userDetails, setUserDetails] = useContext(UserContext)
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
 
-  const handlePress = (e: { target: { innerText: any } }) => {
-    if (e.target.innerText === "Log in") {
+  const handlePress = (buttonType: string) => {
+    if (buttonType === "login") {
       setIsLoginOpen(true);
       setIsSignupOpen(false);
-    } else if (e.target.innerText === "Sign up") {
+    } else if (buttonType === "signup") {
       setIsSignupOpen(true);
       setIsLoginOpen(false);
     }
@@ -37,24 +31,26 @@ export default function Index() {
 
   if (isLoginOpen) {
     return (
-      <Login setIsLoginOpen={setIsLoginOpen} setUserDetails={setUserDetails} />
+      <UserContext.Provider value={[userDetails, setUserDetails]}>
+        <Login setIsLoginOpen={setIsLoginOpen} />
+      </UserContext.Provider>
     );
   }
   if (isSignupOpen) {
-    return <Signup setIsSignupOpen={setIsSignupOpen} />;
+    return (<Signup setIsSignupOpen={setIsSignupOpen} />);
   }
 
   return (
     <SafeAreaView>
-      <Text>SkillFlash</Text>
-
-      <Pressable onPress={handlePress}>
-        <Text style={styles.button}>Log in</Text>
-      </Pressable>
-
-      <Pressable onPress={handlePress}>
-        <Text style={styles.button}>Sign up</Text>
-      </Pressable>
+      <UserContext.Provider value={[userDetails, setUserDetails]}>
+        <Text>SkillFlash</Text>
+        <Pressable onPress={() => handlePress('login')} >
+          <Text style={styles.button}>Log in</Text>
+        </Pressable>
+        <Pressable onPress={() => handlePress('signup')} >
+          <Text style={styles.button}>Sign up</Text>
+        </Pressable>
+      </UserContext.Provider>
     </SafeAreaView>
   );
 }
