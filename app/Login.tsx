@@ -7,17 +7,15 @@ import { IsError } from "@/utils/utils";
 import { checkUserExists } from "@/utils/api";
 import { UserContext } from "@/contexts/UserContext";
 
-
 interface LoginProps {
   setIsLoginOpen: (isLoginOpen: boolean) => void;
-
 }
 
 export default function Login({ setIsLoginOpen }: LoginProps) {
   const [usernameInput, setUsernameInput] = React.useState("");
   const [passwordInput, setPasswordInput] = React.useState("");
   const [isError, setIsError] = React.useState<IsError>({});
-  const [, setUserDetails] = useContext(UserContext)
+  const [, setUserDetails] = useContext(UserContext);
 
   async function handleSubmit() {
     if (!passwordInput && !usernameInput) {
@@ -31,36 +29,39 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
     } else if (!passwordInput) {
       setIsError({ ...isError, password: "Please enter a password" });
     } else {
-      
-      try {
-        const userDetails = await checkUserExists(usernameInput, passwordInput);
-        setUserDetails(userDetails);
-      } catch (err) {
-        // console.log(err); //error component => username / email already exists
-      } finally {
-        router.replace("/home");
+      if (!isError.username && !isError.password) {
+        try {
+          const userDetails = await checkUserExists(
+            usernameInput,
+            passwordInput
+          );
+          setUserDetails(userDetails);
+        } catch (err) {
+          // console.log(err); //error component => username / email already exists
+        } finally {
+          router.replace("/home");
+        }
       }
     }
   }
 
   return (
-
     <SafeAreaView>
       <Pressable
         onPress={() => {
           setIsLoginOpen(false);
-        }}>
+        }}
+      >
         <Text>X</Text>
       </Pressable>
       <Text style={styles.title}>Log in</Text>
       <Text style={styles.label}>Username</Text>
       <TextInput
         style={styles.input}
-        onChangeText={
-          (text) => {
-            setUsernameInput(text);
-            setIsError({ ...isError, username: "", });
-          }}
+        onChangeText={(text) => {
+          setUsernameInput(text);
+          setIsError({ ...isError, username: "" });
+        }}
         onBlur={(e) => {
           checkField(e, setIsError, usernameInput);
         }}
@@ -91,7 +92,7 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
         secureTextEntry={true}
         id="password"
       />
-      {isError.password?.length? <Text>{isError.password}</Text>:<></>}
+      {isError.password?.length ? <Text>{isError.password}</Text> : <></>}
       <Pressable onPress={handleSubmit}>
         <Text style={styles.button}>Log in</Text>
       </Pressable>
