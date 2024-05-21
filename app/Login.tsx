@@ -62,14 +62,15 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
           setUsernameInput(text);
           setIsError({ ...isError, username: "" });
         }}
-        onBlur={(e) => {
-          checkField(e, setIsError, usernameInput);
+        onBlur={() => {
+          checkField('username', setIsError, usernameInput);
         }}
         value={usernameInput}
         placeholder="username"
         id="username"
+        testID="username"
       />
-      {isError.username?.length ? <Text>{isError.username}</Text> : <></>}
+      {isError.username?.length ? <Text testID="usernameError">{isError.username}</Text> : <></>}
 
       {/* ^^^ This was the annoying console error, while passing an empty string IS falsy, it's also rendering text within a view, outside of a <Text></Text>
       Be careful of this when doing conditional rendering x 
@@ -83,17 +84,18 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
 
           setIsError({ ...isError, password: "" });
         }}
-        onBlur={(e) => {
-          checkField(e, setIsError, passwordInput);
+        onBlur={() => {
+          checkField('password', setIsError, passwordInput);
         }}
         value={passwordInput}
         placeholder="password"
         textContentType="password"
         secureTextEntry={true}
         id="password"
+        testID="password"
       />
-      {isError.password?.length ? <Text>{isError.password}</Text> : <></>}
-      <Pressable onPress={handleSubmit}>
+      {isError.password?.length ? <Text testID="passwordError">{isError.password}</Text> : <></>}
+      <Pressable testID="submit" onPress={handleSubmit}>
         <Text style={styles.button}>Log in</Text>
       </Pressable>
     </SafeAreaView>
