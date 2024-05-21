@@ -15,10 +15,10 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
   const [passwordInput, setPasswordInput] = React.useState("");
   const [confirmPasswordInput, setConfirmPasswordInput] = React.useState("");
   const [emailInput, setEmailInput] = React.useState("");
-  const [userDetails, setUserDetails] = useContext(UserContext);
+  const { userDetails, setUserDetails } = useContext(UserContext);
   const [isError, setIsError] = React.useState<IsError>({});
-  const [tempUser, setTempUser] = React.useState({ user: "ana" });
-  async function handleSubmit() {
+
+  function handleSubmit() {
     if (!passwordInput && !usernameInput && !emailInput) {
       setIsError({
         ...isError,
@@ -44,27 +44,18 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
         !isError.username &&
         !isError.email
       ) {
-        try {
-          const newUserDetails = await createUser(
-            usernameInput,
-            passwordInput,
-            emailInput
-          );
-
-          await setUserDetails(newUserDetails);
-          console.log(tempUser, "<-- temp user");
-          console.log(newUserDetails, " <--received user details");
-          setTempUser(newUserDetails);
-        } catch (err) {
-          console.log(err); //error component
-        } finally {
-          setTimeout(() => {
+        return createUser(usernameInput, passwordInput, emailInput)
+          .then((data) => {
+            return data;
+          })
+          .then((user) => {
+            setUserDetails(user);
             router.replace("/home");
-          }, 1000);
-          console.log(userDetails, "<---user state in signup");
-        }
-      } else {
-        alert("there are errors :(");
+          })
+          .catch((err) => {
+            console.log(err);
+            alert(err.message);
+          });
       }
     }
   }

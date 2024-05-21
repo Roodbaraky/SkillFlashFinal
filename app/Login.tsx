@@ -2,8 +2,7 @@ import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, TextInput, Pressable, StyleSheet } from "react-native";
 import { router } from "expo-router";
-import { checkField } from "@/utils/utils";
-import { IsError } from "@/utils/utils";
+import { IsError, checkField } from "@/utils/utils";
 import { checkUserExists } from "@/utils/api";
 import { UserContext } from "@/contexts/UserContext";
 
@@ -15,9 +14,9 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
   const [usernameInput, setUsernameInput] = React.useState("");
   const [passwordInput, setPasswordInput] = React.useState("");
   const [isError, setIsError] = React.useState<IsError>({});
-  const [userDetails, setUserDetails] = useContext(UserContext);
-  const [tempUser, setTempUser] = React.useState({ user: "ana" });
-  async function handleSubmit() {
+  const { userDetails, setUserDetails } = useContext(UserContext);
+
+  function handleSubmit() {
     if (!passwordInput && !usernameInput) {
       setIsError({
         ...isError,
@@ -30,25 +29,18 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
       setIsError({ ...isError, password: "Please enter a password" });
     } else {
       if (!isError.username && !isError.password) {
-        try {
-          const receivedUserDetails = await checkUserExists(
-            usernameInput,
-            passwordInput
-          );
-          const { username, email, user_id } = receivedUserDetails;
-          console.log(username, email, user_id);
-          setUserDetails({ username, email, user_id });
-          console.log(userDetails, "user details");
-          setTempUser((current) => {
-            return { ...current, username, email, user_id };
+        return checkUserExists(usernameInput, passwordInput)
+          .then((data) => {
+            return data;
+          })
+          .then((user) => {
+            setUserDetails(user);
+            router.replace("/home");
+          })
+          .catch((err) => {
+            console.log(err);
+            // alert(err.message);
           });
-          console.log(tempUser);
-        } catch (err) {
-          console.log(err);
-          // console.log(err); //error component => username / email already exists
-        } finally {
-          router.replace("/home");
-        }
       }
     }
   }
@@ -84,10 +76,6 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
         <></>
       )}
 
-      {/* ^^^ This was the annoying console error, while passing an empty string IS falsy, it's also rendering text within a view, outside of a <Text></Text>
-      Be careful of this when doing conditional rendering x 
-      
-      N.B. Used to be: "isError.*/}
       <Text style={styles.label}>Password</Text>
       <TextInput
         style={styles.input}
@@ -114,6 +102,7 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
       <Pressable testID="submit" onPress={handleSubmit}>
         <Text style={styles.button}>Log in</Text>
       </Pressable>
+      <Text>{userDetails.username}</Text>
     </SafeAreaView>
   );
 }

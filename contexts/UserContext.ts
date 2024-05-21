@@ -8,7 +8,12 @@ interface User {
   decks?: number[] | null;
   _id?: string;
 }
+export type UserContextType = {
+  userDetails: User;
+  setUserDetails: Dispatch<SetStateAction<User>>;
+};
 
-export const UserContext = createContext<
-  [User, Dispatch<SetStateAction<User>>]
->([{}, () => {}]);
+export const UserContext = createContext<UserContextType>({
+  userDetails: {},
+  setUserDetails: (userDetails: object) => {},
+});

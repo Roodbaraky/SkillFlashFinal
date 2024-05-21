@@ -11,7 +11,7 @@ export default function Index() {
   const navigation = useNavigation();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
-  const [userDetails, setUserDetails] = useContext(UserContext);
+  const { userDetails, setUserDetails } = useContext(UserContext);
 
   useEffect(() => {
     navigation.setOptions({ headerShown: false });
@@ -28,11 +28,7 @@ export default function Index() {
   };
 
   if (isLoginOpen) {
-    return (
-      <UserContext.Provider value={[userDetails, setUserDetails]}>
-        <Login setIsLoginOpen={setIsLoginOpen} />
-      </UserContext.Provider>
-    );
+    return <Login setIsLoginOpen={setIsLoginOpen} />;
   }
   if (isSignupOpen) {
     return <Signup setIsSignupOpen={setIsSignupOpen} />;
@@ -40,15 +36,15 @@ export default function Index() {
 
   return (
     <SafeAreaView>
-      <UserContext.Provider value={[userDetails, setUserDetails]}>
-        <Text>SkillFlash</Text>
-        <Pressable onPress={() => handlePress("login")}>
-          <Text style={styles.button}>Log in</Text>
-        </Pressable>
-        <Pressable onPress={() => handlePress("signup")}>
-          <Text style={styles.button}>Sign up</Text>
-        </Pressable>
-      </UserContext.Provider>
+      {/* <UserContext.Provider value={[userDetails, setUserDetails]}> */}
+      <Text>SkillFlash</Text>
+      <Pressable onPress={() => handlePress("login")}>
+        <Text style={styles.button}>Log in</Text>
+      </Pressable>
+      <Pressable onPress={() => handlePress("signup")}>
+        <Text style={styles.button}>Sign up</Text>
+      </Pressable>
+      {/* </UserContext.Provider> */}
     </SafeAreaView>
   );
 }
