@@ -8,7 +8,6 @@ import { UserContext } from "@/contexts/UserContext";
 
 interface SignUpProps {
   setIsSignupOpen: (isLoginOpen: boolean) => void;
-  
 }
 
 export default function Signup({ setIsSignupOpen }: SignUpProps) {
@@ -16,7 +15,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
   const [passwordInput, setPasswordInput] = React.useState("");
   const [confirmPasswordInput, setConfirmPasswordInput] = React.useState("");
   const [emailInput, setEmailInput] = React.useState("");
-  const [, setUserDetails] = useContext(UserContext)
+  const [, setUserDetails] = useContext(UserContext);
   const [isError, setIsError] = React.useState<IsError>({});
 
   async function handleSubmit() {
@@ -31,20 +30,34 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
       setIsError({ ...isError, username: "Please enter a valid username" });
     } else if (!passwordInput) {
       setIsError({ ...isError, password: "Please enter a password" });
+    } else if (!confirmPasswordInput) {
+      setIsError({
+        ...isError,
+        confirmPassword: "Please confirm your password",
+      });
     } else if (!emailInput) {
       setIsError({ ...isError, email: "Please enter a valid email" });
     } else {
-      try {
-        const userDetails = await createUser(
-          usernameInput,
-          passwordInput,
-          emailInput
-        );
-        setUserDetails(userDetails);
-      } catch (err) {
-        console.log(err); //error component
-      } finally {
-        router.replace("/home");
+      if (
+        !isError.confirmPassword &&
+        !isError.password &&
+        !isError.username &&
+        !isError.email
+      ) {
+        try {
+          const userDetails = await createUser(
+            usernameInput,
+            passwordInput,
+            emailInput
+          );
+          setUserDetails(userDetails);
+        } catch (err) {
+          console.log(err); //error component
+        } finally {
+          router.replace("/home");
+        }
+      } else {
+        alert("there are errors :(");
       }
     }
   }
@@ -76,7 +89,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
         placeholder="username"
         id="username"
       />
-       {isError.username?.length? <Text>{isError.username}</Text>:<></>}
+      {isError.username?.length ? <Text>{isError.username}</Text> : <></>}
       <Text style={styles.label}>Email</Text>
       <TextInput
         style={styles.input}
@@ -93,7 +106,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
         }}
         id="email"
       />
-       {isError.email?.length? <Text>{isError.email}</Text>:<></>}
+      {isError.email?.length ? <Text>{isError.email}</Text> : <></>}
       <Text style={styles.label}>Password</Text>
 
       <TextInput
@@ -112,7 +125,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
         textContentType="password"
         id="password"
       />
-   {isError.password?.length? <Text>{isError.password}</Text>:<></>}
+      {isError.password?.length ? <Text>{isError.password}</Text> : <></>}
       <Text style={styles.label}>Confirm password</Text>
       <TextInput
         style={styles.input}
@@ -135,7 +148,11 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
         textContentType="password"
         id="confirmPassword"
       />
-     {isError.confirmPassword?.length? <Text>{isError.confirmPassword}</Text>:<></>}
+      {isError.confirmPassword?.length ? (
+        <Text>{isError.confirmPassword}</Text>
+      ) : (
+        <></>
+      )}
 
       <Pressable onPress={handleSubmit}>
         <Text style={styles.button}>Sign Up</Text>
