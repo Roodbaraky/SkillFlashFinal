@@ -15,8 +15,8 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
   const [usernameInput, setUsernameInput] = React.useState("");
   const [passwordInput, setPasswordInput] = React.useState("");
   const [isError, setIsError] = React.useState<IsError>({});
-  const [, setUserDetails] = useContext(UserContext);
-
+  const [userDetails, setUserDetails] = useContext(UserContext);
+  const [tempUser, setTempUser] = React.useState({ user: "ana" });
   async function handleSubmit() {
     if (!passwordInput && !usernameInput) {
       setIsError({
@@ -31,12 +31,20 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
     } else {
       if (!isError.username && !isError.password) {
         try {
-          const userDetails = await checkUserExists(
+          const receivedUserDetails = await checkUserExists(
             usernameInput,
             passwordInput
           );
-          setUserDetails(userDetails);
+          const { username, email, user_id } = receivedUserDetails;
+          console.log(username, email, user_id);
+          setUserDetails({ username, email, user_id });
+          console.log(userDetails, "user details");
+          setTempUser((current) => {
+            return { ...current, username, email, user_id };
+          });
+          console.log(tempUser);
         } catch (err) {
+          console.log(err);
           // console.log(err); //error component => username / email already exists
         } finally {
           router.replace("/home");
@@ -63,14 +71,18 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
           setIsError({ ...isError, username: "" });
         }}
         onBlur={() => {
-          checkField('username', setIsError, usernameInput);
+          checkField("username", setIsError, usernameInput);
         }}
         value={usernameInput}
         placeholder="username"
         id="username"
         testID="username"
       />
-      {isError.username?.length ? <Text testID="usernameError">{isError.username}</Text> : <></>}
+      {isError.username?.length ? (
+        <Text testID="usernameError">{isError.username}</Text>
+      ) : (
+        <></>
+      )}
 
       {/* ^^^ This was the annoying console error, while passing an empty string IS falsy, it's also rendering text within a view, outside of a <Text></Text>
       Be careful of this when doing conditional rendering x 
@@ -85,7 +97,7 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
           setIsError({ ...isError, password: "" });
         }}
         onBlur={() => {
-          checkField('password', setIsError, passwordInput);
+          checkField("password", setIsError, passwordInput);
         }}
         value={passwordInput}
         placeholder="password"
@@ -94,7 +106,11 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
         id="password"
         testID="password"
       />
-      {isError.password?.length ? <Text testID="passwordError">{isError.password}</Text> : <></>}
+      {isError.password?.length ? (
+        <Text testID="passwordError">{isError.password}</Text>
+      ) : (
+        <></>
+      )}
       <Pressable testID="submit" onPress={handleSubmit}>
         <Text style={styles.button}>Log in</Text>
       </Pressable>
