@@ -82,8 +82,8 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
             username: "",
           });
         }}
-        onBlur={(e) => {
-          checkField(e, setIsError, usernameInput);
+        onBlur={() => {
+          checkField('username', setIsError, usernameInput);
         }}
         value={usernameInput}
         placeholder="username"
@@ -101,8 +101,8 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
         value={emailInput}
         placeholder="email"
         textContentType="emailAddress"
-        onBlur={(e) => {
-          checkField(e, setIsError, emailInput);
+        onBlur={() => {
+          checkField('email', setIsError, emailInput);
         }}
         id="email"
       />
@@ -116,8 +116,8 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
 
           setIsError({ ...isError, password: "" });
         }}
-        onBlur={(e) => {
-          checkField(e, setIsError, passwordInput);
+        onBlur={() => {
+          checkField('password', setIsError, passwordInput);
         }}
         value={passwordInput}
         placeholder="password"
@@ -134,8 +134,8 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
 
           setIsError({ ...isError, confirmPassword: "" });
         }}
-        onBlur={(e) => {
-          checkField(e, setIsError, confirmPasswordInput);
+        onBlur={() => {
+          checkField('confirmPassword', setIsError, confirmPasswordInput);
           if (confirmPasswordInput && passwordInput !== confirmPasswordInput)
             setIsError({
               ...isError,
