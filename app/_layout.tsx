@@ -12,17 +12,16 @@ export default function RootLayout() {
     _id?: string;
   }
 
-  const [userDetails, setUserDetails] = useState<User>({});
-  console.log(userDetails);
+  const [userDetails, setUserDetails] = useState<User>({ username: "ana" });
 
   return (
-    <Stack>
-      <UserContext.Provider value={{ userDetails, setUserDetails }}>
+    <UserContext.Provider value={{ userDetails, setUserDetails }}>
+      <Stack>
         <Stack.Screen name="index" />
         <Stack.Screen name="Login" />
         <Stack.Screen name="Signup" />
         <Stack.Screen name="home" />
-      </UserContext.Provider>
-    </Stack>
+      </Stack>
+    </UserContext.Provider>
   );
 }
