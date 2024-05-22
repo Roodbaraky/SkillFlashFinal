@@ -17,8 +17,8 @@ export default function RootLayout() {
   return (
     <UserContext.Provider value={{ userDetails, setUserDetails }}>
       <Stack>
-        <Stack.Screen name="(tabs)" />
-        {/* remove (tabs) display - see tutorial */}
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
       </Stack>
     </UserContext.Provider>
   );
