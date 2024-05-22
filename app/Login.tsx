@@ -46,7 +46,7 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView testID="login-container">
       <Pressable
         onPress={() => {
           setIsLoginOpen(false);

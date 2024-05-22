@@ -61,7 +61,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView testID="signup-container">
       <Pressable
         onPress={() => {
           setIsSignupOpen(false);
@@ -81,6 +81,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
           });
         }}
         onBlur={() => {
+          //doesUsernameExist
           checkField("username", setIsError, usernameInput);
         }}
         value={usernameInput}
