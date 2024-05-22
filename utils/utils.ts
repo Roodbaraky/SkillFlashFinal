@@ -3,9 +3,14 @@ export interface IsError {
   password?: string;
   email?: string;
   confirmPassword?: string;
+  general?: string;
 }
 
-export function checkField(field:string, setIsError: Function, valueInput: string) {
+export function checkField(
+  field: string,
+  setIsError: Function,
+  valueInput: string
+) {
   const passRegex =
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[@$!%*?&]).{8,}$/;
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;

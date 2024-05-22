@@ -27,6 +27,19 @@ export async function checkUserExists(username: string, password: string) {
 
     return data.user;
   } catch (err) {
+    return err;
+    //do we need error handling? here?
+  }
+}
+
+export async function doesUserExist(usernameInput: string) {
+  try {
+    const { data } = await axios.post(
+      `https://skillflashbackend.onrender.com/api/users/${usernameInput}`
+    );
+    console.log(data);
+    return true;
+  } catch (err) {
     console.log(err); //do we need error handling? here?
   }
 }
