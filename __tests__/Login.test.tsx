@@ -5,7 +5,7 @@ import {
   screen,
   fireEvent,
 } from "@testing-library/react-native";
-import Login from "@/app/Login";
+import Login from "@/components/Login";
 import "@testing-library/react-native/extend-expect";
 
 import { renderRouter } from "expo-router/testing-library";
