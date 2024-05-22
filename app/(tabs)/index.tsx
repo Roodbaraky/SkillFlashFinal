@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Login from "./Login";
-import Signup from "./Signup";
+import Login from "../../components/Login";
+import Signup from "../../components/Signup";
 
-export default function Index() {
+export default function Home() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
 

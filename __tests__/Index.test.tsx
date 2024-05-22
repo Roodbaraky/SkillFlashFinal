@@ -1,4 +1,4 @@
-import Index from "../app/index";
+import Index from "../app/(tabs)/index";
 import { fireEvent, render, screen } from "@testing-library/react-native";
 import React from "react";
 import "@testing-library/react-native/extend-expect";

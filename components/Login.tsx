@@ -36,7 +36,7 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
           .then((data) => {
             if (data.username) {
               setUserDetails(data);
-              router.replace("/home");
+              router.replace("/userPage");
             } else {
               setIsError({ ...isError, general: data.response.data.message });
               alert(data.response.data.message);

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, TextInput, Pressable, StyleSheet } from "react-native";
 import { IsError, checkField } from "@/utils/utils";
@@ -56,7 +56,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
           })
           .then((user) => {
             setUserDetails(user);
-            router.replace("/home");
+            router.replace("/userPage");
           })
           .catch((err) => {
             console.log(err);
