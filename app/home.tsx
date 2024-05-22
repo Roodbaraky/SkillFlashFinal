@@ -7,7 +7,7 @@ export default function home() {
   const { userDetails } = useContext(UserContext);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView testID="home-container">
       <Text>Home</Text>
     </SafeAreaView>
   );

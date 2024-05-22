@@ -7,13 +7,16 @@ import {
 } from "@testing-library/react-native";
 import Login from "@/app/Login";
 import "@testing-library/react-native/extend-expect";
-// import { renderRouter } from 'expo-router'
+
 import { renderRouter } from "expo-router/testing-library";
-import { router } from "expo-router";
+import { router, useNavigation, useRouter } from "expo-router";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
+import { StackRouter } from "@react-navigation/native";
 
-jest.mock("expo-router");
+jest.mock("expo-router", () => ({
+  useRouter: jest.fn(),
+}));
 
 test("validates username of acceptable length - no error", async () => {
   const mockSetState = jest.fn();
@@ -57,31 +60,26 @@ test("validates password of unacceptable structure - display error ", async () =
   expect(passwordValidation).toHaveTextContent("Please enter a valid password");
 });
 
-test("should first", async () => {
+test("navigates to home if login successful", async () => {
   const mockSetState = jest.fn();
-  const mockNavigate = jest.fn();
-  const MockAuthLayout = jest.fn(() => <Login setIsLoginOpen={mockSetState} />);
+  const MockComponent = jest.fn(() => <Login setIsLoginOpen={mockSetState} />);
 
-  const history = createMemoryHistory({ initialEntries: ["/"] });
+  renderRouter(
+    {
+      i: MockComponent,
+      index: MockComponent,
+      home: MockComponent,
+    },
+    {
+      initialUrl: "/",
+    }
+  );
 
-  router.replace = mockNavigate;
-  // renderRouter(<Login setIsLoginOpen={mockSetState} />);
-
-  //const submitBtn = screen.getByTestId("submit");
-  const user = userEvent.setup();
   const usernameInput = screen.getByTestId("username");
   const passwordInput = screen.getByTestId("password");
-  await user.type(usernameInput, "hhh");
-  await user.type(passwordInput, "Password!23");
-  console.log(usernameInput, passwordInput);
+
+  fireEvent.changeText(usernameInput, "finally?");
+  fireEvent.changeText(passwordInput, "Password1!");
   fireEvent.press(screen.getByTestId("submit"));
-  //give isError error
-  //check for submitBtn press
-  //expect should NOT navigate to home
-  // expect(screen.getByText("Home")).toBeOnTheScreen();
-  //^^^ fix me!
-  // expect(mockNavigate).toHaveBeenCalled();
-  expect(screen).toHaveRouterState({
-    routes: [{ name: "home", path: "/home" }],
-  });
+  expect(screen).toHavePathname("/home");
 });
