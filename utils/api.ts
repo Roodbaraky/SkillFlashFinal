@@ -34,26 +34,16 @@ export async function checkUserExists(username: string, password: string) {
 }
 
 export async function doesUserExist(usernameInput: string) {
-	try {
-		const { data } = await axios.post(
-			`https://skillflashbackend.onrender.com/api/users/${usernameInput}`
-		);
-		console.log(data);
-		return true;
-	} catch (err) {
-		console.log(err); //do we need error handling? here?
-	}
+	const { data } = await axios.get(
+		`https://skillflashbackend.onrender.com/api/users/${usernameInput}`
+	);
+	return data.exist;
 }
 export async function getDecksByUsername(username: string) {
-	try {
-		// const { data } = await axios.post(
-		// 	`https://skillflashbackend.onrender.com/api/decks/${username}`
-		// );
-		// console.log(data);
-		return testDecks;
-	} catch (err) {
-		console.log(err); //do we need error handling? here?
-	}
+	const { data } = await axios.get(
+		`https://skillflashbackend.onrender.com/api/decks/${username}`
+	);
+	return data.decks;
 }
 
 const testDecks: HomeDeck[] = [
