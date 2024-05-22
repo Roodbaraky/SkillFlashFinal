@@ -5,6 +5,7 @@ import { UserContext } from "@/contexts/UserContext";
 import { getDecksByUsername } from "@/utils/api";
 import { HomeDeck } from "@/utils/utils";
 import DeckTile from "../../components/DeckTile";
+import { Link } from "expo-router";
 
 export default function UserPage() {
   const { userDetails } = useContext(UserContext);
@@ -17,7 +18,7 @@ export default function UserPage() {
       })
       .then((decksDisplay) => {
         setDecks(decksDisplay);
-        console.log(decks);
+        // console.log(decks);
       });
   }, [userDetails.username]);
   return (

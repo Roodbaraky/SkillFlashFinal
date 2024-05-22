@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import { HomeDeck } from "../utils/utils";
 import { Link } from "expo-router";
 export default function DeckTile(props: { deck: HomeDeck }) {
