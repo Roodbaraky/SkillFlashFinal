@@ -33,20 +33,24 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
           .then((data) => {
             return data;
           })
-          .then((user) => {
-            setUserDetails(user);
-            router.replace("/home");
+          .then((data) => {
+            if (data.username) {
+              setUserDetails(data);
+              router.replace("/home");
+            } else {
+              setIsError({ ...isError, general: data.response.data.message });
+              alert(data.response.data.message);
+            }
           })
           .catch((err) => {
             console.log(err);
-            // alert(err.message);
           });
       }
     }
   }
 
   return (
-    <SafeAreaView testID="login-container">
+    <SafeAreaView testID="login-container" style={styles.logInContainer}>
       <Pressable
         onPress={() => {
           setIsLoginOpen(false);
@@ -60,7 +64,7 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
         style={styles.input}
         onChangeText={(text) => {
           setUsernameInput(text);
-          setIsError({ ...isError, username: "" });
+          setIsError({ ...isError, username: "", general: "" });
         }}
         onBlur={() => {
           checkField("username", setIsError, usernameInput);
@@ -82,7 +86,7 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
         onChangeText={(text) => {
           setPasswordInput(text);
 
-          setIsError({ ...isError, password: "" });
+          setIsError({ ...isError, password: "", general: "" });
         }}
         onBlur={() => {
           checkField("password", setIsError, passwordInput);
@@ -102,7 +106,11 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
       <Pressable testID="submit" onPress={handleSubmit}>
         <Text style={styles.button}>Log in</Text>
       </Pressable>
-      <Text>{userDetails.username}</Text>
+      {isError.general?.length ? (
+        <Text testID="generalError">{isError.general}</Text>
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
   );
 }

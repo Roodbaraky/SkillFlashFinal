@@ -26,8 +26,8 @@ export default function Index() {
   }
 
   return (
-    <SafeAreaView>
-      <Text>SkillFlash</Text>
+    <SafeAreaView style={styles.indexContainer}>
+      <Text style={styles.title}>SkillFlash</Text>
       <Pressable onPress={() => handlePress("login")}>
         <Text style={styles.button}>Log in</Text>
       </Pressable>
@@ -39,7 +39,7 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  logInContainer: {
+  indexContainer: {
     flex: 1,
     paddingTop: 58,
     alignSelf: "center",

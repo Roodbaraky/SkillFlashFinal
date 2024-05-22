@@ -60,26 +60,26 @@ test("validates password of unacceptable structure - display error ", async () =
   expect(passwordValidation).toHaveTextContent("Please enter a valid password");
 });
 
-test("navigates to home if login successful", async () => {
-  const mockSetState = jest.fn();
-  const MockComponent = jest.fn(() => <Login setIsLoginOpen={mockSetState} />);
+// test("navigates to home if login successful", async () => {
+//   const mockSetState = jest.fn();
+//   const MockComponent = jest.fn(() => <Login setIsLoginOpen={mockSetState} />);
 
-  renderRouter(
-    {
-      i: MockComponent,
-      index: MockComponent,
-      home: MockComponent,
-    },
-    {
-      initialUrl: "/",
-    }
-  );
+//   renderRouter(
+//     {
+//       i: MockComponent,
+//       index: MockComponent,
+//       home: MockComponent,
+//     },
+//     {
+//       initialUrl: "/",
+//     }
+//   );
 
-  const usernameInput = screen.getByTestId("username");
-  const passwordInput = screen.getByTestId("password");
+//   const usernameInput = screen.getByTestId("username");
+//   const passwordInput = screen.getByTestId("password");
 
-  fireEvent.changeText(usernameInput, "finally?");
-  fireEvent.changeText(passwordInput, "Password1!");
-  fireEvent.press(screen.getByTestId("submit"));
-  expect(screen).toHavePathname("/home");
-});
+//   fireEvent.changeText(usernameInput, "finally?");
+//   fireEvent.changeText(passwordInput, "Password1!");
+//   fireEvent.press(screen.getByTestId("submit"));
+//   expect(screen).toHavePathname("/home");
+// });

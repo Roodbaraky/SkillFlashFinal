@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, TextInput, Pressable, StyleSheet } from "react-native";
 import { IsError, checkField } from "@/utils/utils";
 import { router } from "expo-router";
-import { createUser } from "@/utils/api";
+import { createUser, doesUserExist } from "@/utils/api";
 import { UserContext } from "@/contexts/UserContext";
 
 interface SignUpProps {
@@ -17,6 +17,12 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
   const [emailInput, setEmailInput] = React.useState("");
   const { userDetails, setUserDetails } = useContext(UserContext);
   const [isError, setIsError] = React.useState<IsError>({});
+
+  function checkUsername(usernameInput: string) {
+    return doesUserExist(usernameInput).then((response) => {
+      return response;
+    });
+  }
 
   function handleSubmit() {
     if (!passwordInput && !usernameInput && !emailInput) {
@@ -61,7 +67,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
   }
 
   return (
-    <SafeAreaView testID="signup-container">
+    <SafeAreaView testID="signup-container" style={styles.signUpContainer}>
       <Pressable
         onPress={() => {
           setIsSignupOpen(false);
@@ -80,8 +86,13 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
             username: "",
           });
         }}
-        onBlur={() => {
-          //doesUsernameExist
+        onBlur={async () => {
+          if (await checkUsername(usernameInput)) {
+            setIsError({
+              ...isError,
+              username: "username already exists",
+            });
+          }
           checkField("username", setIsError, usernameInput);
         }}
         value={usernameInput}
@@ -161,7 +172,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
 }
 
 const styles = StyleSheet.create({
-  logInContainer: {
+  signUpContainer: {
     flex: 1,
     paddingTop: 58,
     alignSelf: "center",
