@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Text, View, ScrollView, StyleSheet } from "react-native";
 import { UserContext } from "@/contexts/UserContext";
 import { getDecksByUsername } from "@/utils/api";
 import { HomeDeck } from "@/utils/utils";
@@ -27,11 +27,21 @@ export default function HomeScreen() {
 			<Text>Welcome to SkillFlash</Text>
 			<View>
 				<Text>Your decks</Text>
-				<FlatList
-					data={decks}
-					renderItem={({ item }) => <DeckTile deck={item} />}
-				/>
+				<ScrollView contentContainerStyle={ styles.scrollViewContent }>
+					<FlatList
+						data={decks}
+						renderItem={({ item }) => <DeckTile deck={item} />}
+					/>
+				</ScrollView>
 			</View>
 		</SafeAreaView>
 	);
 }
+
+const styles = StyleSheet.create({
+	scrollViewContent: {
+		flexGrow: 1,
+		paddingVertical: 10,
+		height: "90%"
+	}
+})
