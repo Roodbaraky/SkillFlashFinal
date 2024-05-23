@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
 	container: {
 		padding: 10,
 		margin: 10,
+		marginLeft: "auto",
+		marginRight: "auto",
 		borderWidth: 1,
 		borderRadius: 10,
 		borderColor: "black",
@@ -38,15 +40,17 @@ const styles = StyleSheet.create({
 		shadowRadius: 3.84,
 		elevation: 5,
 		height: 120,
-		width: "100%",
+		width: "95%",
 		alignItems: "center",
 		justifyContent: "center",
 	},
 	deckName: {
-		fontSize: 20,
+		fontSize: 15,
 		fontWeight: "bold",
 		marginBottom: 20,
 		margin: 20,
+		marginLeft: "auto",
+		marginRight: "auto"
 	},
 	tagsContainer: {
 		flexDirection: "row",
@@ -64,12 +68,12 @@ const styles = StyleSheet.create({
 	},
 	tagText: {
 		color: "white",
-		fontSize: 15,
+		fontSize: 10,
 		fontWeight: "bold",
 		textAlign: "right",
 	},
 	cardCount: {
-		fontSize: 15,
+		fontSize: 12,
 		fontWeight: "bold",
 		position: "absolute",
 		bottom: 10,
