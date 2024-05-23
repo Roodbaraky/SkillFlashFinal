@@ -39,7 +39,9 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
 							router.replace("/userPage");
 						} else {
 							setIsError({ ...isError, general: data.response.data.message });
-							alert(data.response.data.message);
+							setTimeout(() => {
+								alert(data.response.data.message);
+							}, 1000);
 						}
 					})
 					.catch((err) => {
