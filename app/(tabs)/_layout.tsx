@@ -2,7 +2,7 @@ import { HomeDeck } from "@/utils/utils";
 import { Tabs } from "expo-router";
 import React, { useState } from "react";
 import { DecksContext } from "../../contexts/DecksContext";
-export default function TabsLayout() {
+export default function HomeLayout() {
 	const [decks, setDecks] = useState<HomeDeck[]>([]);
 
 	return (
@@ -14,7 +14,6 @@ export default function TabsLayout() {
 						headerTitle: "Your decks",
 					}}
 				/>
-
 				<Tabs.Screen
 					name="deck/[id]"
 					options={{

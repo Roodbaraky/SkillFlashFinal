@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, TextInput, Pressable, StyleSheet } from "react-native";
+import { Text, TextInput, Pressable, StyleSheet, Button } from "react-native";
 import { IsError, checkField } from "@/utils/utils";
 import { router } from "expo-router";
 import { createUser, doesUserExist } from "@/utils/api";
@@ -72,8 +72,18 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
 				onPress={() => {
 					setIsSignupOpen(false);
 				}}
+				style={{ backgroundColor: "lightgrey", width: 70 }}
 			>
-				<Text>X</Text>
+				<Text
+					style={{
+						color: "black",
+						fontSize: 20,
+						padding: 10,
+						borderRadius: 10,
+					}}
+				>
+					Back
+				</Text>
 			</Pressable>
 			<Text style={styles.title}>Sign Up</Text>
 			<Text style={styles.label}>Username</Text>
@@ -123,7 +133,6 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
 				style={styles.input}
 				onChangeText={(text) => {
 					setPasswordInput(text);
-
 					setIsError({ ...isError, password: "" });
 				}}
 				onBlur={() => {
