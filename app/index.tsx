@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 
-export default function Home() {
+export default function Index() {
 	const [isLoginOpen, setIsLoginOpen] = useState(false);
 	const [isSignupOpen, setIsSignupOpen] = useState(false);
 
