@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   render,
   userEvent,
@@ -8,17 +9,11 @@ import {
 import Login from "@/components/Login";
 import "@testing-library/react-native/extend-expect";
 
-import { renderRouter } from "expo-router/testing-library";
-import { router, useNavigation, useRouter } from "expo-router";
-import { createMemoryHistory } from "history";
-import { Router } from "react-router-dom";
-import { StackRouter } from "@react-navigation/native";
-
 jest.mock("expo-router", () => ({
   useRouter: jest.fn(),
 }));
 
-test("validates username of acceptable length - no error", async () => {
+test("accepts username of valid length", async () => {
   const mockSetState = jest.fn();
   render(<Login setIsLoginOpen={mockSetState} />);
   const usernameInput = screen.getByTestId("username");
@@ -28,7 +23,7 @@ test("validates username of acceptable length - no error", async () => {
   expect(usernameValidation).toBeNull();
 });
 
-test("validates username of unacceptable length - display error ", async () => {
+test("displays error for a username of invalid length", async () => {
   const mockSetState = jest.fn();
   render(<Login setIsLoginOpen={mockSetState} />);
   const usernameInput = screen.getByTestId("username");
@@ -38,8 +33,23 @@ test("validates username of unacceptable length - display error ", async () => {
   expect(usernameValidation).not.toBeNull();
   expect(usernameValidation).toHaveTextContent("Please enter a valid username");
 });
+test("displays error for a username that does not exist in the database", async () => {
+  const mockSetState = jest.fn();
+  render(<Login setIsLoginOpen={mockSetState} />);
+  const usernameInput = screen.getByTestId("username");
+  const passwordInput = screen.getByTestId("password");
+  const user = userEvent.setup();
+  await user.type(usernameInput, "aaanna");
+  await user.type(passwordInput, "Password!23");
+  await user.press(screen.getByTestId("submit"));
+  const generalValidation = screen.queryByTestId("generalError");
+  console.log(generalValidation);
 
-test("validates password of acceptable structure - no error", async () => {
+  expect(generalValidation).toHaveTextContent("username does not exist");
+  expect(generalValidation).not.toBeNull();
+});
+
+test("accepts password of valid type", async () => {
   const mockSetState = jest.fn();
   render(<Login setIsLoginOpen={mockSetState} />);
   const passwordInput = screen.getByTestId("password");
@@ -49,7 +59,7 @@ test("validates password of acceptable structure - no error", async () => {
   expect(passwordValidation).toBeNull();
 });
 
-test("validates password of unacceptable structure - display error ", async () => {
+test("displays error for a password of invalid type ", async () => {
   const mockSetState = jest.fn();
   render(<Login setIsLoginOpen={mockSetState} />);
   const passwordInput = screen.getByTestId("password");
@@ -60,26 +70,17 @@ test("validates password of unacceptable structure - display error ", async () =
   expect(passwordValidation).toHaveTextContent("Please enter a valid password");
 });
 
-// test("navigates to home if login successful", async () => {
-//   const mockSetState = jest.fn();
-//   const MockComponent = jest.fn(() => <Login setIsLoginOpen={mockSetState} />);
+test("navigates to home if login successful", async () => {
+  const mockSetState = jest.fn();
 
-//   renderRouter(
-//     {
-//       i: MockComponent,
-//       index: MockComponent,
-//       home: MockComponent,
-//     },
-//     {
-//       initialUrl: "/",
-//     }
-//   );
+  render(<Login setIsLoginOpen={mockSetState} />);
 
-//   const usernameInput = screen.getByTestId("username");
-//   const passwordInput = screen.getByTestId("password");
+  const usernameInput = screen.getByTestId("username");
+  const passwordInput = screen.getByTestId("password");
 
-//   fireEvent.changeText(usernameInput, "finally?");
-//   fireEvent.changeText(passwordInput, "Password1!");
-//   fireEvent.press(screen.getByTestId("submit"));
-//   expect(screen).toHavePathname("/home");
-// });
+  fireEvent.changeText(usernameInput, "kooooo");
+  fireEvent.changeText(passwordInput, "Password!23");
+
+  fireEvent.press(screen.getByTestId("submit"));
+  screen.getByText("Welcome to SkillFlash");
+});

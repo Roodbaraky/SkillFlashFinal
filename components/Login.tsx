@@ -16,40 +16,41 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
 	const [isError, setIsError] = React.useState<IsError>({});
 	const { userDetails, setUserDetails } = useContext(UserContext);
 
-	function handleSubmit() {
-		if (!passwordInput && !usernameInput) {
-			setIsError({
-				...isError,
-				password: "Please enter a password",
-				username: "Please enter a valid username",
-			});
-		} else if (!usernameInput) {
-			setIsError({ ...isError, username: "Please enter a valid username" });
-		} else if (!passwordInput) {
-			setIsError({ ...isError, password: "Please enter a password" });
-		} else {
-			if (!isError.username && !isError.password) {
-				return checkUserExists(usernameInput, passwordInput)
-					.then((data) => {
-						return data;
-					})
-					.then((data) => {
-						if (data.username) {
-							setUserDetails(data);
-							router.replace("/userPage");
-						} else {
-							setIsError({ ...isError, general: data.response.data.message });
-							setTimeout(() => {
-								alert(data.response.data.message);
-							}, 1000);
-						}
-					})
-					.catch((err) => {
-						console.log(err);
-					});
-			}
-		}
-	}
+
+  function handleSubmit() {
+    if (!passwordInput && !usernameInput) {
+      setIsError({
+        ...isError,
+        password: "Please enter a password",
+        username: "Please enter a valid username",
+      });
+    } else if (!usernameInput) {
+      setIsError({ ...isError, username: "Please enter a valid username" });
+    } else if (!passwordInput) {
+      setIsError({ ...isError, password: "Please enter a password" });
+    } else {
+      if (!isError.username && !isError.password) {
+        return checkUserExists(usernameInput, passwordInput)
+          .then((data) => {
+            return data;
+          })
+          .then((data) => {
+            if (data.username) {
+              setUserDetails(data);
+              router.replace("/userPage");
+            } else {
+              setIsError({ ...isError, general: data.response.data.message });
+              setTimeout(() => {
+                alert(data.response.data.message);
+              }, 1000);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  }
 
 	return (
 		<SafeAreaView testID="login-container" style={styles.logInContainer}>
