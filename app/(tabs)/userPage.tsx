@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, Text, View, ScrollView, StyleSheet } from "react-native";
 import { UserContext } from "@/contexts/UserContext";
@@ -10,13 +10,16 @@ import { DecksContext } from "@/contexts/DecksContext";
 export default function HomeScreen() {
 	const { userDetails } = useContext(UserContext);
 	const { decks, setDecks } = useContext(DecksContext);
+	const [isLoding, setIsLoading] = useState(true);
 	useEffect(() => {
+		setIsLoading(true);
 		getDecksByUsername(userDetails.username || "")
 			.then((data) => {
 				const decksDisplay: HomeDeck[] = [...data] || [];
 				return decksDisplay;
 			})
 			.then((decksDisplay) => {
+				setIsLoading(false);
 				setDecks(decksDisplay);
 			});
 	}, [userDetails.username]);
@@ -27,7 +30,7 @@ export default function HomeScreen() {
 			<Text>Welcome to SkillFlash</Text>
 			<View>
 				<Text>Your decks</Text>
-				<ScrollView contentContainerStyle={ styles.scrollViewContent }>
+				<ScrollView contentContainerStyle={styles.scrollViewContent}>
 					<FlatList
 						data={decks}
 						renderItem={({ item }) => <DeckTile deck={item} />}
@@ -42,6 +45,6 @@ const styles = StyleSheet.create({
 	scrollViewContent: {
 		flexGrow: 1,
 		paddingVertical: 10,
-		height: "90%"
-	}
-})
+		height: "90%",
+	},
+});
