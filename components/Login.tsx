@@ -1,6 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, TextInput, Pressable, StyleSheet } from "react-native";
+import {
+	Text,
+	TextInput,
+	Pressable,
+	StyleSheet,
+	ActivityIndicator,
+	View,
+} from "react-native";
 import { router } from "expo-router";
 import { IsError, checkField } from "@/utils/utils";
 import { checkUserExists } from "@/utils/api";
@@ -15,43 +22,49 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
 	const [passwordInput, setPasswordInput] = React.useState("");
 	const [isError, setIsError] = React.useState<IsError>({});
 	const { userDetails, setUserDetails } = useContext(UserContext);
+	const [isLoding, setIsLoding] = useState(false);
 
-
-  function handleSubmit() {
-    if (!passwordInput && !usernameInput) {
-      setIsError({
-        ...isError,
-        password: "Please enter a password",
-        username: "Please enter a valid username",
-      });
-    } else if (!usernameInput) {
-      setIsError({ ...isError, username: "Please enter a valid username" });
-    } else if (!passwordInput) {
-      setIsError({ ...isError, password: "Please enter a password" });
-    } else {
-      if (!isError.username && !isError.password) {
-        return checkUserExists(usernameInput, passwordInput)
-          .then((data) => {
-            return data;
-          })
-          .then((data) => {
-            if (data.username) {
-              setUserDetails(data);
-              router.replace("/userPage");
-            } else {
-              setIsError({ ...isError, general: data.response.data.message });
-              setTimeout(() => {
-                alert(data.response.data.message);
-              }, 1000);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    }
-  }
-
+	function handleSubmit() {
+		if (!passwordInput && !usernameInput) {
+			setIsError({
+				...isError,
+				password: "Please enter a password",
+				username: "Please enter a valid username",
+			});
+			setIsLoding(false);
+		} else if (!usernameInput) {
+			setIsError({ ...isError, username: "Please enter a valid username" });
+		} else if (!passwordInput) {
+			setIsError({ ...isError, password: "Please enter a password" });
+		} else {
+			if (!isError.username && !isError.password) {
+				setIsLoding(true);
+				return checkUserExists(usernameInput, passwordInput)
+					.then((data) => {
+						return data;
+					})
+					.then((data) => {
+						if (data.username) {
+							setIsLoding(false);
+							setUserDetails(data);
+							router.replace("/userPage");
+						} else {
+							setIsLoding(false);
+							setIsError({ ...isError, general: data.response.data.message });
+							setTimeout(() => {
+								alert(data.response.data.message);
+							}, 1000);
+						}
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			}
+		}
+	}
+	if (isLoding) {
+		return <Text>Loading...</Text>;
+	}
 	return (
 		<SafeAreaView testID="login-container" style={styles.logInContainer}>
 			<Pressable
