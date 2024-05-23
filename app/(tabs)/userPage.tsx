@@ -7,7 +7,7 @@ import { HomeDeck } from "@/utils/utils";
 import DeckTile from "../../components/DeckTile";
 import { DecksContext } from "@/contexts/DecksContext";
 
-export default function UserPage() {
+export default function HomeScreen() {
 	const { userDetails } = useContext(UserContext);
 	const { decks, setDecks } = useContext(DecksContext);
 	useEffect(() => {
@@ -20,6 +20,7 @@ export default function UserPage() {
 				setDecks(decksDisplay);
 			});
 	}, [userDetails.username]);
+
 	return (
 		<SafeAreaView testID="home-container">
 			<Text>Hi {userDetails.username} !</Text>
