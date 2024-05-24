@@ -46,17 +46,56 @@ export async function getDecksByUsername(username: string) {
 	return data.decks;
 }
 
-const testDecks: HomeDeck[] = [
-	{
-		deckId: "deck1",
-		deckName: "string",
-		tags: ["javascript", "react", "node"],
-		totalCards: 6,
-	},
-	{
-		deckId: "342534543",
-		deckName: "deck2",
-		tags: ["javascript", "react", "node"],
-		totalCards: 12,
-	},
-];
+export async function getAllTags() {
+	const { data } = await axios.get(
+		`https://skillflashbackend.onrender.com/api/tags`
+	);
+	return data.tags;
+}
+
+export async function getTagsWithQuery(tagCategory: string) {
+	const { data } = await axios.get(
+		`https://skillflashbackend.onrender.com/api/tags?tagCategory=${tagCategory}`
+	);
+	return data.tags;
+}
+
+export async function deleteUser(username: string) {
+	const { data } = await axios.delete(
+		`https://skillflashbackend.onrender.com/api/users/${username}`
+	);
+	return data;
+}
+
+export async function generateDeck(
+	username: string,
+	deckName: string,
+	tags: string[]
+) {
+	//check username exist before post request?
+	const { data } = await axios.post(
+		`https://skillflashbackend.onrender.com/api/decks/${username}`,
+		{ deckName: deckName, tags: tags }
+	);
+	return data.deck;
+}
+
+export async function generateMoreQuestions(
+	deckId: string,
+	deckName: string,
+	tags: string[]
+) {
+	// check username exist before post request?
+	const { data } = await axios.patch(
+		`https://skillflashbackend.onrender.com/api/decks/${deckId}`,
+		{ deckName: deckName, tags: tags }
+	);
+	return data.deck;
+}
+
+export async function deleteDeck(deckId: string) {
+	const { data } = await axios.delete(
+		`https://skillflashbackend.onrender.com/api/decks/${deckId}`
+	);
+	return data;
+}
