@@ -1,6 +1,6 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useContext } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {
 	Text,
 	View,
@@ -16,9 +16,21 @@ export default function UserPage() {
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const { decks } = useContext(DecksContext);
 	const deck = decks.find((d) => d._id === id);
-
+	const router = useRouter();
 	return (
 		<SafeAreaView>
+			<Pressable
+				onPress={() => router.back()}
+				style={{
+					padding: 10,
+					backgroundColor: "lightblue",
+					width: 70,
+					margin: 10,
+					borderRadius: 10,
+				}}
+			>
+				<Text>Back</Text>
+			</Pressable>
 			{deck ? (
 				<View>
 					<Text

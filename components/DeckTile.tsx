@@ -6,7 +6,7 @@ export default function DeckTile(props: { deck: HomeDeck }) {
 	const { deck } = props;
 	return (
 		<View style={styles.container}>
-			<Link href={`deck/${deck._id}`}>
+			<Link href={`Home/deck/${deck._id}`}>
 				<Text style={styles.deckName}>{deck.deckName}</Text>
 				<View style={styles.tagsContainer}>
 					{deck.tags.map((tag, index) => (
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 		margin: 20,
 		marginLeft: "auto",
-		marginRight: "auto"
+		marginRight: "auto",
 	},
 	tagsContainer: {
 		flexDirection: "row",
