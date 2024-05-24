@@ -20,6 +20,14 @@ export default function UserPage() {
 	return (
 		<SafeAreaView>
 			<Pressable
+				onPress={() => {
+					router.push({ pathname: "../play", params: { id: deck._id } });
+				}}
+			>
+				{/* onPress to be added */}
+				<Text style={styles.button}>Start Review</Text>
+			</Pressable>
+			<Pressable
 				onPress={() => router.back()}
 				style={{
 					padding: 10,
@@ -54,10 +62,6 @@ export default function UserPage() {
 						<Pressable>
 							{/* onPress to be added */}
 							<Text style={styles.button}>Generate More Cards</Text>
-						</Pressable>
-						<Pressable>
-							{/* onPress to be added */}
-							<Text style={styles.button}>Start Review</Text>
 						</Pressable>
 					</View>
 				</View>
