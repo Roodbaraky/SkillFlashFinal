@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, Text, View, ScrollView, StyleSheet } from "react-native";
-import { UserContext } from "@/contexts/UserContext";
-import { getDecksByUsername } from "@/utils/api";
-import { HomeDeck } from "@/utils/utils";
+import { UserContext } from "../../contexts/UserContext";
+import { getDecksByUsername } from "../../utils/api";
+import { HomeDeck } from "../../utils/utils";
 import DeckTile from "../../components/DeckTile";
-import { DecksContext } from "@/contexts/DecksContext";
+import { DecksContext } from "../../contexts/DecksContext";
 
-export default function HomeScreen() {
+export default function TabOneScreen() {
 	const { userDetails } = useContext(UserContext);
 	const { decks, setDecks } = useContext(DecksContext);
-	const [isLoding, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 	useEffect(() => {
 		setIsLoading(true);
 		getDecksByUsername(userDetails.username || "")

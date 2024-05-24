@@ -1,4 +1,4 @@
-import { UserContext } from "@/contexts/UserContext";
+import { UserContext } from "../contexts/UserContext";
 import { Stack } from "expo-router";
 import React, { useState } from "react";
 
@@ -17,8 +17,8 @@ export default function RootLayout() {
 	return (
 		<UserContext.Provider value={{ userDetails, setUserDetails }}>
 			<Stack>
-				<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 				<Stack.Screen name="index" options={{ headerShown: false }} />
+				<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 			</Stack>
 		</UserContext.Provider>
 	);

@@ -1,8 +1,8 @@
-import { HomeDeck } from "@/utils/utils";
+import { HomeDeck } from "../../utils/utils";
 import { Tabs } from "expo-router";
 import React, { useState } from "react";
 import { DecksContext } from "../../contexts/DecksContext";
-export default function HomeLayout() {
+export default function TabLayout() {
 	const [decks, setDecks] = useState<HomeDeck[]>([]);
 
 	return (
@@ -11,13 +11,27 @@ export default function HomeLayout() {
 				<Tabs.Screen
 					name="userPage"
 					options={{
-						headerTitle: "Your decks",
+						headerShown: true,
+						headerTitle: "Home",
+						headerStyle: { backgroundColor: "LightGray" },
 					}}
 				/>
 				<Tabs.Screen
-					name="deck/[id]"
+					name="createNew"
 					options={{
-						headerTitle: "Deck",
+						headerTitle: "Create New Deck",
+					}}
+				/>
+				<Tabs.Screen
+					name="profile"
+					options={{
+						headerTitle: "My Profile",
+					}}
+				/>
+				<Tabs.Screen
+					name="Home"
+					options={{
+						href: null,
 					}}
 				/>
 			</Tabs>
