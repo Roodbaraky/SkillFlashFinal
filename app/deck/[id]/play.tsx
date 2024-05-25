@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useContext } from "react";
+import React, { useRef, useEffect, useState, useContext, useCallback } from "react";
 import { Text, View, Pressable, StyleSheet } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import Constants from "expo-constants";
@@ -20,15 +20,9 @@ export default function PlayScreen() {
 	const navigation = useNavigation();
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const { decks, setDecks } = useContext(DecksContext);
-	console.log(decks)
 	const deckFromContext = decks.find((d) => d._id === id);
 	if (!deckFromContext) throw new Error("Deck not found");
-	window.addEventListener('touchstart', (e) => { console.log(e) });
-	window.addEventListener('click', (e) => { console.log(e) });
-	navigation.addListener('beforeRemove', (e) => {
-		console.log(e);
-		handleExit();
-	});
+
 	const [deck, setDeck] = useState(deckFromContext.cards.map((card) => ({ ...card })) as Card[]);
 	const deckLength = deck.length;
 	const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -36,35 +30,32 @@ export default function PlayScreen() {
 
 	const swiperRef = useRef(null);
 
-	async function handleExit() {
-
-		console.log("exiting");
+	const handleExit = useCallback(async () => {
 		const firstCut = deck.slice(currentCardIndex);
 		const secondCut = deck.slice(0, currentCardIndex);
 		const newDeck = [...firstCut, ...secondCut];
-		console.log(newDeck, '<--- saved deck order');
+		
 		await updateCards(id, newDeck);
-		const existingDecks = decks.filter((d) => d._id !== id)
-		const alteredDeck = { ...deckFromContext, cards: newDeck };
-		console.log(existingDecks)
-		//this may understandably become a problem, suggest applying some sort of .sort on decks list 
-		existingDecks.unshift(alteredDeck);
-		console.log(existingDecks)
-		setDecks(existingDecks)
-	}
+
+		const updatedDecks = decks.map((d) => (d._id === id ? { ...d, cards: newDeck } : d));
+		setDecks(updatedDecks);
+	}, [deck, currentCardIndex, id, decks, setDecks]);
+
+	//do NOT ask me why this is necessary, I hate react so much.
+	useEffect(() => {
+		const exitPage = navigation.addListener('beforeRemove', async (e) => {
+			await handleExit();
+		});
+		return exitPage;
+	}, [navigation, handleExit]);
 
 	useEffect(() => {
 		if (reorderDeck) {
-			console.log("check card ratios and apply logic to rearrange deck...");
 			const highPriorityCards = deck.filter((card) => card.Y < card.N);
 			const remainingCards = deck.filter((card) => card.Y >= card.N);
 			const newDeck = [...highPriorityCards, ...remainingCards];
-			console.log(highPriorityCards, '<--- high priority cards');
-			console.log(remainingCards, '<--- remaining cards');
-			console.log(newDeck);
 			setDeck(newDeck);
 			setReorderDeck(false);
-
 		}
 	}, [reorderDeck, deck]);
 
@@ -83,7 +74,6 @@ export default function PlayScreen() {
 			}
 			return newIndex;
 		});
-		console.log("Left swipe:", updatedDeck[cardIndex]);
 	};
 
 	const handleRightSwipe = (cardIndex: number) => {
@@ -101,7 +91,6 @@ export default function PlayScreen() {
 			}
 			return newIndex;
 		});
-		console.log("Right swipe:", updatedDeck[cardIndex]);
 	};
 
 	return (
@@ -109,11 +98,9 @@ export default function PlayScreen() {
 			<Swiper
 				ref={swiperRef}
 				cards={deck}
-				renderCard={(card: Card) => <FlippableCard card={card} swiperRef={swiperRef} handleExit={handleExit} />}
+				renderCard={(card: Card) => <FlippableCard card={card} swiperRef={swiperRef} />}
 				onSwiped={(cardIndex) => {
-					console.log("Card index:", cardIndex);
-					console.log("deck in state --> ", deck);
-					console.log("current card index --> ", currentCardIndex);
+				
 				}}
 				onSwipedLeft={handleLeftSwipe}
 				onSwipedRight={handleRightSwipe}
@@ -155,7 +142,7 @@ export default function PlayScreen() {
 	);
 }
 
-const FlippableCard = ({ card, swiperRef, handleExit }) => {
+const FlippableCard = ({ card, swiperRef }) => {
 	const [flipped, setFlipped] = useState(false);
 	const handlePress = () => {
 		setFlipped(!flipped);
@@ -167,13 +154,13 @@ const FlippableCard = ({ card, swiperRef, handleExit }) => {
 			<View style={styles.div}>
 				<Pressable onPress={() => { swiperRef.current.swipeLeft(); }}><AntDesign name="closecircleo" size={24} color="black" style={styles.button} /></Pressable>
 				<Pressable style={styles.button} onPress={() => {
-					console.log(swiperRef.current);
+					
 					swiperRef.current.animateStack();
 					handlePress();
 				}}>
 					<Text style={styles.buttonText}>Flip Card</Text>
 				</Pressable>
-				<Pressable onPress={handleExit}><AntDesign name="checkcircle" size={24} color="black" style={styles.button} /></Pressable>
+				
 				<Pressable onPress={() => { swiperRef.current.swipeRight(); }}><AntDesign name="checkcircleo" size={24} color="black" style={styles.button} /></Pressable>
 			</View>
 		</View>
