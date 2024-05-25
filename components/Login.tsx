@@ -47,7 +47,7 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
 						if (data.username) {
 							setIsLoding(false);
 							setUserDetails(data);
-							router.replace("(tabs)/userPage");
+							router.replace("deck");
 						} else {
 							setIsLoding(false);
 							setIsError({ ...isError, general: data.response.data.message });

@@ -56,7 +56,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
 					})
 					.then((user) => {
 						setUserDetails(user);
-						router.replace("(tabs)/userPage");
+						router.replace("deck");
 					})
 					.catch((err) => {
 						console.log(err);

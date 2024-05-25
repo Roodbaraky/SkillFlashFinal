@@ -14,9 +14,28 @@ export default function HomeLayout() {
 
 	return (
 		<Stack>
+<<<<<<< HEAD:app/(tabs)/Home/_layout.tsx
 			{/* <Stack.Screen name="userPage" options={{ headerShown: false }} /> */}
 			<Stack.Screen name="deck/[id]" options={{ headerShown: false }} />
 			<Stack.Screen name="play" options={{ headerShown: false, navigationBarHidden:true	}} />
+=======
+			<Stack.Screen
+				name="index"
+				options={{
+					headerShown: false,
+					headerBackTitleVisible: true,
+					headerBackTitle: "Back",
+				}}
+			/>
+			<Stack.Screen
+				name="play"
+				options={{
+					headerShown: false,
+					headerBackTitleVisible: true,
+					headerBackTitle: "Back",
+				}}
+			/>
+>>>>>>> main:app/deck/[id]/_layout.tsx
 		</Stack>
 	);
 }
