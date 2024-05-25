@@ -16,7 +16,7 @@ export default function HomeLayout() {
 		<Stack>
 			{/* <Stack.Screen name="userPage" options={{ headerShown: false }} /> */}
 			<Stack.Screen name="deck/[id]" options={{ headerShown: false }} />
-			<Stack.Screen name="play" options={{ headerShown: false }} />
+			<Stack.Screen name="play" options={{ headerShown: false, navigationBarHidden:true	}} />
 		</Stack>
 	);
 }

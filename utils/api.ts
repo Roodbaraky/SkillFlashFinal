@@ -104,3 +104,11 @@ export async function deleteDeck(deckId: string) {
   );
   return data;
 }
+
+export async function updateCards(deckId: string, cards: Card[]) {
+  const { data } = await axios.patch(
+    `https://skillflashbackend.onrender.com/api/decks/${deckId}/cards`,
+    { cards: cards }
+  );
+  return data.deck;
+}
