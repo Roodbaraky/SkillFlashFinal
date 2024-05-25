@@ -1,5 +1,6 @@
 import { Card } from "@/utils/utils";
 import { SafeAreaView, Text, StyleSheet } from "react-native";
+import React from "react";
 
 export default function CardTile(props: { card: Card }) {
 	const { card } = props;

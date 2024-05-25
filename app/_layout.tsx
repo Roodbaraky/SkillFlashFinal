@@ -1,6 +1,8 @@
+import { DecksContext } from "@/contexts/DecksContext";
 import { UserContext } from "../contexts/UserContext";
 import { Stack } from "expo-router";
 import React, { useState } from "react";
+import { HomeDeck } from "@/utils/utils";
 
 export default function RootLayout() {
 	interface User {
@@ -13,13 +15,23 @@ export default function RootLayout() {
 	}
 
 	const [userDetails, setUserDetails] = useState<User>({ username: "ana" });
-
+	const [decks, setDecks] = useState<HomeDeck[]>([]);
 	return (
 		<UserContext.Provider value={{ userDetails, setUserDetails }}>
-			<Stack>
-				<Stack.Screen name="index" options={{ headerShown: false }} />
-				<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-			</Stack>
+			<DecksContext.Provider value={{ decks, setDecks }}>
+				<Stack>
+					<Stack.Screen name="index" options={{ headerShown: false }} />
+					<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+					<Stack.Screen
+						name="deck/[id]"
+						options={{
+							headerShown: true,
+							title: "Home",
+							headerBackTitle: "Back",
+						}}
+					/>
+				</Stack>
+			</DecksContext.Provider>
 		</UserContext.Provider>
 	);
 }
