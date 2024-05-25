@@ -6,6 +6,7 @@ import { DecksContext } from "@/contexts/DecksContext";
 import { useLocalSearchParams } from "expo-router";
 import { AntDesign } from '@expo/vector-icons';
 import { updateCards } from "@/utils/api";
+import { useNavigation } from "expo-router";
 
 interface Card {
 	Q: string;
@@ -15,74 +16,92 @@ interface Card {
 	tag: string;
 }
 
-
 export default function PlayScreen() {
+	const navigation = useNavigation();
 	const { id } = useLocalSearchParams<{ id: string }>();
-	const { decks } = useContext(DecksContext);
-	const deckText = decks.find((d) => d._id === id);
-	if (!deckText) throw new Error("Deck not found");
-	const [deck, setDeck] = useState(
-		deckText.cards.map((card) => ({ ...card })) as Card[]
-	);
-	const deckLength = deckText.cards.map((card) => ({ ...card })).length
-	async function handleExit(e) {
-		// e.preventDefault();
-		console.log("exiting");
-		const firstCut = deck.slice(currentCardIndex + 1);
-		const secondCut = deck.slice(0, currentCardIndex + 1);
-		console.log(firstCut);
-		console.log(secondCut);
-		console.log([...firstCut, ...secondCut], '<--- saved deck order');
-		await updateCards(id, [...firstCut, ...secondCut])
-		setDeck([...firstCut, ...secondCut]);
-
-	}
-
-
-
+	const { decks, setDecks } = useContext(DecksContext);
+	console.log(decks)
+	const deckFromContext = decks.find((d) => d._id === id);
+	if (!deckFromContext) throw new Error("Deck not found");
+	window.addEventListener('touchstart', (e) => { console.log(e) });
+	window.addEventListener('click', (e) => { console.log(e) });
+	navigation.addListener('beforeRemove', (e) => {
+		console.log(e);
+		handleExit();
+	});
+	const [deck, setDeck] = useState(deckFromContext.cards.map((card) => ({ ...card })) as Card[]);
+	const deckLength = deck.length;
 	const [currentCardIndex, setCurrentCardIndex] = useState(0);
+	const [reorderDeck, setReorderDeck] = useState(false);
 
 	const swiperRef = useRef(null);
 
-	useEffect(() => {
-		// const windowChange = window.addEventListener('beforeunload', handleExit)
+	async function handleExit() {
 
-		if (currentCardIndex === deckLength) {
-			setDeck((oldDeck) => {
-				console.log("check card ratios and apply logic to rearrange deck...");
-				const highPriorityCards = oldDeck.filter((card) => card.Y < card.N);
-				const remainingCards = oldDeck.filter((card) => card.Y >= card.N);
-				console.log(highPriorityCards, '<--- high priority cards');
-				console.log(remainingCards, '<--- remaining cards');
-				console.log([...highPriorityCards, ...remainingCards])
-				return [...highPriorityCards, ...remainingCards];
-			});
+		console.log("exiting");
+		const firstCut = deck.slice(currentCardIndex);
+		const secondCut = deck.slice(0, currentCardIndex);
+		const newDeck = [...firstCut, ...secondCut];
+		console.log(newDeck, '<--- saved deck order');
+		await updateCards(id, newDeck);
+		const existingDecks = decks.filter((d) => d._id !== id)
+		const alteredDeck = { ...deckFromContext, cards: newDeck };
+		console.log(existingDecks)
+		//this may understandably become a problem, suggest applying some sort of .sort on decks list 
+		existingDecks.unshift(alteredDeck);
+		console.log(existingDecks)
+		setDecks(existingDecks)
+	}
+
+	useEffect(() => {
+		if (reorderDeck) {
+			console.log("check card ratios and apply logic to rearrange deck...");
+			const highPriorityCards = deck.filter((card) => card.Y < card.N);
+			const remainingCards = deck.filter((card) => card.Y >= card.N);
+			const newDeck = [...highPriorityCards, ...remainingCards];
+			console.log(highPriorityCards, '<--- high priority cards');
+			console.log(remainingCards, '<--- remaining cards');
+			console.log(newDeck);
+			setDeck(newDeck);
+			setReorderDeck(false);
+
 		}
-	}, []);
+	}, [reorderDeck, deck]);
+
 	const handleLeftSwipe = (cardIndex: number) => {
-		setDeck((prevDeck) => {
-			const newDeck = [...prevDeck];
-			newDeck[cardIndex] = {
-				...newDeck[cardIndex],
-				N: newDeck[cardIndex].N + 1,
-			};
-			setCurrentCardIndex(cardIndex + 1 < deckLength ? cardIndex + 1 : 0);
-			return newDeck;
+		const updatedDeck = [...deck];
+		updatedDeck[cardIndex] = {
+			...updatedDeck[cardIndex],
+			N: updatedDeck[cardIndex].N + 1,
+		};
+		setDeck(updatedDeck);
+		setCurrentCardIndex((prevIndex) => {
+			const newIndex = prevIndex + 1;
+			if (newIndex >= deckLength) {
+				setReorderDeck(true);
+				return 0;
+			}
+			return newIndex;
 		});
-		console.log("Left swipe:", deck[cardIndex]);
+		console.log("Left swipe:", updatedDeck[cardIndex]);
 	};
 
 	const handleRightSwipe = (cardIndex: number) => {
-		setDeck((prevDeck) => {
-			const newDeck = [...prevDeck];
-			newDeck[cardIndex] = {
-				...newDeck[cardIndex],
-				Y: newDeck[cardIndex].Y + 1,
-			};
-			setCurrentCardIndex(cardIndex + 1 < deckLength ? cardIndex + 1 : 0);
-			return newDeck;
+		const updatedDeck = [...deck];
+		updatedDeck[cardIndex] = {
+			...updatedDeck[cardIndex],
+			Y: updatedDeck[cardIndex].Y + 1,
+		};
+		setDeck(updatedDeck);
+		setCurrentCardIndex((prevIndex) => {
+			const newIndex = prevIndex + 1;
+			if (newIndex >= deckLength) {
+				setReorderDeck(true);
+				return 0;
+			}
+			return newIndex;
 		});
-		console.log("Right swipe:", deck[cardIndex]);
+		console.log("Right swipe:", updatedDeck[cardIndex]);
 	};
 
 	return (
@@ -103,7 +122,6 @@ export default function PlayScreen() {
 				stackSize={3}
 				disableBottomSwipe={true}
 				infinite
-
 				overlayLabels={{
 					left: {
 						title: "NO",
@@ -137,7 +155,7 @@ export default function PlayScreen() {
 	);
 }
 
-const FlippableCard = ({ card, swiperRef , handleExit}) => {
+const FlippableCard = ({ card, swiperRef, handleExit }) => {
 	const [flipped, setFlipped] = useState(false);
 	const handlePress = () => {
 		setFlipped(!flipped);
@@ -146,22 +164,21 @@ const FlippableCard = ({ card, swiperRef , handleExit}) => {
 	return (
 		<View style={styles.card}>
 			<Text style={styles.text}>{flipped ? card.A : card.Q}</Text>
-			<div style={styles.div}>
-
-				<Pressable onPress={() => { swiperRef.current.swipeLeft() }}><AntDesign name="closecircleo" size={24} color="black" style={styles.button} /></Pressable>
+			<View style={styles.div}>
+				<Pressable onPress={() => { swiperRef.current.swipeLeft(); }}><AntDesign name="closecircleo" size={24} color="black" style={styles.button} /></Pressable>
 				<Pressable style={styles.button} onPress={() => {
-					console.log(swiperRef.current)
-					swiperRef.current.animateStack()
-					handlePress()
+					console.log(swiperRef.current);
+					swiperRef.current.animateStack();
+					handlePress();
 				}}>
 					<Text style={styles.buttonText}>Flip Card</Text>
 				</Pressable>
-				<Pressable onPress={() => { handleExit() }}><AntDesign name="checkcircle" size={24} color="black" style={styles.button} /></Pressable>
-				<Pressable onPress={() => { swiperRef.current.swipeRight() }}><AntDesign name="checkcircleo" size={24} color="black" style={styles.button} /></Pressable>
-			</div>
+				<Pressable onPress={handleExit}><AntDesign name="checkcircle" size={24} color="black" style={styles.button} /></Pressable>
+				<Pressable onPress={() => { swiperRef.current.swipeRight(); }}><AntDesign name="checkcircleo" size={24} color="black" style={styles.button} /></Pressable>
+			</View>
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -182,7 +199,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "white",
 		padding: 20,
 	},
-
 	text: {
 		fontSize: 20,
 	},
@@ -204,5 +220,5 @@ const styles = StyleSheet.create({
 		width: "100%",
 		marginTop: 10,
 		marginBottom: 10,
-	}
+	},
 });
