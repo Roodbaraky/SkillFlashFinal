@@ -5,6 +5,7 @@ import Constants from "expo-constants";
 import { DecksContext } from "@/contexts/DecksContext";
 import { useLocalSearchParams } from "expo-router";
 import { AntDesign } from '@expo/vector-icons';
+import { updateCards } from "@/utils/api";
 
 interface Card {
 	Q: string;
@@ -17,29 +18,47 @@ interface Card {
 
 export default function PlayScreen() {
 	const { id } = useLocalSearchParams<{ id: string }>();
-	console.log(id);
 	const { decks } = useContext(DecksContext);
 	const deckText = decks.find((d) => d._id === id);
 	if (!deckText) throw new Error("Deck not found");
 	const [deck, setDeck] = useState(
 		deckText.cards.map((card) => ({ ...card })) as Card[]
 	);
+	const deckLength = deckText.cards.map((card) => ({ ...card })).length
+	async function handleExit(e) {
+		// e.preventDefault();
+		console.log("exiting");
+		const firstCut = deck.slice(currentCardIndex + 1);
+		const secondCut = deck.slice(0, currentCardIndex + 1);
+		console.log(firstCut);
+		console.log(secondCut);
+		console.log([...firstCut, ...secondCut], '<--- saved deck order');
+		await updateCards(id, [...firstCut, ...secondCut])
+		setDeck([...firstCut, ...secondCut]);
+
+	}
+
+
 
 	const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
 	const swiperRef = useRef(null);
 
 	useEffect(() => {
-		if (currentCardIndex === deck.length - 1) {
+		// const windowChange = window.addEventListener('beforeunload', handleExit)
+
+		if (currentCardIndex === deckLength) {
 			setDeck((oldDeck) => {
 				console.log("check card ratios and apply logic to rearrange deck...");
 				const highPriorityCards = oldDeck.filter((card) => card.Y < card.N);
-				const remainingCards = oldDeck.filter((card) => card.Y > card.N);
+				const remainingCards = oldDeck.filter((card) => card.Y >= card.N);
+				console.log(highPriorityCards, '<--- high priority cards');
+				console.log(remainingCards, '<--- remaining cards');
+				console.log([...highPriorityCards, ...remainingCards])
 				return [...highPriorityCards, ...remainingCards];
 			});
 		}
-	}, [currentCardIndex, deck.length]);
-
+	}, []);
 	const handleLeftSwipe = (cardIndex: number) => {
 		setDeck((prevDeck) => {
 			const newDeck = [...prevDeck];
@@ -47,7 +66,7 @@ export default function PlayScreen() {
 				...newDeck[cardIndex],
 				N: newDeck[cardIndex].N + 1,
 			};
-			setCurrentCardIndex(cardIndex);
+			setCurrentCardIndex(cardIndex + 1 < deckLength ? cardIndex + 1 : 0);
 			return newDeck;
 		});
 		console.log("Left swipe:", deck[cardIndex]);
@@ -60,7 +79,7 @@ export default function PlayScreen() {
 				...newDeck[cardIndex],
 				Y: newDeck[cardIndex].Y + 1,
 			};
-			setCurrentCardIndex(cardIndex);
+			setCurrentCardIndex(cardIndex + 1 < deckLength ? cardIndex + 1 : 0);
 			return newDeck;
 		});
 		console.log("Right swipe:", deck[cardIndex]);
@@ -71,7 +90,7 @@ export default function PlayScreen() {
 			<Swiper
 				ref={swiperRef}
 				cards={deck}
-				renderCard={(card: Card) => <FlippableCard card={card} swiperRef={swiperRef} />}
+				renderCard={(card: Card) => <FlippableCard card={card} swiperRef={swiperRef} handleExit={handleExit} />}
 				onSwiped={(cardIndex) => {
 					console.log("Card index:", cardIndex);
 					console.log("deck in state --> ", deck);
@@ -118,7 +137,7 @@ export default function PlayScreen() {
 	);
 }
 
-const FlippableCard = ({ card, swiperRef }) => {
+const FlippableCard = ({ card, swiperRef , handleExit}) => {
 	const [flipped, setFlipped] = useState(false);
 	const handlePress = () => {
 		setFlipped(!flipped);
@@ -128,14 +147,16 @@ const FlippableCard = ({ card, swiperRef }) => {
 		<View style={styles.card}>
 			<Text style={styles.text}>{flipped ? card.A : card.Q}</Text>
 			<div style={styles.div}>
-				
+
 				<Pressable onPress={() => { swiperRef.current.swipeLeft() }}><AntDesign name="closecircleo" size={24} color="black" style={styles.button} /></Pressable>
-				<Pressable style={styles.button} onPress={()=>{
+				<Pressable style={styles.button} onPress={() => {
 					console.log(swiperRef.current)
 					swiperRef.current.animateStack()
-					handlePress()}}>
+					handlePress()
+				}}>
 					<Text style={styles.buttonText}>Flip Card</Text>
 				</Pressable>
+				<Pressable onPress={() => { handleExit() }}><AntDesign name="checkcircle" size={24} color="black" style={styles.button} /></Pressable>
 				<Pressable onPress={() => { swiperRef.current.swipeRight() }}><AntDesign name="checkcircleo" size={24} color="black" style={styles.button} /></Pressable>
 			</div>
 		</View>
@@ -177,7 +198,7 @@ const styles = StyleSheet.create({
 	},
 	div: {
 		display: "flex",
-		alignSelf:'flex-end',
+		alignSelf: 'flex-end',
 		flexDirection: "row",
 		justifyContent: "space-evenly",
 		width: "100%",
