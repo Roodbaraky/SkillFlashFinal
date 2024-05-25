@@ -28,14 +28,13 @@ export default function TabOneScreen() {
 		<SafeAreaView testID="home-container">
 			<Text>Hi {userDetails.username} !</Text>
 			<Text>Welcome to SkillFlash</Text>
-			<View>
+			<View style={styles.scrollViewContent}>
 				<Text>Your decks</Text>
-				<ScrollView contentContainerStyle={styles.scrollViewContent}>
-					<FlatList
-						data={decks}
-						renderItem={({ item }) => <DeckTile deck={item} />}
-					/>
-				</ScrollView>
+
+				<FlatList
+					data={decks}
+					renderItem={({ item }) => <DeckTile deck={item} />}
+				/>
 			</View>
 		</SafeAreaView>
 	);
@@ -45,6 +44,6 @@ const styles = StyleSheet.create({
 	scrollViewContent: {
 		flexGrow: 1,
 		paddingVertical: 10,
-		height: "90%",
+		height: "80%",
 	},
 });

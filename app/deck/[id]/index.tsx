@@ -12,7 +12,7 @@ import {
 import { DecksContext } from "@/contexts/DecksContext";
 import CardTile from "@/components/CardTile";
 
-export default function UserPage() {
+export default function DeckDetailScreen() {
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const { decks } = useContext(DecksContext);
 	const deck = decks.find((d) => d._id === id);
@@ -21,7 +21,10 @@ export default function UserPage() {
 		<SafeAreaView>
 			<Pressable
 				onPress={() => {
-					router.push({ pathname: "../play", params: { id: deck._id } });
+					router.push({
+						pathname: `deck/${id}/play`,
+						params: { id: id },
+					});
 				}}
 			>
 				{/* onPress to be added */}
@@ -40,18 +43,16 @@ export default function UserPage() {
 				<Text>Back</Text>
 			</Pressable>
 			{deck ? (
-				<View>
+				<View style={styles.scrollViewContent}>
 					<Text
 						style={{ fontSize: 30, fontWeight: "bold", textAlign: "center" }}
 					>
 						{deck.deckName}
 					</Text>
-					<ScrollView contentContainerStyle={styles.scrollViewContent}>
-						<FlatList
-							data={deck.cards}
-							renderItem={({ item }) => <CardTile card={item} />}
-						/>
-					</ScrollView>
+					<FlatList
+						data={deck.cards}
+						renderItem={({ item }) => <CardTile card={item} />}
+					/>
 					<View
 						style={{
 							flexDirection: "row",
