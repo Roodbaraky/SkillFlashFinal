@@ -4,6 +4,7 @@ import Swiper from "react-native-deck-swiper";
 import Constants from "expo-constants";
 import { DecksContext } from "@/contexts/DecksContext";
 import { useLocalSearchParams } from "expo-router";
+
 import { updateCards } from "@/utils/api";
 import { useNavigation } from "expo-router";
 import { Card } from "@/utils/utils";
@@ -90,7 +91,9 @@ export default function PlayScreen() {
 			<Swiper
 				ref={swiperReferenceObject}
 				cards={deck}
+
 				renderCard={(card: Card) => <FlippableCard card={card} swiperRef={swiperReferenceObject} />}
+
 				onSwipedLeft={handleLeftSwipe}
 				onSwipedRight={handleRightSwipe}
 				cardIndex={0}
@@ -132,6 +135,7 @@ export default function PlayScreen() {
 }
 
 
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -166,7 +170,9 @@ const styles = StyleSheet.create({
 	},
 	div: {
 		display: "flex",
+
 		alignSelf: 'flex-end',
+
 		flexDirection: "row",
 		justifyContent: "space-evenly",
 		width: "100%",
