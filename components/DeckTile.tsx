@@ -1,21 +1,27 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { HomeDeck } from "../utils/utils";
 import { Link } from "expo-router";
+const screenWidth = Dimensions.get("window").width;
 export default function DeckTile(props: { deck: HomeDeck }) {
 	const { deck } = props;
 	return (
-		<View style={styles.container}>
-			<Link href={`deck/${deck._id}`}>
-				<Text style={styles.deckName}>{deck.deckName}</Text>
-				<View style={styles.tagsContainer}>
-					{deck.tags.map((tag, index) => (
-						<View key={index} style={styles.tag}>
-							<Text style={styles.tagText}>{tag}</Text>
-						</View>
-					))}
+		<View style={{ flex: 1, marginTop: 10 }}>
+			<Link
+				href={`deck/${deck._id}`}
+				style={{ flex: 1, textDecorationLine: "none" }}
+			>
+				<View style={styles.container}>
+					<Text style={styles.deckName}>{deck.deckName}</Text>
+					<View style={styles.tagsContainer}>
+						{deck.tags.map((tag, index) => (
+							<View key={index} style={styles.tag}>
+								<Text style={styles.tagText}>{tag}</Text>
+							</View>
+						))}
+					</View>
+					<Text style={styles.cardCount}>{deck.cards.length} cards</Text>
 				</View>
-				<Text style={styles.cardCount}>{deck.cards.length} cards</Text>
 			</Link>
 		</View>
 	);
@@ -23,10 +29,9 @@ export default function DeckTile(props: { deck: HomeDeck }) {
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		padding: 10,
-		margin: 10,
-		marginLeft: "auto",
-		marginRight: "auto",
+		marginVertical: 10,
 		borderWidth: 1,
 		borderRadius: 10,
 		borderColor: "black",
@@ -40,37 +45,34 @@ const styles = StyleSheet.create({
 		shadowRadius: 3.84,
 		elevation: 5,
 		height: 120,
-		width: "95%",
-		alignItems: "center",
 		justifyContent: "center",
+		width: screenWidth - 20,
+		alignSelf: "center",
 	},
 	deckName: {
-		fontSize: 15,
+		fontSize: 25,
+		textTransform: "capitalize",
 		fontWeight: "bold",
-		marginBottom: 20,
-		margin: 20,
-		marginLeft: "auto",
-		marginRight: "auto",
+		marginBottom: 10,
+		textAlign: "center",
 	},
 	tagsContainer: {
 		flexDirection: "row",
 		flexWrap: "wrap",
 		justifyContent: "center",
 		marginBottom: 10,
-		width: "100%",
 	},
 	tag: {
 		padding: 5,
 		margin: 5,
 		borderRadius: 10,
 		backgroundColor: "grey",
-		color: "white",
 	},
 	tagText: {
 		color: "white",
-		fontSize: 10,
+		fontSize: 12,
 		fontWeight: "bold",
-		textAlign: "right",
+		textTransform: "capitalize",
 	},
 	cardCount: {
 		fontSize: 12,

@@ -4,7 +4,7 @@ import Swiper from "react-native-deck-swiper";
 import Constants from "expo-constants";
 import { DecksContext } from "@/contexts/DecksContext";
 import { useLocalSearchParams } from "expo-router";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 
 interface Card {
 	Q: string;
@@ -13,7 +13,6 @@ interface Card {
 	N: number;
 	tag: string;
 }
-
 
 export default function PlayScreen() {
 	const { id } = useLocalSearchParams<{ id: string }>();
@@ -71,7 +70,9 @@ export default function PlayScreen() {
 			<Swiper
 				ref={swiperRef}
 				cards={deck}
-				renderCard={(card: Card) => <FlippableCard card={card} swiperRef={swiperRef} />}
+				renderCard={(card: Card) => (
+					<FlippableCard card={card} swiperRef={swiperRef} />
+				)}
 				onSwiped={(cardIndex) => {
 					console.log("Card index:", cardIndex);
 					console.log("deck in state --> ", deck);
@@ -84,7 +85,6 @@ export default function PlayScreen() {
 				stackSize={3}
 				disableBottomSwipe={true}
 				infinite
-
 				overlayLabels={{
 					left: {
 						title: "NO",
@@ -127,20 +127,45 @@ const FlippableCard = ({ card, swiperRef }) => {
 	return (
 		<View style={styles.card}>
 			<Text style={styles.text}>{flipped ? card.A : card.Q}</Text>
-			<div style={styles.div}>
-				
-				<Pressable onPress={() => { swiperRef.current.swipeLeft() }}><AntDesign name="closecircleo" size={24} color="black" style={styles.button} /></Pressable>
-				<Pressable style={styles.button} onPress={()=>{
-					console.log(swiperRef.current)
-					swiperRef.current.animateStack()
-					handlePress()}}>
+			<View style={styles.div}>
+				<Pressable
+					onPress={() => {
+						swiperRef.current.swipeLeft();
+					}}
+				>
+					<AntDesign
+						name="closecircleo"
+						size={24}
+						color="black"
+						style={styles.button}
+					/>
+				</Pressable>
+				<Pressable
+					style={styles.button}
+					onPress={() => {
+						console.log(swiperRef.current);
+						swiperRef.current.animateStack();
+						handlePress();
+					}}
+				>
 					<Text style={styles.buttonText}>Flip Card</Text>
 				</Pressable>
-				<Pressable onPress={() => { swiperRef.current.swipeRight() }}><AntDesign name="checkcircleo" size={24} color="black" style={styles.button} /></Pressable>
-			</div>
+				<Pressable
+					onPress={() => {
+						swiperRef.current.swipeRight();
+					}}
+				>
+					<AntDesign
+						name="checkcircleo"
+						size={24}
+						color="black"
+						style={styles.button}
+					/>
+				</Pressable>
+			</View>
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {
@@ -177,11 +202,11 @@ const styles = StyleSheet.create({
 	},
 	div: {
 		display: "flex",
-		alignSelf:'flex-end',
+		alignSelf: "flex-end",
 		flexDirection: "row",
 		justifyContent: "space-evenly",
 		width: "100%",
 		marginTop: 10,
 		marginBottom: 10,
-	}
+	},
 });

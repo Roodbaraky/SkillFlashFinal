@@ -17,6 +17,17 @@ const styles = StyleSheet.create({
 		padding: 5,
 		margin: 10,
 		borderWidth: 1,
+		borderRadius: 10,
+		borderColor: "black",
+		backgroundColor: "white",
+		shadowColor: "black",
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 5,
 	},
 	q: {
 		margin: 10,

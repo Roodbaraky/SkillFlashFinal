@@ -172,5 +172,10 @@ const styles = StyleSheet.create({
 		color: "black",
 		fontWeight: "bold",
 		fontSize: 20,
+		borderStyle: "solid",
+		borderWidth: 5,
+		marginBottom: 10,
+		padding: 10,
+		borderRadius: 10,
 	},
 });

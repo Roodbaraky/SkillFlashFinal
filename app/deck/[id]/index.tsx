@@ -23,29 +23,22 @@ export default function DeckDetailScreen() {
 				onPress={() => {
 					router.push({
 						pathname: `deck/${id}/play`,
-						params: { id: id },
+						// params: { id: id },
 					});
 				}}
 			>
 				{/* onPress to be added */}
 				<Text style={styles.button}>Start Review</Text>
 			</Pressable>
-			<Pressable
-				onPress={() => router.back()}
-				style={{
-					padding: 10,
-					backgroundColor: "lightblue",
-					width: 70,
-					margin: 10,
-					borderRadius: 10,
-				}}
-			>
-				<Text>Back</Text>
-			</Pressable>
 			{deck ? (
 				<View style={styles.scrollViewContent}>
 					<Text
-						style={{ fontSize: 30, fontWeight: "bold", textAlign: "center" }}
+						style={{
+							fontSize: 30,
+							fontWeight: "bold",
+							textAlign: "center",
+							textTransform: "capitalize",
+						}}
 					>
 						{deck.deckName}
 					</Text>
@@ -77,7 +70,7 @@ const styles = StyleSheet.create({
 	scrollViewContent: {
 		flexGrow: 1,
 		paddingVertical: 10,
-		height: "80%",
+		height: "90%",
 	},
 	button: {
 		backgroundColor: "lightblue",
