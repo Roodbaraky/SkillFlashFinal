@@ -70,7 +70,7 @@ export function splitByCategory(allTags: TestTags[]) {
   });
   const finalArray = [];
   for (const category in tagsByCat) {
-    finalArray.push({ title: category, data: tagsByCat[category] });
+    finalArray.push({ category: category, tags: tagsByCat[category] });
   }
 
   return finalArray;
