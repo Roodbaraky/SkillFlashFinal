@@ -1,83 +1,99 @@
-import React, { useRef, useEffect, useState, useContext } from "react";
-import { Text, View, Pressable, StyleSheet } from "react-native";
+import React, { useRef, useEffect, useState, useContext, useCallback } from "react";
+import { View, StyleSheet } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import Constants from "expo-constants";
 import { DecksContext } from "@/contexts/DecksContext";
 import { useLocalSearchParams } from "expo-router";
-import { AntDesign } from "@expo/vector-icons";
 
-interface Card {
-	Q: string;
-	A: string;
-	Y: number;
-	N: number;
-	tag: string;
-}
+import { updateCards } from "@/utils/api";
+import { useNavigation } from "expo-router";
+import { Card } from "@/utils/utils";
+import { FlippableCard } from "@/components/FlippableCard";
+
 
 export default function PlayScreen() {
+	const navigation = useNavigation();
 	const { id } = useLocalSearchParams<{ id: string }>();
-	console.log(id);
-	const { decks } = useContext(DecksContext);
-	const deckText = decks.find((d) => d._id === id);
-	if (!deckText) throw new Error("Deck not found");
-	const [deck, setDeck] = useState(
-		deckText.cards.map((card) => ({ ...card })) as Card[]
-	);
-
+	const { decks, setDecks } = useContext(DecksContext);
+	const deckFromContext = decks.find((d) => d._id === id);
+	const [deck, setDeck] = useState(deckFromContext?.cards.map((card) => ({ ...card })) as Card[]);
+	const deckLength = deck.length;
 	const [currentCardIndex, setCurrentCardIndex] = useState(0);
+	const [reorderDeck, setReorderDeck] = useState(false);
+	const swiperReferenceObject = useRef(null);
 
-	const swiperRef = useRef(null);
+
+	const handleExit = useCallback(async () => {
+		const deckFromCurrentCardOnwards = deck.slice(currentCardIndex);
+		const deckBeforeCurrentCard = deck.slice(0, currentCardIndex);
+		const newDeck = [...deckFromCurrentCardOnwards, ...deckBeforeCurrentCard];
+		if (id) {
+			await updateCards(id, newDeck)
+		}
+
+		const updatedDecks = decks.map((d) => (d._id === id ? { ...d, cards: newDeck } : d));
+		setDecks(updatedDecks);
+	}, [deck, currentCardIndex, id, decks, setDecks]);
 
 	useEffect(() => {
-		if (currentCardIndex === deck.length - 1) {
-			setDeck((oldDeck) => {
-				console.log("check card ratios and apply logic to rearrange deck...");
-				const highPriorityCards = oldDeck.filter((card) => card.Y < card.N);
-				const remainingCards = oldDeck.filter((card) => card.Y > card.N);
-				return [...highPriorityCards, ...remainingCards];
-			});
+		const exitPage = navigation.addListener('beforeRemove', async (e) => {
+			await handleExit();
+		});
+		return exitPage;
+	}, [navigation, handleExit]);
+
+	useEffect(() => {
+		if (reorderDeck) {
+			const highPriorityCards = deck.filter((card) => card.Y < card.N);
+			const remainingCards = deck.filter((card) => card.Y >= card.N);
+			const newDeck = [...highPriorityCards, ...remainingCards];
+			setDeck(newDeck);
+			setReorderDeck(false);
 		}
-	}, [currentCardIndex, deck.length]);
+	}, [reorderDeck, deck]);
 
 	const handleLeftSwipe = (cardIndex: number) => {
-		setDeck((prevDeck) => {
-			const newDeck = [...prevDeck];
-			newDeck[cardIndex] = {
-				...newDeck[cardIndex],
-				N: newDeck[cardIndex].N + 1,
-			};
-			setCurrentCardIndex(cardIndex);
-			return newDeck;
+		const updatedDeck = [...deck];
+		updatedDeck[cardIndex] = {
+			...updatedDeck[cardIndex],
+			N: updatedDeck[cardIndex].N + 1,
+		};
+		setDeck(updatedDeck);
+		setCurrentCardIndex((prevIndex) => {
+			const newIndex = prevIndex + 1;
+			if (newIndex >= deckLength) {
+				setReorderDeck(true);
+				return 0;
+			}
+			return newIndex;
 		});
-		console.log("Left swipe:", deck[cardIndex]);
 	};
 
 	const handleRightSwipe = (cardIndex: number) => {
-		setDeck((prevDeck) => {
-			const newDeck = [...prevDeck];
-			newDeck[cardIndex] = {
-				...newDeck[cardIndex],
-				Y: newDeck[cardIndex].Y + 1,
-			};
-			setCurrentCardIndex(cardIndex);
-			return newDeck;
+		const updatedDeck = [...deck];
+		updatedDeck[cardIndex] = {
+			...updatedDeck[cardIndex],
+			Y: updatedDeck[cardIndex].Y + 1,
+		};
+		setDeck(updatedDeck);
+		setCurrentCardIndex((prevIndex) => {
+			const newIndex = prevIndex + 1;
+			if (newIndex >= deckLength) {
+				setReorderDeck(true);
+				return 0;
+			}
+			return newIndex;
 		});
-		console.log("Right swipe:", deck[cardIndex]);
 	};
 
 	return (
 		<View style={styles.container}>
 			<Swiper
-				ref={swiperRef}
+				ref={swiperReferenceObject}
 				cards={deck}
-				renderCard={(card: Card) => (
-					<FlippableCard card={card} swiperRef={swiperRef} />
-				)}
-				onSwiped={(cardIndex) => {
-					console.log("Card index:", cardIndex);
-					console.log("deck in state --> ", deck);
-					console.log("current card index --> ", currentCardIndex);
-				}}
+
+				renderCard={(card: Card) => <FlippableCard card={card} swiperRef={swiperReferenceObject} />}
+
 				onSwipedLeft={handleLeftSwipe}
 				onSwipedRight={handleRightSwipe}
 				cardIndex={0}
@@ -118,54 +134,7 @@ export default function PlayScreen() {
 	);
 }
 
-const FlippableCard = ({ card, swiperRef }) => {
-	const [flipped, setFlipped] = useState(false);
-	const handlePress = () => {
-		setFlipped(!flipped);
-	};
 
-	return (
-		<View style={styles.card}>
-			<Text style={styles.text}>{flipped ? card.A : card.Q}</Text>
-			<View style={styles.div}>
-				<Pressable
-					onPress={() => {
-						swiperRef.current.swipeLeft();
-					}}
-				>
-					<AntDesign
-						name="closecircleo"
-						size={24}
-						color="black"
-						style={styles.button}
-					/>
-				</Pressable>
-				<Pressable
-					style={styles.button}
-					onPress={() => {
-						console.log(swiperRef.current);
-						swiperRef.current.animateStack();
-						handlePress();
-					}}
-				>
-					<Text style={styles.buttonText}>Flip Card</Text>
-				</Pressable>
-				<Pressable
-					onPress={() => {
-						swiperRef.current.swipeRight();
-					}}
-				>
-					<AntDesign
-						name="checkcircleo"
-						size={24}
-						color="black"
-						style={styles.button}
-					/>
-				</Pressable>
-			</View>
-		</View>
-	);
-};
 
 const styles = StyleSheet.create({
 	container: {
@@ -186,7 +155,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "white",
 		padding: 20,
 	},
-
 	text: {
 		fontSize: 20,
 	},
@@ -202,7 +170,9 @@ const styles = StyleSheet.create({
 	},
 	div: {
 		display: "flex",
-		alignSelf: "flex-end",
+
+		alignSelf: 'flex-end',
+
 		flexDirection: "row",
 		justifyContent: "space-evenly",
 		width: "100%",
