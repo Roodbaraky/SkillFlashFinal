@@ -1,47 +1,39 @@
 import React, { useRef, useEffect, useState, useContext, useCallback } from "react";
-import { Text, View, Pressable, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import Constants from "expo-constants";
 import { DecksContext } from "@/contexts/DecksContext";
 import { useLocalSearchParams } from "expo-router";
-import { AntDesign } from '@expo/vector-icons';
 import { updateCards } from "@/utils/api";
 import { useNavigation } from "expo-router";
+import { Card } from "@/utils/utils";
+import { FlippableCard } from "@/components/FlippableCard";
 
-interface Card {
-	Q: string;
-	A: string;
-	Y: number;
-	N: number;
-	tag: string;
-}
 
 export default function PlayScreen() {
 	const navigation = useNavigation();
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const { decks, setDecks } = useContext(DecksContext);
 	const deckFromContext = decks.find((d) => d._id === id);
-	if (!deckFromContext) throw new Error("Deck not found");
-
-	const [deck, setDeck] = useState(deckFromContext.cards.map((card) => ({ ...card })) as Card[]);
+	const [deck, setDeck] = useState(deckFromContext?.cards.map((card) => ({ ...card })) as Card[]);
 	const deckLength = deck.length;
 	const [currentCardIndex, setCurrentCardIndex] = useState(0);
 	const [reorderDeck, setReorderDeck] = useState(false);
+	const swiperReferenceObject = useRef(null);
 
-	const swiperRef = useRef(null);
 
 	const handleExit = useCallback(async () => {
-		const firstCut = deck.slice(currentCardIndex);
-		const secondCut = deck.slice(0, currentCardIndex);
-		const newDeck = [...firstCut, ...secondCut];
-		
-		await updateCards(id, newDeck);
+		const deckFromCurrentCardOnwards = deck.slice(currentCardIndex);
+		const deckBeforeCurrentCard = deck.slice(0, currentCardIndex);
+		const newDeck = [...deckFromCurrentCardOnwards, ...deckBeforeCurrentCard];
+		if (id) {
+			await updateCards(id, newDeck)
+		}
 
 		const updatedDecks = decks.map((d) => (d._id === id ? { ...d, cards: newDeck } : d));
 		setDecks(updatedDecks);
 	}, [deck, currentCardIndex, id, decks, setDecks]);
 
-	//do NOT ask me why this is necessary, I hate react so much.
 	useEffect(() => {
 		const exitPage = navigation.addListener('beforeRemove', async (e) => {
 			await handleExit();
@@ -96,12 +88,9 @@ export default function PlayScreen() {
 	return (
 		<View style={styles.container}>
 			<Swiper
-				ref={swiperRef}
+				ref={swiperReferenceObject}
 				cards={deck}
-				renderCard={(card: Card) => <FlippableCard card={card} swiperRef={swiperRef} />}
-				onSwiped={(cardIndex) => {
-				
-				}}
+				renderCard={(card: Card) => <FlippableCard card={card} swiperRef={swiperReferenceObject} />}
 				onSwipedLeft={handleLeftSwipe}
 				onSwipedRight={handleRightSwipe}
 				cardIndex={0}
@@ -142,30 +131,6 @@ export default function PlayScreen() {
 	);
 }
 
-const FlippableCard = ({ card, swiperRef }) => {
-	const [flipped, setFlipped] = useState(false);
-	const handlePress = () => {
-		setFlipped(!flipped);
-	};
-
-	return (
-		<View style={styles.card}>
-			<Text style={styles.text}>{flipped ? card.A : card.Q}</Text>
-			<View style={styles.div}>
-				<Pressable onPress={() => { swiperRef.current.swipeLeft(); }}><AntDesign name="closecircleo" size={24} color="black" style={styles.button} /></Pressable>
-				<Pressable style={styles.button} onPress={() => {
-					
-					swiperRef.current.animateStack();
-					handlePress();
-				}}>
-					<Text style={styles.buttonText}>Flip Card</Text>
-				</Pressable>
-				
-				<Pressable onPress={() => { swiperRef.current.swipeRight(); }}><AntDesign name="checkcircleo" size={24} color="black" style={styles.button} /></Pressable>
-			</View>
-		</View>
-	);
-};
 
 const styles = StyleSheet.create({
 	container: {
