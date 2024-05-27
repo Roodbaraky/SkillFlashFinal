@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, View, StyleSheet, Dimensions, Alert } from "react-native";
 import { UserContext } from "../../contexts/UserContext";
-import { getDecksByUsername } from "../../utils/api";
+import { deleteDeck, getDecksByUsername } from "../../utils/api";
 import { HomeDeck } from "../../utils/utils";
 import DeckTile from "../../components/DeckTile";
 import { DecksContext } from "../../contexts/DecksContext";
@@ -37,6 +37,10 @@ export default function TabOneScreen() {
 	const deleteRow = (rowKey: string) => {
 		const newData = decks.filter((item) => item._id !== rowKey);
 		setDecks(newData);
+		deleteDeck(rowKey).catch(() => {
+			setError(true);
+			Alert.alert("Error", "Failed to delete deck");
+		});
 	};
 	if (isLoading) {
 		return <Loading />;
