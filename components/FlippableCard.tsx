@@ -2,7 +2,7 @@ import React, { useState, RefObject, useEffect } from 'react'
 import { Card } from '@/utils/utils';
 import Swiper, { SwiperProps } from "react-native-deck-swiper";
 import { AntDesign } from '@expo/vector-icons';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import Constants from 'expo-constants';
 
 
@@ -20,40 +20,42 @@ export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
 
     };
 
-    const handleRightPress = (e: Event) => {
+    const handleRightPress = () => {
         setClicked({ ...clicked, right: true })
         swiperRef.current?.swipeRight();
     }
 
-    const handleLeftPress = (e: Event) => {
+    const handleLeftPress = () => {
         setClicked({ ...clicked, left: true })
         swiperRef.current?.swipeLeft();
     }
 
     useEffect(() => {
         if (clicked.middle) {
-            setTimeout(()=>
+            setTimeout(() =>
                 setClicked((old) => { return { ...old, middle: false } }), 100)
         }
     }, [clicked])
+
     return (
         <View style={styles.card}>
             <Text style={styles.text}>{flipped ? card.A : card.Q}</Text>
 
             <View style={styles.div}>
-                <Pressable onPress={(e) => { handleLeftPress(e) }}><AntDesign name="closecircleo" size={24} color="black" style={clicked.left ? styles.NbuttonCl : styles.Nbutton} /></Pressable>
+                <Pressable onPress={(e) => { handleLeftPress() }}><AntDesign name="closecircleo" size={24} color="black" style={clicked.left ? styles.NbuttonCl : styles.Nbutton} /></Pressable>
                 <Pressable style={clicked.middle ? styles.buttonCl : styles.button} onPress={() => { handlePress(); }}>
-                    <Text style={styles.buttonText}>Flip Card</Text>
+                    <Text style={clicked.middle ? styles.buttonTextCl:styles.buttonText}>Flip Card</Text>
                 </Pressable>
 
-                <Pressable onPress={(e) => { handleRightPress(e) }}><AntDesign name="checkcircleo" size={24} color="black" style={clicked.right ? styles.YbuttonCl : styles.Ybutton} /></Pressable>
+                <Pressable onPress={(e) => { handleRightPress() }}><AntDesign name="checkcircleo" size={24} color="black" style={clicked.right ? styles.YbuttonCl : styles.Ybutton} /></Pressable>
             </View>
 
         </View>
     );
 }
 
-
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -71,13 +73,16 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "grey",
         backgroundColor: "white",
-        padding: 20,
-        paddingBottom: 60,
+        paddingTop: height*0.25,   
         position: 'relative',
     },
     text: {
         fontSize: 20,
         textAlign: "center",
+        margin:width*0.05,
+        flex: 1,
+        textAlignVertical: "center",
+        
     },
     button: {
         backgroundColor: "lightgray",
@@ -126,6 +131,10 @@ const styles = StyleSheet.create({
 
     buttonText: {
         fontSize: 18,
+    },
+    buttonTextCl: {
+        fontSize: 18,
+        color: 'white',
     },
     div: {
         flexDirection: "row",

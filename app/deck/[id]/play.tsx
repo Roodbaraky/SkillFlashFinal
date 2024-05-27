@@ -128,7 +128,7 @@ export default function PlayScreen() {
 						title: "YES",
 						style: {
 							label: {
-								position: "relative",
+								
 								alignSelf: "center",
 								justifySelf: "center",
 								marginRight: 'auto',
