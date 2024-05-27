@@ -3,7 +3,6 @@ import { Card } from '@/utils/utils';
 import Swiper, { SwiperProps } from "react-native-deck-swiper";
 import { AntDesign } from '@expo/vector-icons';
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
-import Constants from 'expo-constants';
 
 
 type FlippableCardProps = { card: Card; swiperRef: RefObject<Swiper<SwiperProps<HTMLElement>>> }
@@ -11,22 +10,26 @@ type FlippableCardProps = { card: Card; swiperRef: RefObject<Swiper<SwiperProps<
 
 
 export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
-
+    
     const [flipped, setFlipped] = useState(false);
     const [clicked, setClicked] = useState({ left: false, middle: false, right: false });
+   
     const handlePress = () => {
         setClicked({ ...clicked, middle: true })
         setFlipped(!flipped);
-
+        
     };
+   
 
     const handleRightPress = () => {
         setClicked({ ...clicked, right: true })
+        
         swiperRef.current?.swipeRight();
     }
 
     const handleLeftPress = () => {
         setClicked({ ...clicked, left: true })
+       
         swiperRef.current?.swipeLeft();
     }
 
@@ -36,15 +39,16 @@ export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
                 setClicked((old) => { return { ...old, middle: false } }), 100)
         }
     }, [clicked])
-
+    
     return (
         <View style={styles.card}>
+           
             <Text style={styles.text}>{flipped ? card.A : card.Q}</Text>
 
             <View style={styles.div}>
                 <Pressable onPress={(e) => { handleLeftPress() }}><AntDesign name="closecircleo" size={24} color="white" style={clicked.left ? styles.NbuttonCl : styles.Nbutton} /></Pressable>
                 <Pressable style={clicked.middle ? styles.buttonCl : styles.button} onPress={() => { handlePress(); }}>
-                    <Text style={clicked.middle ? styles.buttonTextCl:styles.buttonText}>Flip Card</Text>
+                    <Text style={clicked.middle ? styles.buttonTextCl : styles.buttonText}>Flip Card</Text>
                 </Pressable>
 
                 <Pressable onPress={(e) => { handleRightPress() }}><AntDesign name="checkcircleo" size={24} color="white" style={clicked.right ? styles.YbuttonCl : styles.Ybutton} /></Pressable>
@@ -57,6 +61,7 @@ export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
+   
     card: {
         flex: 1,
         justifyContent: "center",
@@ -64,20 +69,20 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: "grey",
-        backgroundColor: "#97e3dd",
-        paddingTop: height*0.25,
-        paddingBottom:height*0.25,
-        marginBottom:height*0.1,   
+        backgroundColor: "#489FB5",
+        paddingTop: height * 0.25,
+        paddingBottom: height * 0.25,
+        marginBottom: height * 0.1,
         position: 'relative',
     },
     text: {
         fontSize: 20,
         textAlign: "center",
-        margin:width*0.05,
+        margin: 10,
         flex: 1,
         textAlignVertical: "center",
-      
-        
+
+
     },
     button: {
         backgroundColor: "#17697a",
@@ -89,7 +94,7 @@ const styles = StyleSheet.create({
     buttonCl: {
         backgroundColor: "lightblue",
         borderColor: "white",
-        borderWidth:1,
+        borderWidth: 1,
         color: 'white',
         padding: 10,
         borderRadius: 20,
@@ -132,8 +137,8 @@ const styles = StyleSheet.create({
     },
     buttonTextCl: {
         fontSize: 18,
-        color:'#17697a'
-       
+        color: '#17697a'
+
     },
     div: {
         flexDirection: "row",

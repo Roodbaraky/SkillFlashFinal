@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useState, useContext, useCallback } from "react";
+import React, { useRef, useEffect, useState, useContext, useCallback, RefObject } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import Swiper from "react-native-deck-swiper";
+import Swiper, { SwiperProps } from "react-native-deck-swiper";
 import Constants from "expo-constants";
 import { DecksContext } from "@/contexts/DecksContext";
 import { useLocalSearchParams } from "expo-router";
@@ -9,7 +9,7 @@ import { updateCards } from "@/utils/api";
 import { useNavigation } from "expo-router";
 import { Card } from "@/utils/utils";
 import { FlippableCard } from "@/components/FlippableCard";
-
+import LottieView from "lottie-react-native";
 
 export default function PlayScreen() {
 	const navigation = useNavigation();
@@ -22,6 +22,7 @@ export default function PlayScreen() {
 	const [reorderDeck, setReorderDeck] = useState(false);
 	const swiperReferenceObject = useRef(null);
 
+	const [anim, setAnim] = useState({ status: false, yes: false, no: false });
 
 	const handleExit = useCallback(async () => {
 		const deckFromCurrentCardOnwards = deck.slice(currentCardIndex);
@@ -67,6 +68,11 @@ export default function PlayScreen() {
 			}
 			return newIndex;
 		});
+
+		setAnim({ status: true, yes: false, no: true });
+		setTimeout(() => {
+			setAnim({ status: false, yes: false, no: false });
+		}, 2000); 
 	};
 
 	const handleRightSwipe = (cardIndex: number) => {
@@ -84,10 +90,24 @@ export default function PlayScreen() {
 			}
 			return newIndex;
 		});
+		setAnim({ status: true, yes: true, no: false });
+		setTimeout(() => {
+			setAnim({ status: false, yes: false, no: false });
+		}, 2000); 
+	};
+
+	const Anim = () => {
+		return (
+			<View style={styles.animContainer}>
+				{anim.no && <LottieView autoPlay source={require('../../../assets/fasterN.json')} style={styles.noAnim} />}
+				{anim.yes && <LottieView autoPlay source={require('../../../assets/fasterY.json')} style={styles.yesAnim} />}
+			</View>
+		);
 	};
 
 	return (
 		<View style={styles.container}>
+			{anim.status && <Anim />}
 			<View style={styles.background}>
 				<Swiper
 					ref={swiperReferenceObject}
@@ -100,55 +120,6 @@ export default function PlayScreen() {
 					stackSize={3}
 					disableBottomSwipe={true}
 					infinite
-					overlayLabels={{
-						left: {
-							title: "NO",
-							style: {
-								label: {
-									marginRight: 'auto',
-									marginLeft: 'auto',
-									alignItems: "center",
-									backgroundColor: "red",
-									color: "white",
-									fontSize: 24,
-									justifyContent: "center",
-									textAlign: "center",
-								},
-								wrapper: {
-									flexDirection: 'column',
-									alignItems: 'flex-start',
-									justifyContent: 'flex-start',
-									marginTop: 30,
-									marginLeft: 30
-								}
-							},
-						},
-						right: {
-							title: "YES",
-							style: {
-								label: {
-	
-									alignSelf: "center",
-									justifySelf: "center",
-									marginRight: 'auto',
-									marginLeft: 'auto',
-									backgroundColor: "green",
-									color: "white",
-									fontSize: 24,
-									alignItems: "center",
-									justifyContent: "center",
-									textAlign: "center",
-								},
-								wrapper: {
-									flexDirection: 'column',
-									alignItems: 'flex-start',
-									justifyContent: 'flex-start',
-									marginTop: 30,
-									marginLeft: 30
-								}
-							},
-						},
-					}}
 				/>
 			</View>
 		</View>
@@ -156,15 +127,35 @@ export default function PlayScreen() {
 }
 
 const width = Dimensions.get("screen").width;
+const height = Dimensions.get("screen").height;
 
 const styles = StyleSheet.create({
-	background:{
-backgroundColor:'#17697a',
-width:width,
+	noAnim: {
+		width: width * 0.5,
+		
+	},
+	yesAnim: {
+		width: width * 0.5,
+		
+	},
+	animContainer: {
+		position: 'absolute',
+		zIndex: 1000,
+		width: width*0.15,
+		left:0,
+		right:0,
+		top: height * 0.0075,
+		marginRight:'auto',
+		marginLeft:'auto',
+	
+	},
+	background: {
+		backgroundColor: '#16697A',
+		
 	},
 	container: {
 		flex: 1,
-		backgroundColor: "#17697a",
+		backgroundColor: "##16697A",
 		
 	},
 	card: {
@@ -176,10 +167,9 @@ width:width,
 		borderColor: "grey",
 		backgroundColor: "white",
 		padding: 20,
-		marginLeft:'auto',
-		marginRight:'auto',
-		marginBottom:10,
-        
+		marginLeft: 'auto',
+		marginRight: 'auto',
+		marginBottom: 10,
 	},
 	text: {
 		fontSize: 20,
