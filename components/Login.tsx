@@ -12,6 +12,7 @@ import { router } from "expo-router";
 import { IsError, checkField } from "@/utils/utils";
 import { checkUserExists } from "@/utils/api";
 import { UserContext } from "@/contexts/UserContext";
+import Loading from "./Loading";
 
 interface LoginProps {
 	setIsLoginOpen: (isLoginOpen: boolean) => void;
@@ -63,7 +64,7 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
 		}
 	}
 	if (isLoding) {
-		return <Text>Loading...</Text>;
+		return <Loading />;
 	}
 	return (
 		<SafeAreaView testID="login-container" style={styles.logInContainer}>

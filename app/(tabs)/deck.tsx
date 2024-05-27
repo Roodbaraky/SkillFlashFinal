@@ -9,12 +9,15 @@ import { DecksContext } from "../../contexts/DecksContext";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
+import Loading from "@/components/Loading";
+import Error from "../../components/Error";
 
 const screenWidth = Dimensions.get("window").width;
 export default function TabOneScreen() {
 	const { userDetails } = useContext(UserContext);
 	const { decks, setDecks } = useContext(DecksContext);
 	const [isLoading, setIsLoading] = useState(true);
+	const [isError, setError] = useState(false);
 	useEffect(() => {
 		setIsLoading(true);
 		getDecksByUsername(userDetails.username || "")
@@ -25,6 +28,9 @@ export default function TabOneScreen() {
 			.then((decksDisplay) => {
 				setIsLoading(false);
 				setDecks(decksDisplay);
+			})
+			.catch(() => {
+				setError(true);
 			});
 	}, [userDetails.username]);
 
@@ -32,7 +38,12 @@ export default function TabOneScreen() {
 		const newData = decks.filter((item) => item._id !== rowKey);
 		setDecks(newData);
 	};
-
+	if (isLoading) {
+		return <Loading />;
+	}
+	if (isError) {
+		return <Error />;
+	}
 	return (
 		<SafeAreaView testID="home-container" style={styles.container}>
 			<View>
