@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useContext, useCallback } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import Constants from "expo-constants";
 import { DecksContext } from "@/contexts/DecksContext";
@@ -88,119 +88,121 @@ export default function PlayScreen() {
 
 	return (
 		<View style={styles.container}>
-			<Swiper
-				ref={swiperReferenceObject}
-				cards={deck}
-
-				renderCard={(card: Card) => <FlippableCard card={card} swiperRef={swiperReferenceObject} />}
-
-				onSwipedLeft={handleLeftSwipe}
-				onSwipedRight={handleRightSwipe}
-				cardIndex={0}
-				backgroundColor={"white"}
-				stackSize={3}
-				disableBottomSwipe={true}
-				infinite
-				overlayLabels={{
-					left: {
-						title: "NO",
-						style: {
-							label: {
-								marginRight: 'auto',
-								marginLeft: 'auto',
-								alignItems: "center",
-								backgroundColor: "red",
-								color: "white",
-								fontSize: 24,
-								justifyContent: "center",
-								textAlign: "center",
+			<View style={styles.background}>
+				<Swiper
+					ref={swiperReferenceObject}
+					cards={deck}
+					renderCard={(card: Card) => <FlippableCard card={card} swiperRef={swiperReferenceObject} />}
+					onSwipedLeft={handleLeftSwipe}
+					onSwipedRight={handleRightSwipe}
+					cardIndex={0}
+					backgroundColor={"white"}
+					stackSize={3}
+					disableBottomSwipe={true}
+					infinite
+					overlayLabels={{
+						left: {
+							title: "NO",
+							style: {
+								label: {
+									marginRight: 'auto',
+									marginLeft: 'auto',
+									alignItems: "center",
+									backgroundColor: "red",
+									color: "white",
+									fontSize: 24,
+									justifyContent: "center",
+									textAlign: "center",
+								},
+								wrapper: {
+									flexDirection: 'column',
+									alignItems: 'flex-start',
+									justifyContent: 'flex-start',
+									marginTop: 30,
+									marginLeft: 30
+								}
 							},
-							wrapper: {
-								flexDirection: 'column',
-								alignItems: 'flex-start',
-								justifyContent: 'flex-start',
-								marginTop: 30,
-								marginLeft: 30
-							  }
 						},
-					},
-					right: {
-						title: "YES",
-						style: {
-							label: {
-								
-								alignSelf: "center",
-								justifySelf: "center",
-								marginRight: 'auto',
-								marginLeft: 'auto',
-								backgroundColor: "green",
-								color: "white",
-								fontSize: 24,
-								alignItems: "center",
-								justifyContent: "center",
-								textAlign: "center",
+						right: {
+							title: "YES",
+							style: {
+								label: {
+	
+									alignSelf: "center",
+									justifySelf: "center",
+									marginRight: 'auto',
+									marginLeft: 'auto',
+									backgroundColor: "green",
+									color: "white",
+									fontSize: 24,
+									alignItems: "center",
+									justifyContent: "center",
+									textAlign: "center",
+								},
+								wrapper: {
+									flexDirection: 'column',
+									alignItems: 'flex-start',
+									justifyContent: 'flex-start',
+									marginTop: 30,
+									marginLeft: 30
+								}
 							},
-							wrapper: {
-								flexDirection: 'column',
-								alignItems: 'flex-start',
-								justifyContent: 'flex-start',
-								marginTop: 30,
-								marginLeft: 30
-							  }
 						},
-					},
-				}}
-			/>
+					}}
+				/>
+			</View>
 		</View>
 	);
 }
 
-
+const width = Dimensions.get("screen").width;
 
 const styles = StyleSheet.create({
-	body:{
-backgroundColor:'black'
+	background:{
+backgroundColor:'#17697a',
+width:width,
 	},
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "center",
-        paddingTop: Constants.statusBarHeight,
-        backgroundColor: "#17697a",
-        padding: 8,
-    },
-    card: {
-        flex: 1,
-        justifyContent: "space-between",
-        alignItems: "center",
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: "grey",
-        backgroundColor: "white",
-        padding: 20,
-    },
-    text: {
-        fontSize: 20,
-        textAlign: "center",
-        flex: 1,
-        textAlignVertical: "center",
-    },
-    button: {
-        backgroundColor: "lightgray",
-        padding: 10,
-        borderRadius: 10,
-        marginHorizontal: 10,
-    },
-    buttonText: {
-        fontSize: 18,
-    },
-    div: {
-        flexDirection: "row",
-        justifyContent: "space-around",
-        width: "100%",
-        paddingVertical: 10,
-    },
-    icon: {
-        paddingHorizontal: 20,
-    },
+	container: {
+		flex: 1,
+		backgroundColor: "#17697a",
+		
+	},
+	card: {
+		flex: 1,
+		justifyContent: "space-between",
+		alignItems: "center",
+		borderRadius: 10,
+		borderWidth: 1,
+		borderColor: "grey",
+		backgroundColor: "white",
+		padding: 20,
+		marginLeft:'auto',
+		marginRight:'auto',
+		marginBottom:10,
+        
+	},
+	text: {
+		fontSize: 20,
+		textAlign: "center",
+		flex: 1,
+		textAlignVertical: "center",
+	},
+	button: {
+		backgroundColor: "lightgray",
+		padding: 10,
+		borderRadius: 10,
+		marginHorizontal: 10,
+	},
+	buttonText: {
+		fontSize: 18,
+	},
+	div: {
+		flexDirection: "row",
+		justifyContent: "space-around",
+		width: "100%",
+		paddingVertical: 10,
+	},
+	icon: {
+		paddingHorizontal: 20,
+	},
 });

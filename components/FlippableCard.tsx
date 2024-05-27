@@ -57,14 +57,6 @@ export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "center",
-        paddingTop: Constants.statusBarHeight,
-        backgroundColor: "#17697a",
-        padding: 8,
-    },
     card: {
         flex: 1,
         justifyContent: "center",
@@ -73,7 +65,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "grey",
         backgroundColor: "#97e3dd",
-        paddingTop: height*0.25,   
+        paddingTop: height*0.25,
+        paddingBottom:height*0.25,
+        marginBottom:height*0.1,   
         position: 'relative',
     },
     text: {
