@@ -1,15 +1,25 @@
 import { UserContext } from "@/contexts/UserContext";
+import { router } from "expo-router";
 import { useContext, useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
+import { View, Text, TextInput, Pressable, StyleSheet, Alert } from "react-native";
 
 export default function TabThreeScreen() {
-	const { userDetails } = useContext(UserContext);
+	const { userDetails, setUserDetails } = useContext(UserContext);
 	const [isEditing, setIsEditing] = useState(false);
 	const [name, setName] = useState(userDetails.username);
 	const [email, setEmail] = useState(userDetails.email);
 
 	function handleLogout() {
-		// to be added
+		Alert.alert('Logout', 'Are you sure?', [
+			{
+			  text: 'Cancel',
+			  style: 'cancel',
+			},
+			{text: 'Logout', onPress: () => {
+				setUserDetails({})
+				router.replace('/')
+			}},
+		]);
 	}
   
 	function handlePress() {
@@ -25,28 +35,35 @@ export default function TabThreeScreen() {
 		<View style={styles.container}>
 			<View style={styles.detailsContainer}>
 				<Text style={styles.headerText}>your details</Text>
-				<Text style={styles.label}>username: </Text>
-				<TextInput
-					style={[styles.input, !isEditing && styles.inputInactive]}
-					value={name}
-					onChangeText={setName}
-					editable={isEditing}
-					placeholder="name"
-				/>
-				<Text style={styles.label}>email: </Text>
-				<TextInput
-					style={[styles.input, !isEditing && styles.inputInactive]}
-					value={email}
-					onChangeText={setEmail}
-					editable={isEditing}
-					placeholder="email"
-					keyboardType="email-address"
-				/>
+				
+				{/* <View style={ styles.Row }> */}
+					<Text style={styles.label}>username: </Text>
+					<TextInput
+						style={[styles.input, !isEditing && styles.inputInactive]}
+						value={name}
+						onChangeText={setName}
+						editable={isEditing}
+						placeholder="name"
+					/>
+				{/* </View> */}
+
+				{/* <View style={ styles.inputRow }> */}
+					<Text style={styles.label}>email: </Text>
+					<TextInput
+						style={[styles.input, !isEditing && styles.inputInactive]}
+						value={email}
+						onChangeText={setEmail}
+						editable={isEditing}
+						placeholder="email"
+						keyboardType="email-address"
+					/>
+				{/* </View> */}
+
 				<Pressable onPress={isEditing ? handleSave : handlePress}>
 				<Text style={styles.editButton}>{isEditing ? "save" : "edit"}</Text>
 				</Pressable>
 			</View>
-			<Pressable style={styles.logoutButton} onPress={() => {/* handle logout */} }>
+			<Pressable style={styles.logoutButton} onPress={handleLogout}>
 				<Text style={styles.logoutText}>log out</Text>
 			</Pressable>
 		</View>
@@ -72,7 +89,6 @@ const styles = StyleSheet.create({
 	},
 	label: {
 		alignSelf: "flex-start",
-		marginLeft: 10,
 	},
 	input: {
 		width: "100%",
@@ -86,6 +102,12 @@ const styles = StyleSheet.create({
 		borderWidth: 0,
 		backgroundColor: "transparent",
 	},
+	// inputRow: {
+	// 	flexDirection: 'row',
+	// 	alignItems: 'center',
+	// 	marginBottom: 8,
+	// 	width: "100%"
+	// },
 	logoutButton: {
 		backgroundColor: "lightblue",
 		padding: 10,
