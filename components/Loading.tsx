@@ -13,8 +13,8 @@ export default function Error() {
 					autoPlay
 					ref={animation}
 					style={{
-						width: 200,
-						height: 200,
+						width: 300,
+						height: 300,
 						marginTop: 50,
 					}}
 					source={require("../assets/loading.json")}
@@ -26,10 +26,10 @@ export default function Error() {
 
 const styles = StyleSheet.create({
 	animationContainer: {
-		backgroundColor: "#fff",
 		alignItems: "center",
 		justifyContent: "center",
 		flex: 1,
+		padding: 10,
 	},
 	buttonContainer: {
 		paddingTop: 20,
