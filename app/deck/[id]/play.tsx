@@ -106,6 +106,8 @@ export default function PlayScreen() {
 						title: "NO",
 						style: {
 							label: {
+								marginRight: 'auto',
+								marginLeft: 'auto',
 								alignItems: "center",
 								backgroundColor: "red",
 								color: "white",
@@ -113,12 +115,24 @@ export default function PlayScreen() {
 								justifyContent: "center",
 								textAlign: "center",
 							},
+							wrapper: {
+								flexDirection: 'column',
+								alignItems: 'flex-start',
+								justifyContent: 'flex-start',
+								marginTop: 30,
+								marginLeft: 30
+							  }
 						},
 					},
 					right: {
 						title: "YES",
 						style: {
 							label: {
+								position: "relative",
+								alignSelf: "center",
+								justifySelf: "center",
+								marginRight: 'auto',
+								marginLeft: 'auto',
 								backgroundColor: "green",
 								color: "white",
 								fontSize: 24,
@@ -126,6 +140,13 @@ export default function PlayScreen() {
 								justifyContent: "center",
 								textAlign: "center",
 							},
+							wrapper: {
+								flexDirection: 'column',
+								alignItems: 'flex-start',
+								justifyContent: 'flex-start',
+								marginTop: 30,
+								marginLeft: 30
+							  }
 						},
 					},
 				}}
@@ -137,46 +158,46 @@ export default function PlayScreen() {
 
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		flexDirection: "column",
-		justifyContent: "center",
-		paddingTop: Constants.statusBarHeight,
-		backgroundColor: "#ecf0f1",
-		padding: 8,
-	},
-	card: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		borderRadius: 10,
-		borderWidth: 1,
-		borderColor: "grey",
-		backgroundColor: "white",
-		padding: 20,
-	},
-	text: {
-		fontSize: 20,
-	},
-	button: {
-		backgroundColor: "lightgray",
-		padding: 10,
-		borderRadius: 10,
-		marginTop: 10,
-		marginBottom: 10,
-	},
-	buttonText: {
-		fontSize: 18,
-	},
-	div: {
-		display: "flex",
-
-		alignSelf: 'flex-end',
-
-		flexDirection: "row",
-		justifyContent: "space-evenly",
-		width: "100%",
-		marginTop: 10,
-		marginBottom: 10,
-	},
+    container: {
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        paddingTop: Constants.statusBarHeight,
+        backgroundColor: "#ecf0f1",
+        padding: 8,
+    },
+    card: {
+        flex: 1,
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: "grey",
+        backgroundColor: "white",
+        padding: 20,
+    },
+    text: {
+        fontSize: 20,
+        textAlign: "center",
+        flex: 1,
+        textAlignVertical: "center",
+    },
+    button: {
+        backgroundColor: "lightgray",
+        padding: 10,
+        borderRadius: 10,
+        marginHorizontal: 10,
+    },
+    buttonText: {
+        fontSize: 18,
+    },
+    div: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        width: "100%",
+        paddingVertical: 10,
+    },
+    icon: {
+        paddingHorizontal: 20,
+    },
 });

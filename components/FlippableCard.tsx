@@ -1,29 +1,54 @@
-import React, { useState, RefObject } from 'react'
+import React, { useState, RefObject, useEffect } from 'react'
 import { Card } from '@/utils/utils';
 import Swiper, { SwiperProps } from "react-native-deck-swiper";
 import { AntDesign } from '@expo/vector-icons';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Constants  from 'expo-constants';
+import Constants from 'expo-constants';
+
 
 type FlippableCardProps = { card: Card; swiperRef: RefObject<Swiper<SwiperProps<HTMLElement>>> }
 
+
+
 export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
+
     const [flipped, setFlipped] = useState(false);
+    const [clicked, setClicked] = useState({ left: false, middle: false, right: false });
     const handlePress = () => {
+        setClicked({ ...clicked, middle: true })
         setFlipped(!flipped);
+
     };
 
+    const handleRightPress = (e: Event) => {
+        setClicked({ ...clicked, right: true })
+        swiperRef.current?.swipeRight();
+    }
+
+    const handleLeftPress = (e: Event) => {
+        setClicked({ ...clicked, left: true })
+        swiperRef.current?.swipeLeft();
+    }
+
+    useEffect(() => {
+        if (clicked.middle) {
+            setTimeout(()=>
+                setClicked((old) => { return { ...old, middle: false } }), 100)
+        }
+    }, [clicked])
     return (
         <View style={styles.card}>
             <Text style={styles.text}>{flipped ? card.A : card.Q}</Text>
+
             <View style={styles.div}>
-                <Pressable onPress={() => { swiperRef.current?.swipeLeft(); }}><AntDesign name="closecircleo" size={24} color="black" style={styles.button} /></Pressable>
-                <Pressable style={styles.button} onPress={() => { handlePress(); }}>
+                <Pressable onPress={(e) => { handleLeftPress(e) }}><AntDesign name="closecircleo" size={24} color="black" style={clicked.left ? styles.NbuttonCl : styles.Nbutton} /></Pressable>
+                <Pressable style={clicked.middle ? styles.buttonCl : styles.button} onPress={() => { handlePress(); }}>
                     <Text style={styles.buttonText}>Flip Card</Text>
                 </Pressable>
 
-                <Pressable onPress={() => { swiperRef.current?.swipeRight(); }}><AntDesign name="checkcircleo" size={24} color="black" style={styles.button} /></Pressable>
+                <Pressable onPress={(e) => { handleRightPress(e) }}><AntDesign name="checkcircleo" size={24} color="black" style={clicked.right ? styles.YbuttonCl : styles.Ybutton} /></Pressable>
             </View>
+
         </View>
     );
 }
@@ -47,27 +72,68 @@ const styles = StyleSheet.create({
         borderColor: "grey",
         backgroundColor: "white",
         padding: 20,
+        paddingBottom: 60,
+        position: 'relative',
     },
     text: {
         fontSize: 20,
+        textAlign: "center",
     },
     button: {
         backgroundColor: "lightgray",
         padding: 10,
-        borderRadius: 10,
-        marginTop: 10,
-        marginBottom: 10,
+        borderRadius: 20,
+        marginHorizontal: 10,
+        opacity: 0.5,
     },
+    buttonCl: {
+        backgroundColor: "lightblue",
+        color: 'white',
+        padding: 10,
+        borderRadius: 20,
+        marginHorizontal: 10,
+
+    },
+
+    Ybutton: {
+        backgroundColor: "lightgreen",
+        opacity: 0.5,
+        padding: 10,
+        borderRadius: 30,
+        marginHorizontal: 10,
+    },
+    YbuttonCl: {
+        backgroundColor: "lightgreen",
+        padding: 10,
+        borderRadius: 30,
+        marginHorizontal: 10,
+    },
+    Nbutton: {
+        backgroundColor: "#FFCCCB",
+        opacity: 0.5,
+        padding: 10,
+        borderRadius: 30,
+        marginHorizontal: 10,
+
+    },
+    NbuttonCl: {
+        backgroundColor: "red",
+        padding: 10,
+        borderRadius: 30,
+        marginHorizontal: 10,
+
+    },
+
     buttonText: {
         fontSize: 18,
     },
     div: {
-        display: "flex",
-        alignSelf: 'flex-end',
         flexDirection: "row",
-        justifyContent: "space-evenly",
+        justifyContent: "space-around",
         width: "100%",
-        marginTop: 10,
-        marginBottom: 10,
-    }
+        paddingVertical: 10,
+        position: 'absolute',
+        bottom: 10,
+    },
+
 });
