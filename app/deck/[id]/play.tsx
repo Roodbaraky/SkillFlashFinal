@@ -1,7 +1,6 @@
-import React, { useRef, useEffect, useState, useContext, useCallback, RefObject } from "react";
+import React, { useRef, useEffect, useState, useContext, useCallback} from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import Swiper, { SwiperProps } from "react-native-deck-swiper";
-import Constants from "expo-constants";
+import Swiper from "react-native-deck-swiper";
 import { DecksContext } from "@/contexts/DecksContext";
 import { useLocalSearchParams } from "expo-router";
 
