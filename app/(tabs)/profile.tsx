@@ -6,9 +6,6 @@ import { View, Text, TextInput, Pressable, StyleSheet, Alert } from "react-nativ
 export default function TabThreeScreen() {
 	const { userDetails, setUserDetails } = useContext(UserContext);
 	const [isEditing, setIsEditing] = useState(false);
-	// unfinished 👇
-	// const [usernameEditing, setUsernameEditing] = useState(false);
-	// const [emailEditing, setEmailEditing] = useState(false);
 	const [name, setName] = useState(userDetails.username);
 	const [email, setEmail] = useState(userDetails.email);
 
