@@ -10,7 +10,7 @@ export default exports = StyleSheet.create({
   background: {
     flex: 1,
     justifyContent: "center",
-    height: 700,
+    height: "auto",
     width: "auto",
     alignItems: "center",
   },
@@ -19,6 +19,22 @@ export default exports = StyleSheet.create({
     color: blue,
     marginBottom: 20,
     alignSelf: "center",
+  },
+  mediumTitle: {
+    fontSize: 30,
+    color: blue,
+    margin: 20,
+    textAlign: "center",
+  },
+  smallTitle: {
+    color: blue,
+    fontWeight: "bold",
+    fontSize: 18,
+    marginVertical: 10,
+    borderTopColor: orange,
+    borderTopWidth: 2,
+    paddingTop: 10,
+    textAlign: "center",
   },
   logo: {
     width: 250,
@@ -41,7 +57,7 @@ export default exports = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 400,
   },
 
@@ -57,10 +73,13 @@ export default exports = StyleSheet.create({
   },
   input: {
     height: 50,
-    margin: 12,
+    margin: 10,
     borderWidth: 1,
     padding: 10,
     width: 250,
+    alignSelf: "center",
+    borderColor: blue,
+    borderRadius: 10,
   },
   label: {
     color: "black",
@@ -69,6 +88,68 @@ export default exports = StyleSheet.create({
   },
   error: {
     color: "red",
-    marginBottom: 5,
+    marginVertical: 5,
+    textAlign: "center",
+  },
+  newDeckButton: {
+    margin: 0,
+  },
+  newDeckScrollContainer: {
+    flex: 1,
+    marginHorizontal: 10,
+  },
+  newDeckTagSelection: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    maxHeight: 200,
+    justifyContent: "flex-start",
+    borderWidth: 1,
+    borderColor: blue,
+    borderRadius: 10,
+    minHeight: 50,
+  },
+
+  newDeckTagListContainer: {
+    flex: 1,
+    backgroundColor: lightBlue,
+    padding: 5,
+    marginHorizontal: 5,
+  },
+  newDeckCategoryContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  newDeckCategoryTitle: {
+    margin: 10,
+    marginHorizontal: "auto",
+    minWidth: 320,
+    color: blue,
+    backgroundColor: "white",
+    fontSize: 22,
+    fontWeight: 500,
+    lineHeight: 25,
+    textAlign: "center",
+  },
+  tagButton: {
+    padding: 6,
+    paddingHorizontal: 12,
+    margin: 5,
+    borderRadius: 10,
+    backgroundColor: blue,
+    justifyContent: "center",
+  },
+  tagButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  tagButtonSelected: {
+    backgroundColor: "white",
+  },
+  tagButtonTextSelected: {
+    color: orange,
   },
 });

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
-
+import styles from "@/styling/style";
 interface TagButtonProps {
   text: string;
   onPress: () => {};
@@ -24,7 +24,7 @@ export default function TagButton({
 
   return (
     <Pressable
-      style={[styles.tag, isSelected ? styles.tagSelected : null]}
+      style={[styles.tagButton, isSelected ? styles.tagButtonSelected : null]}
       onPress={() => {
         onPress();
         if (tagSelection && tagSelection.includes(text)) {
@@ -34,27 +34,34 @@ export default function TagButton({
         }
       }}
     >
-      <Text style={styles.tagText}>{text}</Text>
+      <Text
+        style={[
+          styles.tagButtonText,
+          isSelected ? styles.tagButtonTextSelected : null,
+        ]}
+      >
+        {text}
+      </Text>
     </Pressable>
   );
 }
 
-const styles = StyleSheet.create({
-  tag: {
-    padding: 6,
-    paddingHorizontal: 20,
-    margin: 5,
-    borderRadius: 10,
-    backgroundColor: "grey",
-    justifyContent: "center",
-  },
-  tagText: {
-    color: "white",
-    fontSize: 13,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  tagSelected: {
-    backgroundColor: "blue",
-  },
-});
+// const styles = StyleSheet.create({
+//   tag: {
+//     padding: 6,
+//     paddingHorizontal: 20,
+//     margin: 5,
+//     borderRadius: 10,
+//     backgroundColor: "grey",
+//     justifyContent: "center",
+//   },
+//   tagText: {
+//     color: "white",
+//     fontSize: 13,
+//     fontWeight: "bold",
+//     textAlign: "center",
+//   },
+//   tagSelected: {
+//     backgroundColor: "blue",
+//   },
+// });
