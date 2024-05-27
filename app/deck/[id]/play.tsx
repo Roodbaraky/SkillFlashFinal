@@ -158,12 +158,15 @@ export default function PlayScreen() {
 
 
 const styles = StyleSheet.create({
+	body:{
+backgroundColor:'black'
+	},
     container: {
         flex: 1,
         flexDirection: "column",
         justifyContent: "center",
         paddingTop: Constants.statusBarHeight,
-        backgroundColor: "#ecf0f1",
+        backgroundColor: "#17697a",
         padding: 8,
     },
     card: {

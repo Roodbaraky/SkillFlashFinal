@@ -42,12 +42,12 @@ export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
             <Text style={styles.text}>{flipped ? card.A : card.Q}</Text>
 
             <View style={styles.div}>
-                <Pressable onPress={(e) => { handleLeftPress() }}><AntDesign name="closecircleo" size={24} color="black" style={clicked.left ? styles.NbuttonCl : styles.Nbutton} /></Pressable>
+                <Pressable onPress={(e) => { handleLeftPress() }}><AntDesign name="closecircleo" size={24} color="white" style={clicked.left ? styles.NbuttonCl : styles.Nbutton} /></Pressable>
                 <Pressable style={clicked.middle ? styles.buttonCl : styles.button} onPress={() => { handlePress(); }}>
                     <Text style={clicked.middle ? styles.buttonTextCl:styles.buttonText}>Flip Card</Text>
                 </Pressable>
 
-                <Pressable onPress={(e) => { handleRightPress() }}><AntDesign name="checkcircleo" size={24} color="black" style={clicked.right ? styles.YbuttonCl : styles.Ybutton} /></Pressable>
+                <Pressable onPress={(e) => { handleRightPress() }}><AntDesign name="checkcircleo" size={24} color="white" style={clicked.right ? styles.YbuttonCl : styles.Ybutton} /></Pressable>
             </View>
 
         </View>
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         paddingTop: Constants.statusBarHeight,
-        backgroundColor: "#ecf0f1",
+        backgroundColor: "#17697a",
         padding: 8,
     },
     card: {
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: "grey",
-        backgroundColor: "white",
+        backgroundColor: "#97e3dd",
         paddingTop: height*0.25,   
         position: 'relative',
     },
@@ -82,10 +82,11 @@ const styles = StyleSheet.create({
         margin:width*0.05,
         flex: 1,
         textAlignVertical: "center",
+      
         
     },
     button: {
-        backgroundColor: "lightgray",
+        backgroundColor: "#17697a",
         padding: 10,
         borderRadius: 20,
         marginHorizontal: 10,
@@ -93,6 +94,8 @@ const styles = StyleSheet.create({
     },
     buttonCl: {
         backgroundColor: "lightblue",
+        borderColor: "white",
+        borderWidth:1,
         color: 'white',
         padding: 10,
         borderRadius: 20,
@@ -101,7 +104,7 @@ const styles = StyleSheet.create({
     },
 
     Ybutton: {
-        backgroundColor: "lightgreen",
+        backgroundColor: "#17697a",
         opacity: 0.5,
         padding: 10,
         borderRadius: 30,
@@ -114,7 +117,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
     },
     Nbutton: {
-        backgroundColor: "#FFCCCB",
+        backgroundColor: "#17697a",
         opacity: 0.5,
         padding: 10,
         borderRadius: 30,
@@ -131,10 +134,12 @@ const styles = StyleSheet.create({
 
     buttonText: {
         fontSize: 18,
+        color: 'white',
     },
     buttonTextCl: {
         fontSize: 18,
-        color: 'white',
+        color:'#17697a'
+       
     },
     div: {
         flexDirection: "row",
