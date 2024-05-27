@@ -110,7 +110,7 @@ export default function CreateDeck() {
       <Text style={styles.pageTitle}>
         Allow AI to generate a deck of cards tailored for you
       </Text>
-      <Text style={styles.label}>
+      <Text style={styles.instructions}>
         1. Choose a unique name for your new deck:
       </Text>
       <TextInput
@@ -132,8 +132,8 @@ export default function CreateDeck() {
         <></>
       )}
 
-      <Text style={styles.label}>
-        2. Select 3 to 10 tags that match the job description:
+      <Text style={styles.instructions}>
+        2. Select 3 to 10 topics from the list below:
       </Text>
 
       <View style={styles.tagSelection}>
@@ -142,7 +142,7 @@ export default function CreateDeck() {
             return (
               <TagButton
                 key={tag}
-                text={tag}
+                text={"X  " + tag}
                 onPress={() => {
                   setTagSelection((currentSelection) => {
                     const filtered = currentSelection.filter(
@@ -157,8 +157,20 @@ export default function CreateDeck() {
           })}
       </View>
 
-      {isError.selection ? <Text>{isError.selection}</Text> : <></>}
+      {isError.selection ? (
+        <Text style={styles.error}>{isError.selection}</Text>
+      ) : (
+        <></>
+      )}
+      <Text style={styles.instructions}>
+        3. When you're ready, press the button to generate your deck:
+      </Text>
+      <Pressable style={styles.button} onPress={sendRequest}>
+        <Text>Get your cards!</Text>
+      </Pressable>
+      {isError.send ? <Text style={styles.error}>{isError.send}</Text> : <></>}
 
+      <Text style={styles.subTitle}>Skills list:</Text>
       <View style={styles.tagListContainer}>
         {tags &&
           tags.map((category) => {
@@ -182,8 +194,10 @@ export default function CreateDeck() {
                             }
                             return currentSelection;
                           });
-                          //if tagSelection.includes item => change color
+
+                          // if tagSelection.includes item => change color
                         }}
+                        tagSelection={tagSelection}
                       />
                     );
                   })}
@@ -191,11 +205,6 @@ export default function CreateDeck() {
             );
           })}
       </View>
-
-      <Pressable onPress={sendRequest}>
-        <Text>Press to generate your cards!</Text>
-      </Pressable>
-      {isError.send ? <Text>{isError.send}</Text> : <></>}
     </SafeAreaView>
   );
 }
@@ -205,50 +214,45 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     marginHorizontal: 10,
+    overflow: "scroll",
   },
   pageTitle: {
     fontSize: 25,
     textAlign: "center",
     margin: 20,
   },
-  label: {
+  instructions: {
     color: "black",
     fontWeight: "bold",
     fontSize: 15,
     marginBottom: 5,
-    marginTop: 10,
+    marginTop: 20,
+    borderTopColor: "#dddddd",
+    borderTopWidth: 2,
+    paddingTop: 5,
   },
   input: {
     height: 50,
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    width: 350,
+    width: 330,
   },
   tagSelection: {
-    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    minHeight: 100,
-    flexBasis: "auto",
-    flexShrink: 1,
+    maxHeight: 200,
     justifyContent: "flex-start",
   },
   tagListContainer: {
     flex: 1,
-    overflow: "scroll",
     gap: 20,
-    height: "auto",
   },
   categoryContainer: {
-    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
-    minHeight: 200,
-    flexBasis: "auto",
-    flexShrink: 1,
     justifyContent: "flex-start",
-    rowGap: 5,
+    marginBottom: 10,
   },
   categoryTitle: {
     margin: 10,
@@ -257,8 +261,27 @@ const styles = StyleSheet.create({
     fontWeight: 500,
     lineHeight: 25,
   },
+  subTitle: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 15,
+    marginBottom: 5,
+    marginTop: 10,
+    paddingTop: 30,
+  },
 
   error: {
     color: "red",
+  },
+  button: {
+    alignSelf: "center",
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 20,
+    borderStyle: "solid",
+    borderWidth: 5,
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 10,
   },
 });

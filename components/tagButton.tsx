@@ -1,9 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 
-export default function TagButton({ text, onPress }) {
+interface TagButtonProps {
+  text: string;
+  onPress: () => {};
+  tagSelection: string[];
+}
+
+export default function TagButton({
+  text,
+  onPress,
+  tagSelection,
+}: TagButtonProps) {
+  const [isSelected, setIsSelected] = useState(false);
+
+  useEffect(() => {
+    if (tagSelection && tagSelection.includes(text)) {
+      setIsSelected(true);
+    } else {
+      setIsSelected(false);
+    }
+  }, [tagSelection, text]);
+
   return (
-    <Pressable style={styles.tag} onPress={onPress}>
+    <Pressable
+      style={[styles.tag, isSelected ? styles.tagSelected : null]}
+      onPress={() => {
+        onPress();
+        if (tagSelection && tagSelection.includes(text)) {
+          setIsSelected(true);
+        } else {
+          setIsSelected(false);
+        }
+      }}
+    >
       <Text style={styles.tagText}>{text}</Text>
     </Pressable>
   );
@@ -11,20 +41,20 @@ export default function TagButton({ text, onPress }) {
 
 const styles = StyleSheet.create({
   tag: {
-    padding: 10,
+    padding: 6,
     paddingHorizontal: 20,
     margin: 5,
     borderRadius: 10,
     backgroundColor: "grey",
-    color: "white",
-    width: "auto",
-    height: 25,
     justifyContent: "center",
   },
   tagText: {
     color: "white",
-    fontSize: 10,
+    fontSize: 13,
     fontWeight: "bold",
-    textAlign: "right",
+    textAlign: "center",
+  },
+  tagSelected: {
+    backgroundColor: "blue",
   },
 });
