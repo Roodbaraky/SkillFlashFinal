@@ -41,9 +41,9 @@ export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
     }, [clicked])
     
     return (
-        <View style={styles.card}>
+        <View style={flipped?styles.cardAlt:styles.card}>
            
-            <Text style={styles.text}>{flipped ? card.A : card.Q}</Text>
+            <Text style={flipped?styles.textAlt:styles.text}>{flipped ? card.A : card.Q}</Text>
 
             <View style={styles.div}>
                 <Pressable onPress={(e) => { handleLeftPress() }}><AntDesign name="closecircleo" size={24} color="white" style={clicked.left ? styles.NbuttonCl : styles.Nbutton} /></Pressable>
@@ -74,15 +74,45 @@ const styles = StyleSheet.create({
         paddingBottom: height * 0.25,
         marginBottom: height * 0.1,
         position: 'relative',
+        width:width*0.5,
+        maxWidth:500,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+    cardAlt:{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: "grey",
+        backgroundColor: "white",
+        paddingTop: height * 0.25,
+        paddingBottom: height * 0.25,
+        marginBottom: height * 0.1,
+        position: 'relative',
+        width:width*0.5,
+        maxWidth:500,
+        marginLeft: 'auto',
+        marginRight: 'auto',
     },
     text: {
-        fontSize: 20,
+        fontSize: 30,
+        fontWeight: "bold",
         textAlign: "center",
         margin: 10,
         flex: 1,
         textAlignVertical: "center",
-
-
+        color: "white",
+    },
+    textAlt:{
+        fontSize: 25,
+        fontWeight: "bold",
+        textAlign: "center",
+        margin: 10,
+        flex: 1,
+        textAlignVertical: "center",
+        color: "#489FB5",
     },
     button: {
         backgroundColor: "#17697a",
@@ -90,6 +120,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginHorizontal: 10,
         opacity: 0.5,
+        transform:'scale(1.5)',
     },
     buttonCl: {
         backgroundColor: "lightblue",
@@ -99,6 +130,8 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 20,
         marginHorizontal: 10,
+        transform:'scale(1.25)',
+        
 
     },
 
@@ -108,12 +141,14 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 30,
         marginHorizontal: 10,
+        transform:'scale(1.7)',
     },
     YbuttonCl: {
         backgroundColor: "lightgreen",
         padding: 10,
         borderRadius: 30,
         marginHorizontal: 10,
+        transform:'scale(1.7)',
     },
     Nbutton: {
         backgroundColor: "#17697a",
@@ -121,6 +156,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 30,
         marginHorizontal: 10,
+        transform:'scale(1.7)',
 
     },
     NbuttonCl: {
@@ -128,15 +164,16 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 30,
         marginHorizontal: 10,
+        transform:'scale(1.7)',
 
     },
 
     buttonText: {
-        fontSize: 18,
+        fontSize: 24,
         color: 'white',
     },
     buttonTextCl: {
-        fontSize: 18,
+        fontSize: 24,
         color: '#17697a'
 
     },
@@ -146,7 +183,7 @@ const styles = StyleSheet.create({
         width: "100%",
         paddingVertical: 10,
         position: 'absolute',
-        bottom: 10,
+        bottom: 25,
     },
 
 });
