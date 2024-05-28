@@ -112,3 +112,7 @@ export async function updateCards(deckId: string, cards: Card[]) {
 	);
 	return data.deck;
 }
+
+export async function updateUserInfo(username: string, userInfo: object) {
+	await axios.patch(`https://skillflashbackend.onrender.com/api/users/${username}`, userInfo)
+}
