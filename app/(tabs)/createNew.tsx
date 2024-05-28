@@ -2,7 +2,6 @@ import {
   Pressable,
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   View,
@@ -80,7 +79,7 @@ export default function CreateDeck() {
     } else if (deckName.length < 3) {
       setIsError({
         ...isError,
-        deckName: "Deck name must be at lest 3 characters long",
+        deckName: "Deck name must be at least 3 characters long",
       });
     } else if (tagSelection.length < 3) {
       setIsError({
@@ -116,10 +115,10 @@ export default function CreateDeck() {
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.newDeckScrollContainer}>
         <Text style={styles.mediumTitle}>
-          Let AI create a customized deck of cards for your role
+          Let AI create a customized deck of questions for your role
         </Text>
         <Text style={styles.smallTitle}>
-          1. Choose a unique name for your new deck:
+          1. Choose an unique name for your new deck:
         </Text>
         <TextInput
           style={styles.input}
@@ -185,8 +184,8 @@ export default function CreateDeck() {
           <></>
         )}
 
-        <Text style={styles.mediumTitle}>Skills list:</Text>
         <View style={styles.newDeckTagListContainer}>
+          <Text style={styles.newDeckTagListContainerTitle}>Skills list:</Text>
           {tags &&
             tags.map((category) => {
               return (
@@ -194,7 +193,7 @@ export default function CreateDeck() {
                   style={styles.newDeckCategoryContainer}
                   key={category.category}
                 >
-                  <Text style={styles.newDeckCategoryTitle}>
+                  <Text style={styles.newDeckCategoryName}>
                     {category.category}
                   </Text>
                   {category.tags &&
