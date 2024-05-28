@@ -1,8 +1,8 @@
-interface Tag {
+export interface Tag {
 	tagName: string;
 	tagCategory: string;
 }
-const duplicateTags: Tag[] = [
+export const tags: Tag[] = [
 	{ tagName: "JavaScript", tagCategory: "technical-skills" },
 	{ tagName: "Python", tagCategory: "technical-skills" },
 	{ tagName: "Java", tagCategory: "technical-skills" },
@@ -47,6 +47,8 @@ const duplicateTags: Tag[] = [
 	{ tagName: "Agile Methodology", tagCategory: "practical-knowledge" },
 	{ tagName: "Security Best Practices", tagCategory: "practical-knowledge" },
 	{ tagName: "User Experience (UX)", tagCategory: "practical-knowledge" },
+	{ tagName: "Ux", tagCategory: "practical-knowledge" },
+	{ tagName: "UI", tagCategory: "practical-knowledge" },
 	{ tagName: "User Interface (UI)", tagCategory: "practical-knowledge" },
 	{ tagName: "Data Visualization", tagCategory: "practical-knowledge" },
 	{ tagName: "Compliance Standards", tagCategory: "practical-knowledge" },
@@ -380,14 +382,6 @@ const duplicateTags: Tag[] = [
 	{ tagName: "Machine Learning", tagCategory: "practical-knowledge" },
 	{ tagName: "Artificial Intelligence", tagCategory: "practical-knowledge" },
 ];
-
-function removeDuplicates(arr: Tag[]) {
-	return arr.filter((obj, pos, arr) => {
-		return arr.map((mapObj) => mapObj.tagName).indexOf(obj.tagName) === pos;
-	});
-}
-
-export const tags = removeDuplicates(duplicateTags);
 
 export const categoryColors: { [key: string]: string } = {
 	"technical-skills": "#1E90FF",

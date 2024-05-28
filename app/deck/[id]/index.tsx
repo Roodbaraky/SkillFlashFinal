@@ -25,7 +25,7 @@ export default function DeckDetailScreen() {
 		} else {
 			setIsError(true);
 		}
-	}, [decks, id, generate]);
+	}, [deck, id, generate, deck?.cards.length]);
 
 	const handleGenerateMoreCards = () => {
 		Alert.alert(
@@ -48,6 +48,7 @@ export default function DeckDetailScreen() {
 							.then((decks) => {
 								setDecks(decks);
 								setIsLoading(false);
+								setGenerate(false);
 							})
 							.catch((err) => {
 								console.log(err, "error after generate");

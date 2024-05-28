@@ -1,23 +1,24 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useRef } from "react";
+import React from "react";
 import LottieView from "lottie-react-native";
 
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 export default function Error() {
-	const animation = useRef(null);
-
 	return (
 		<SafeAreaView style={styles.animationContainer}>
+			<Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>
+				Please wait...
+			</Text>
 			<View style={styles.animationContainer}>
 				<LottieView
 					autoPlay
-					ref={animation}
+					speed={0.5}
 					style={{
-						width: 300,
-						height: 300,
+						width: 200,
+						height: 200,
 						marginTop: 50,
 					}}
-					source={require("../assets/loading.json")}
+					source={require("../assets/loading1.json")}
 				/>
 			</View>
 		</SafeAreaView>
