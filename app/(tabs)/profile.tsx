@@ -1,13 +1,22 @@
 import { UserContext } from "@/contexts/UserContext";
+import { doesUserExist, updateUserInfo } from "@/utils/api";
 import { router } from "expo-router";
 import { useContext, useState } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet, Alert } from "react-native";
+
+interface UserInfo {
+	username?: string;
+	email?: string;
+	password?: string;
+}
 
 export default function TabThreeScreen() {
 	const { userDetails, setUserDetails } = useContext(UserContext);
 	const [isEditing, setIsEditing] = useState(false);
 	const [name, setName] = useState(userDetails.username);
 	const [email, setEmail] = useState(userDetails.email);
+	const [errors, setErrors] = useState<UserInfo>({})
+	const [isValid, setIsValid] = useState(false)
 
 	function handleLogout() {
 		Alert.alert('Logout', 'Are you sure?', [
@@ -25,10 +34,41 @@ export default function TabThreeScreen() {
 	function handlePress() {
 		setIsEditing(!isEditing);
 	}
-  
+
+	async function nameValidation() {
+		let error:UserInfo = {}
+		if (!name) {
+			error.username = "please enter a valid username"
+		} else if (name.length < 3) {
+			error.username = "username must be more than three characters"
+		} else if (name !== userDetails.username && await doesUserExist(name)) {
+			error.username = "username already exists"
+		}
+		setErrors((prevErrors) => ({ ...prevErrors, ...error }));
+		setIsValid(Object.keys(error).length === 0)
+	}
+
+	async function emailValidation() {
+		let error:UserInfo = {}
+		if (!email || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) { 
+			error.email = "Please enter a valid email" 
+		}
+		setErrors((prevErrors) => ({ ...prevErrors, ...error }));
+		setIsValid(Object.keys(error).length === 0)
+	}
+	
+	
+
 	function handleSave() {
-		// patch here
-		setIsEditing(false);
+		if (userDetails.username && isValid) {
+			let userInfo:UserInfo = {}
+			if (name !== userDetails.username) userInfo.username = name
+			if (email !== userDetails.email) userInfo.email = email
+			updateUserInfo(userDetails.username, {username: userInfo.username, email: userInfo.email})
+			setIsEditing(false);
+		} else {
+			Alert.alert('Error', 'Please correct the errors before saving.')
+		}
 	}
   
 	return (
@@ -36,35 +76,41 @@ export default function TabThreeScreen() {
 			<View style={styles.detailsContainer}>
 				<Text style={styles.headerText}>your details</Text>
 				
-				{/* <View style={ styles.Row }> */}
 					<Text style={styles.label}>username: </Text>
 					<TextInput
 						style={[styles.input, !isEditing && styles.inputInactive]}
 						value={name}
-						onChangeText={setName}
+						onChangeText={(text)=>{
+							setName(text)
+							setErrors((prevErrors) => ({ ...prevErrors, username: "" }));
+						}}
+						onBlur={nameValidation}
 						editable={isEditing}
 						placeholder="name"
 					/>
-				{/* </View> */}
+					{errors.username && <Text style={styles.errorText}>{errors.username}</Text>}					
 
-				{/* <View style={ styles.inputRow }> */}
 					<Text style={styles.label}>email: </Text>
 					<TextInput
 						style={[styles.input, !isEditing && styles.inputInactive]}
 						value={email}
-						onChangeText={setEmail}
+						onChangeText={(text)=>{
+							setEmail(text)
+							setErrors((prevErrors) => ({ ...prevErrors, email: "" }));
+						}}
+						onBlur={emailValidation}
 						editable={isEditing}
 						placeholder="email"
 						keyboardType="email-address"
 					/>
-				{/* </View> */}
+					{errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
 				<Pressable onPress={isEditing ? handleSave : handlePress}>
 				<Text style={styles.editButton}>{isEditing ? "save" : "edit"}</Text>
 				</Pressable>
 			</View>
 			<Pressable style={styles.logoutButton} onPress={handleLogout}>
-				<Text style={styles.logoutText}>log out</Text>
+				<Text>log out</Text>
 			</Pressable>
 		</View>
 	);
@@ -102,12 +148,6 @@ const styles = StyleSheet.create({
 		borderWidth: 0,
 		backgroundColor: "transparent",
 	},
-	// inputRow: {
-	// 	flexDirection: 'row',
-	// 	alignItems: 'center',
-	// 	marginBottom: 8,
-	// 	width: "100%"
-	// },
 	logoutButton: {
 		backgroundColor: "lightblue",
 		padding: 10,
@@ -119,4 +159,8 @@ const styles = StyleSheet.create({
 		textDecorationLine: "underline",
 		marginTop: 20,
 	},
+	errorText: {
+		color: "red",
+    	alignSelf: "flex-start",
+	}
   });
