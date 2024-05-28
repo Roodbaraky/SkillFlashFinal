@@ -2,7 +2,7 @@ import { UserContext } from "@/contexts/UserContext";
 import { doesUserExist, updateUserInfo } from "@/utils/api";
 import { router } from "expo-router";
 import { useContext, useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, Pressable, StyleSheet, Alert, TouchableOpacity } from "react-native";
 
 interface UserInfo {
 	username?: string;
@@ -10,13 +10,23 @@ interface UserInfo {
 	password?: string;
 }
 
+interface Error {
+	username?: string;
+	email?: string;
+	password?: string;
+	confirmPassword?: string;
+}
+
 export default function TabThreeScreen() {
 	const { userDetails, setUserDetails } = useContext(UserContext);
 	const [isEditing, setIsEditing] = useState(false);
 	const [name, setName] = useState(userDetails.username);
 	const [email, setEmail] = useState(userDetails.email);
-	const [errors, setErrors] = useState<UserInfo>({})
+	const [password, setPassword] = useState('')
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const [errors, setErrors] = useState<Error>({})
 	const [isValid, setIsValid] = useState(false)
+	const [selection, setSelection] = useState(1);
 
 	function handleLogout() {
 		Alert.alert('Logout', 'Are you sure?', [
@@ -36,9 +46,9 @@ export default function TabThreeScreen() {
 	}
 
 	async function nameValidation() {
-		let error:UserInfo = {}
+		let error:Error = {}
 		if (!name) {
-			error.username = "please enter a valid username"
+			setName(userDetails.username)
 		} else if (name.length < 3) {
 			error.username = "username must be more than three characters"
 		} else if (name !== userDetails.username && await doesUserExist(name)) {
@@ -49,33 +59,86 @@ export default function TabThreeScreen() {
 	}
 
 	async function emailValidation() {
-		let error:UserInfo = {}
-		if (!email || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) { 
+		let error:Error = {}
+		if (!email) setEmail(userDetails.email)
+		else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) { 
 			error.email = "Please enter a valid email" 
 		}
 		setErrors((prevErrors) => ({ ...prevErrors, ...error }));
 		setIsValid(Object.keys(error).length === 0)
 	}
 	
-	
+	async function pwValidation() {
+		let error: Error = {};
+		if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[@$!%*?&]).{8,}$/.test(password)) {
+		  error.password = "password must be 8+ characters with uppercase, lowercase, digit, and special character";
+		}
+		setErrors((prevErrors) => ({ ...prevErrors, ...error }));
+		setIsValid(Object.keys(error).length === 0);
+	}
+
+	async function confirmPwValidation() {
+		let error: Error = {};
+		if (!confirmPassword) error.confirmPassword = "please confirm your new password"
+		else if (confirmPassword !== password) error.confirmPassword = "the passwords you entered do not match, please try again"
+		setErrors((prevErrors)=> ({ ... prevErrors, ...error}))
+		setIsValid(Object.keys(error).length === 0);
+	}
 
 	function handleSave() {
-		if (userDetails.username && isValid) {
-			let userInfo:UserInfo = {}
-			if (name !== userDetails.username) userInfo.username = name
-			if (email !== userDetails.email) userInfo.email = email
-			updateUserInfo(userDetails.username, {username: userInfo.username, email: userInfo.email})
-			setIsEditing(false);
-		} else {
-			Alert.alert('Error', 'Please correct the errors before saving.')
+		if (selection === 1) {
+			if (name === userDetails.username && email === userDetails.email) {
+				setIsEditing(false)
+				return
+			}
+			if (userDetails.username && isValid) {
+				let userInfo:UserInfo = {}
+				if (name !== userDetails.username) userInfo.username = name
+				if (email !== userDetails.email) userInfo.email = email
+				updateUserInfo(userDetails.username, {username: userInfo.username, email: userInfo.email})
+				setIsEditing(false);
+			} else {
+				Alert.alert('Error', 'Please correct the errors before saving.')
+			}
+		} else if (selection === 2) {
+			if (userDetails.username && isValid) {
+				updateUserInfo(userDetails.username, { password });
+				setIsEditing(false);
+				setPassword('');
+			} else {
+				Alert.alert('Error', 'Please correct the errors before saving.');
+			}
 		}
 	}
   
 	return (
 		<View style={styles.container}>
 			<View style={styles.detailsContainer}>
-				<Text style={styles.headerText}>your details</Text>
-				
+			
+			<View style={styles.btnGroup}>
+                <TouchableOpacity 
+					style={[styles.btn, selection === 1 ? { backgroundColor: "lightblue" } : null]} 
+					onPress={() => {
+						setSelection(1)
+						setErrors({})
+						setIsEditing(false)
+					}}>
+                    <Text style={[styles.btnText, selection === 1 ? { color: "white" } : null]}>Your details</Text>
+				</TouchableOpacity>
+                
+				<TouchableOpacity 
+					style={[styles.btn, selection === 2 ? { backgroundColor: "lightblue" } : null]} 
+					onPress={() => {
+						setSelection(2)
+						setErrors({})
+						setIsEditing(false)
+					}}>
+                    <Text style={[styles.btnText, selection === 2 ? { color: "white" } : null]}>Change Password</Text>
+				</TouchableOpacity>
+			</View>
+			
+			{selection === 1 ? 
+				<>
 					<Text style={styles.label}>username: </Text>
 					<TextInput
 						style={[styles.input, !isEditing && styles.inputInactive]}
@@ -108,6 +171,42 @@ export default function TabThreeScreen() {
 				<Pressable onPress={isEditing ? handleSave : handlePress}>
 				<Text style={styles.editButton}>{isEditing ? "save" : "edit"}</Text>
 				</Pressable>
+			</> :
+			<>
+				<Text style={styles.label}>New Password: </Text>
+				<TextInput
+					style={styles.input}
+					value={password}
+					onChangeText={(text) => {
+						setPassword(text);
+						setErrors((prevErrors) => ({ ...prevErrors, password: "" }));
+					}}
+					onBlur={pwValidation}
+					placeholder="New Password"
+					secureTextEntry
+				/>
+				{errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+	
+				<Text style={styles.label}>Confirm Password</Text>
+				<TextInput
+					style={styles.input}
+					value={confirmPassword}
+					onChangeText={(text)=>{
+						setConfirmPassword(text);
+						setErrors((prevErrors)=> ({ ... prevErrors, confirmPassword: "" }))
+					}}
+					onBlur={confirmPwValidation}
+					placeholder="Re-enter password"
+					secureTextEntry
+				/>
+				{errors.confirmPassword && <Text style={styles.errorText}>{errors.confirmPassword}</Text>}
+
+				<Pressable onPress={handleSave}>
+					<Text style={styles.editButton}>submit</Text>
+				</Pressable>
+			</>
+			}
+
 			</View>
 			<Pressable style={styles.logoutButton} onPress={handleLogout}>
 				<Text>log out</Text>
@@ -128,10 +227,6 @@ const styles = StyleSheet.create({
 		padding: 20,
 		alignItems: "center",
 		borderRadius: 20
-	},
-	headerText: {
-		fontSize: 18,
-		marginBottom: 20,
 	},
 	label: {
 		alignSelf: "flex-start",
@@ -162,5 +257,22 @@ const styles = StyleSheet.create({
 	errorText: {
 		color: "red",
     	alignSelf: "flex-start",
-	}
+	},
+	btnGroup: {
+        flexDirection: 'row',
+        alignItems: "center",
+        borderBottomWidth: 1,
+        borderBottomColor: '#6B7280'
+    },
+	btn: {
+        flex: 1,
+        borderRightWidth: 0.25,
+        borderLeftWidth: 0.25,
+        borderColor: '#6B7280'
+    },
+	btnText: {
+        textAlign: 'center',
+        paddingVertical: 16,
+        fontSize: 14
+    }
   });
