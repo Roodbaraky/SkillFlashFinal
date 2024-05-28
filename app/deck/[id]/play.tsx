@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useContext, useCallback} from "react";
+import React, { useRef, useEffect, useState, useContext, useCallback } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import { DecksContext } from "@/contexts/DecksContext";
@@ -71,7 +71,7 @@ export default function PlayScreen() {
 		setAnim({ status: true, yes: false, no: true });
 		setTimeout(() => {
 			setAnim({ status: false, yes: false, no: false });
-		}, 2000); 
+		}, 2000);
 	};
 
 	const handleRightSwipe = (cardIndex: number) => {
@@ -92,21 +92,21 @@ export default function PlayScreen() {
 		setAnim({ status: true, yes: true, no: false });
 		setTimeout(() => {
 			setAnim({ status: false, yes: false, no: false });
-		}, 2000); 
+		}, 2000);
 	};
 
 	const Anim = () => {
 		return (
-			<View style={styles.animContainer}>
-				{anim.no && <LottieView autoPlay source={require('../../../assets/fasterN.json')} style={styles.noAnim} />}
-				{anim.yes && <LottieView autoPlay source={require('../../../assets/fasterY.json')} style={styles.yesAnim} />}
+			<View style={styles.animationContainer}>
+				{anim.no && <LottieView autoPlay source={require('../../../assets/fasterN.json')} style={styles.noSwipeAnimation} />}
+				{anim.yes && <LottieView autoPlay source={require('../../../assets/fasterY.json')} style={styles.yesSwipeAnimation} />}
 			</View>
 		);
 	};
 
 	return (
 		<View style={styles.container}>
-			<Progress.Bar progress={(currentCardIndex+0.1)/deckLength} style={styles.progress} color="#489FB5" borderWidth={0} width={width*0.25} height={height*0.03} borderRadius={20} unfilledColor="#16697A"/>
+			<Progress.Bar progress={(currentCardIndex + 0.1) / deckLength} style={styles.deckProgressLoader} color="#489FB5" borderWidth={0} width={width * 0.25} height={height * 0.03} borderRadius={20} unfilledColor="#16697A" />
 			{anim.status && <Anim />}
 			<View style={styles.background}>
 				<Swiper
@@ -130,78 +130,41 @@ const width = Dimensions.get("screen").width;
 const height = Dimensions.get("screen").height;
 
 const styles = StyleSheet.create({
-progress:{
-	marginLeft:'auto',
-	marginRight:'auto',
-    marginTop:height*0.03,
-    
-   
-    
-},
-	noAnim: {
-		width: width * 0.3,
-		
+	deckProgressLoader: {
+		marginLeft: 'auto',
+		marginRight: 'auto',
+		marginTop: height * 0.03,
 	},
-	yesAnim: {
+	noSwipeAnimation: {
 		width: width * 0.3,
-		
+
 	},
-	animContainer: {
+	yesSwipeAnimation: {
+		width: width * 0.3,
+
+	},
+	animationContainer: {
 		position: 'absolute',
 		zIndex: 1000,
-		width: width*0.125,
-		left:0,
-		right:0,
+		width: width * 0.125,
+		left: 0,
+		right: 0,
 		top: height * 0.0055,
 		paddingTop: height * 0.0855,
-		marginRight:'auto',
-		marginLeft:'auto',
-	
+		marginRight: 'auto',
+		marginLeft: 'auto',
+
 	},
 	background: {
 		backgroundColor: '#16697A',
-		
+
 	},
 	container: {
 		flex: 1,
 		backgroundColor: "##16697A",
-		
+
 	},
-	card: {
-		flex: 1,
-		justifyContent: "space-between",
-		alignItems: "center",
-		borderRadius: 10,
-		borderWidth: 1,
-		borderColor: "grey",
-		backgroundColor: "white",
-		padding: 20,
-		marginLeft: 'auto',
-		marginRight: 'auto',
-		marginBottom: 10,
-	},
-	text: {
-		fontSize: 20,
-		textAlign: "center",
-		flex: 1,
-		textAlignVertical: "center",
-	},
-	button: {
-		backgroundColor: "lightgray",
-		padding: 10,
-		borderRadius: 10,
-		marginHorizontal: 10,
-	},
-	buttonText: {
-		fontSize: 18,
-	},
-	div: {
-		flexDirection: "row",
-		justifyContent: "space-around",
-		width: "100%",
-		paddingVertical: 10,
-	},
-	icon: {
-		paddingHorizontal: 20,
-	},
+
+
+
 });
