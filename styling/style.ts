@@ -1,7 +1,8 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 const orange = "#FFA62B";
 const blue = "#16697A";
 const lightBlue = "#489FB5";
+const screenWidth = Dimensions.get("window").width;
 
 export default exports = StyleSheet.create({
   container: {
@@ -21,7 +22,7 @@ export default exports = StyleSheet.create({
     alignSelf: "center",
   },
   mediumTitle: {
-    fontSize: 30,
+    fontSize: 35,
     color: blue,
     margin: 20,
     textAlign: "center",
@@ -31,10 +32,17 @@ export default exports = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
     marginVertical: 10,
-    borderTopColor: orange,
-    borderTopWidth: 2,
     paddingTop: 10,
     textAlign: "center",
+  },
+  lessMargin: {
+    margin: 1,
+  },
+  addTopMargin: {
+    marginTop: 20,
+  },
+  fontSize12: {
+    fontSize: 12,
   },
   logo: {
     width: 250,
@@ -91,6 +99,7 @@ export default exports = StyleSheet.create({
     marginVertical: 5,
     textAlign: "center",
   },
+  //createNewDeck page
   newDeckButton: {
     margin: 0,
   },
@@ -107,6 +116,7 @@ export default exports = StyleSheet.create({
     borderColor: blue,
     borderRadius: 10,
     minHeight: 50,
+    marginVertical: 10,
   },
 
   newDeckTagListContainer: {
@@ -114,6 +124,15 @@ export default exports = StyleSheet.create({
     backgroundColor: lightBlue,
     padding: 5,
     marginHorizontal: 5,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  newDeckTagListContainerTitle: {
+    fontSize: 30,
+    color: "white",
+    textAlign: "center",
+    fontWeight: "600",
+    margin: 10,
   },
   newDeckCategoryContainer: {
     flexDirection: "row",
@@ -121,10 +140,10 @@ export default exports = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 10,
   },
-  newDeckCategoryTitle: {
+  newDeckCategoryName: {
     margin: 10,
     marginHorizontal: "auto",
-    minWidth: 320,
+    minWidth: 350,
     color: blue,
     backgroundColor: "white",
     fontSize: 22,
@@ -145,11 +164,98 @@ export default exports = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
+    textTransform: "capitalize",
   },
   tagButtonSelected: {
     backgroundColor: "white",
   },
   tagButtonTextSelected: {
     color: orange,
+  },
+  //decksPage
+  scrollViewContainer: {
+    flex: 1,
+    paddingVertical: 10,
+    marginHorizontal: 10,
+    marginTop: 10,
+  },
+  deckTileFront: {
+    backgroundColor: "#FFF",
+    borderBottomColor: "#CCC",
+    borderBottomWidth: 1,
+    justifyContent: "center",
+    // height: 150,
+    width: screenWidth,
+    // borderRadius: 10,
+  },
+  deckTileBack: {
+    alignItems: "center",
+    backgroundColor: orange, //"#DDD",
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    paddingRight: 15,
+    width: screenWidth - 20,
+    marginVertical: 10,
+  },
+  backRightBtn: {
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    width: 75,
+  },
+  //deck tile component
+  deckTileContainer: {
+    flex: 1,
+    padding: 10,
+
+    margin: 10,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: blue,
+    backgroundColor: "white",
+    shadowColor: lightBlue,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 5,
+    // height: 150,
+    justifyContent: "center",
+    width: screenWidth - 20,
+    alignSelf: "center",
+  },
+  deckName: {
+    fontSize: 20,
+    textTransform: "capitalize",
+    fontWeight: "bold",
+    marginBottom: 5,
+    textAlign: "center",
+  },
+  tagsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
+  // tag: {
+  //   padding: 5,
+  //   margin: 5,
+  //   borderRadius: 10,
+  //   backgroundColor: "grey",
+  // },
+  // tagText: {
+  //   color: "white",
+  //   fontSize: 12,
+  //   fontWeight: "bold",
+  //   textTransform: "capitalize",
+  // },
+  cardCount: {
+    fontSize: 12,
+    fontWeight: "bold",
+    position: "absolute",
+    bottom: 10,
+    right: 20,
   },
 });
