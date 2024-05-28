@@ -153,6 +153,7 @@ export default function PlayScreen() {
           backgroundColor={"white"}
           stackSize={3}
           disableBottomSwipe={true}
+          disableTopSwipe={true}
           infinite
           overlayLabels={{
             left: {
