@@ -16,11 +16,17 @@ export default function HomeLayout() {
 		<Stack>
 			<Stack.Screen
 				name="index"
-				options={{ headerShown: false, headerBackTitle: "Back" }}
+				options={{
+					headerShown: false,
+					headerBackTitle: "Back",
+				}}
 			/>
 			<Stack.Screen
 				name="play"
-				options={{ headerShown: false, navigationBarHidden: true }}
+				options={{
+					headerShown: false,
+					navigationBarHidden: true,
+				}}
 			/>
 		</Stack>
 	);

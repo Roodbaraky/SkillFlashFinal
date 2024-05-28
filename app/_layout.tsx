@@ -29,7 +29,14 @@ export default function RootLayout() {
 							options={{
 								headerShown: true,
 								title: "Home",
+
 								headerBackTitle: "Back",
+								headerStyle: { backgroundColor: "#489FB5" },
+								headerTintColor: "#fff",
+								headerTitleStyle: {
+									fontWeight: "bold",
+									fontSize: 25,
+								},
 							}}
 						/>
 					</Stack>
