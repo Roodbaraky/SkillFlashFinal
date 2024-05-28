@@ -30,7 +30,7 @@ export default function PlayScreen() {
   const [reorderDeck, setReorderDeck] = useState(false);
   const swiperReferenceObject = useRef(null);
 
-  const [anim, setAnim] = useState({ status: false, yes: false, no: false });
+  // const [anim, setAnim] = useState({ status: false, yes: false, no: false });
 
   const handleExit = useCallback(async () => {
     const deckFromCurrentCardOnwards = deck.slice(currentCardIndex);
@@ -79,10 +79,10 @@ export default function PlayScreen() {
       return newIndex;
     });
 
-    setAnim({ status: true, yes: false, no: true });
-    setTimeout(() => {
-      setAnim({ status: false, yes: false, no: false });
-    }, 2000);
+    // setAnim({ status: true, yes: false, no: true });
+    // setTimeout(() => {
+    //   setAnim({ status: false, yes: false, no: false });
+    // }, 2000);
   };
 
   const handleRightSwipe = (cardIndex: number) => {
@@ -100,32 +100,32 @@ export default function PlayScreen() {
       }
       return newIndex;
     });
-    setAnim({ status: true, yes: true, no: false });
-    setTimeout(() => {
-      setAnim({ status: false, yes: false, no: false });
-    }, 2000);
+    // setAnim({ status: true, yes: true, no: false });
+    // setTimeout(() => {
+    //   setAnim({ status: false, yes: false, no: false });
+    // }, 2000);
   };
 
-  const Anim = () => {
-    return (
-      <View style={styles.animationContainer}>
-        {anim.no && (
-          <LottieView
-            autoPlay
-            source={require("../../../assets/fasterN.json")}
-            style={styles.noSwipeAnimation}
-          />
-        )}
-        {anim.yes && (
+  // const Anim = () => {
+  //   return (
+  //     <View style={styles.animationContainer}>
+  //       {anim.no && (
+  //         <LottieView
+  //           autoPlay
+  //           source={require("../../../assets/fasterN.json")}
+  //           style={styles.noSwipeAnimation}
+  //         />
+  //       )}
+        {/* {anim.yes && (
           <LottieView
             autoPlay
             source={require("../../../assets/fasterY.json")}
-            style={styles.yesSwipeAnimation}
-          />
-        )}
-      </View>
-    );
-  };
+  //           style={styles.yesSwipeAnimation}
+  //         />
+  //       )} */}
+  //     </View>
+  //   );
+  // };
 
   return (
     <View style={styles.playContainer}>
@@ -139,7 +139,7 @@ export default function PlayScreen() {
         borderRadius={20}
         borderWidth={0}
       />
-      {anim.status && <Anim />}
+      {/* {anim.status && <Anim />} */}
       <View style={styles.playBackground}>
         <Swiper
           ref={swiperReferenceObject}
@@ -154,6 +154,50 @@ export default function PlayScreen() {
           stackSize={3}
           disableBottomSwipe={true}
           infinite
+          overlayLabels={{
+            left: {
+              title: '❌',
+              style: {
+                label: {
+                  backgroundColor: '#16697A',
+                  borderColor: 'white',
+                  color: 'white',
+                  borderWidth: 2,
+                  borderRadius:40,
+                  transform: "scale(2.8)",
+                  userSelect: "none",
+                },
+                wrapper: {
+                  flexDirection: 'column',
+                  alignItems: 'flex-end',
+                  justifyContent: 'flex-start',
+                 
+                },
+              },
+            },
+            right: {
+              title: '✅',
+              style: {
+                label: {
+                  backgroundColor: '#16697A',
+                  borderColor: 'white',
+                  borderRadius:40,
+                  color: 'white',
+                  borderWidth: 2,
+                  transform: "scale(2.8)",
+                  userSelect: "none",
+                  fill:'green'
+                },
+                wrapper: {
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  justifyContent: 'flex-start',
+                 
+                  
+                },
+              },
+            },
+          }}
         />
       </View>
     </View>
