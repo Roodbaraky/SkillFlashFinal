@@ -58,7 +58,7 @@ export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
       </Text>
 
       <View style={styles.flippableCardBtnContainer}>
-        <Pressable
+        {flipped&& <Pressable
           onPress={(e) => {
             handleLeftPress();
           }}
@@ -73,7 +73,7 @@ export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
                 : styles.flippableCardNBtn
             }
           />
-        </Pressable>
+        </Pressable>}
         <Pressable
           style={
             clicked.middle ? styles.flippableCardBtnCl : styles.flippableCardBtn
@@ -93,7 +93,7 @@ export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
           </Text>
         </Pressable>
 
-        <Pressable
+        {flipped && <Pressable
           onPress={(e) => {
             handleRightPress();
           }}
@@ -108,7 +108,7 @@ export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
                 : styles.flippableCardYBtn
             }
           />
-        </Pressable>
+        </Pressable>}
       </View>
     </View>
   );

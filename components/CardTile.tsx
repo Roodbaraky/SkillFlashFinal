@@ -17,7 +17,7 @@ export default function CardTile(props: { card: Card }) {
     <SafeAreaView
       style={[styles.cardTileContainer, { borderColor: backgroundColor }]}
     >
-      <Pressable
+      <View
         style={[
           styles.tagButton,
           styles.cardTileTag,
@@ -27,7 +27,7 @@ export default function CardTile(props: { card: Card }) {
         <Text style={[styles.tagButtonText, styles.fontSize12]}>
           {card.tag}
         </Text>
-      </Pressable>
+      </View>
       <Text style={styles.cardTileQ}>Q: {card.Q}</Text>
       <Text style={styles.stats}>
         Answered correctly: {card.Y}/{card.Y + card.N}

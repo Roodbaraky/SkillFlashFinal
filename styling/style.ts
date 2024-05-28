@@ -347,7 +347,7 @@ export default exports = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "grey",
+    borderColor: "white",
     backgroundColor: lightBlue,
     paddingVertical: screenHeight * 0.2,
     marginBottom: screenHeight * 0.2,
@@ -363,7 +363,7 @@ export default exports = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "grey",
+    borderColor: lightBlue,
     backgroundColor: "white",
     paddingVertical: screenHeight * 0.1,
     marginBottom: screenHeight * 0.2,
@@ -379,6 +379,7 @@ export default exports = StyleSheet.create({
     flex: 1,
     textAlignVertical: "center",
     color: "white",
+    userSelect: "none",
   },
   flippableCardTextAlt: {
     fontSize: 24,
@@ -387,6 +388,7 @@ export default exports = StyleSheet.create({
     margin: 10,
     flex: 1,
     color: blue,
+    userSelect: "none",
   },
   flippableCardBtn: {
     backgroundColor: "#17697a",
@@ -441,10 +443,12 @@ export default exports = StyleSheet.create({
   flippableCardBtnText: {
     fontSize: 20,
     color: "white",
+    userSelect: "none",
   },
   flippableCardBtnTextCl: {
     fontSize: 20,
     color: "#17697a",
+    userSelect: "none",
   },
   flippableCardBtnContainer: {
     flexDirection: "row",
