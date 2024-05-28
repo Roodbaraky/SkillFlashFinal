@@ -4,10 +4,10 @@ import {
   Text,
   TextInput,
   Pressable,
-  StyleSheet,
-  Button,
   View,
   ImageBackground,
+  ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import { IsError, checkField } from "@/utils/utils";
 import { router } from "expo-router";
@@ -83,121 +83,133 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
         resizeMode="cover"
         style={styles.background}
       >
-        <View style={styles.formContainer}>
-          <Pressable
-            onPress={() => {
-              setIsSignupOpen(false);
-            }}
-          >
-            <Text style={styles.backButtonText}>Back</Text>
-          </Pressable>
-          <Text style={styles.title}>Sign Up</Text>
-          <Text style={styles.label}>Username</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(text) => {
-              setUsernameInput(text);
-              setIsError({
-                ...isError,
-                username: "",
-              });
-            }}
-            onBlur={async () => {
-              if (await checkUsername(usernameInput)) {
-                setIsError({
-                  ...isError,
-                  username: "username already exists",
-                });
-              }
-              checkField("username", setIsError, usernameInput);
-            }}
-            value={usernameInput}
-            placeholder="username"
-            id="username"
-          />
-          {isError.username?.length ? (
-            <Text style={styles.error}>{isError.username}</Text>
-          ) : (
-            <></>
-          )}
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(text) => {
-              setEmailInput(text);
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior="padding"
+          keyboardVerticalOffset={40}
+        >
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <View style={styles.formContainer}>
+              <Pressable
+                onPress={() => {
+                  setIsSignupOpen(false);
+                }}
+              >
+                <Text style={styles.backButtonText}>Back</Text>
+              </Pressable>
+              <Text style={styles.title}>Sign Up</Text>
+              <Text style={styles.label}>Username</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={(text) => {
+                  setUsernameInput(text);
+                  setIsError({
+                    ...isError,
+                    username: "",
+                  });
+                }}
+                onBlur={async () => {
+                  if (await checkUsername(usernameInput)) {
+                    setIsError({
+                      ...isError,
+                      username: "username already exists",
+                    });
+                  }
+                  checkField("username", setIsError, usernameInput);
+                }}
+                value={usernameInput}
+                placeholder="username"
+                id="username"
+              />
+              {isError.username?.length ? (
+                <Text style={styles.error}>{isError.username}</Text>
+              ) : (
+                <></>
+              )}
+              <Text style={styles.label}>Email</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={(text) => {
+                  setEmailInput(text);
 
-              setIsError({ ...isError, email: "" });
-            }}
-            value={emailInput}
-            placeholder="email"
-            textContentType="emailAddress"
-            onBlur={() => {
-              checkField("email", setIsError, emailInput);
-            }}
-            id="email"
-          />
-          {isError.email?.length ? (
-            <Text style={styles.error}>{isError.email}</Text>
-          ) : (
-            <></>
-          )}
-          <Text style={styles.label}>Password</Text>
+                  setIsError({ ...isError, email: "" });
+                }}
+                value={emailInput}
+                placeholder="email"
+                textContentType="emailAddress"
+                onBlur={() => {
+                  checkField("email", setIsError, emailInput);
+                }}
+                id="email"
+              />
+              {isError.email?.length ? (
+                <Text style={styles.error}>{isError.email}</Text>
+              ) : (
+                <></>
+              )}
+              <Text style={styles.label}>Password</Text>
 
-          <TextInput
-            style={styles.input}
-            onChangeText={(text) => {
-              setPasswordInput(text);
-              setIsError({ ...isError, password: "" });
-            }}
-            onBlur={() => {
-              checkField("password", setIsError, passwordInput);
-            }}
-            value={passwordInput}
-            placeholder="password"
-            secureTextEntry={true}
-            textContentType="password"
-            id="password"
-          />
-          {isError.password?.length ? (
-            <Text style={styles.error}>{isError.password}</Text>
-          ) : (
-            <></>
-          )}
-          <Text style={styles.label}>Confirm password</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(text) => {
-              setConfirmPasswordInput(text);
+              <TextInput
+                style={styles.input}
+                onChangeText={(text) => {
+                  setPasswordInput(text);
+                  setIsError({ ...isError, password: "" });
+                }}
+                onBlur={() => {
+                  checkField("password", setIsError, passwordInput);
+                }}
+                value={passwordInput}
+                placeholder="Password"
+                secureTextEntry={true}
+                textContentType="password"
+                id="password"
+              />
+              {isError.password?.length ? (
+                <Text style={styles.error}>{isError.password}</Text>
+              ) : (
+                <></>
+              )}
+              <Text style={styles.label}>Confirm password</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={(text) => {
+                  setConfirmPasswordInput(text);
 
-              setIsError({ ...isError, confirmPassword: "" });
-            }}
-            onBlur={() => {
-              checkField("confirmPassword", setIsError, confirmPasswordInput);
-              if (
-                confirmPasswordInput &&
-                passwordInput !== confirmPasswordInput
-              )
-                setIsError({
-                  ...isError,
-                  confirmPassword: "passwords do not match",
-                });
-            }}
-            value={confirmPasswordInput}
-            placeholder="confirm your password"
-            secureTextEntry={true}
-            textContentType="password"
-            id="confirmPassword"
-          />
-          {isError.confirmPassword?.length ? (
-            <Text style={styles.error}>{isError.confirmPassword}</Text>
-          ) : (
-            <></>
-          )}
+                  setIsError({ ...isError, confirmPassword: "" });
+                }}
+                onBlur={() => {
+                  checkField(
+                    "confirmPassword",
+                    setIsError,
+                    confirmPasswordInput
+                  );
+                  if (
+                    confirmPasswordInput &&
+                    passwordInput !== confirmPasswordInput
+                  )
+                    setIsError({
+                      ...isError,
+                      confirmPassword: "passwords do not match",
+                    });
+                }}
+                value={confirmPasswordInput}
+                placeholder="confirm your password"
+                secureTextEntry={true}
+                textContentType="password"
+                id="confirmPassword"
+              />
+              {isError.confirmPassword?.length ? (
+                <Text style={styles.error}>{isError.confirmPassword}</Text>
+              ) : (
+                <></>
+              )}
 
-          <Pressable onPress={handleSubmit} style={styles.button}>
-            <Text style={styles.buttonText}>Sign Up</Text>
-          </Pressable>
-        </View>
+              <Pressable onPress={handleSubmit} style={styles.button}>
+                <Text style={styles.buttonText}>Sign Up</Text>
+              </Pressable>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </ImageBackground>
     </SafeAreaView>
   );

@@ -11,8 +11,8 @@ export default exports = StyleSheet.create({
   background: {
     flex: 1,
     justifyContent: "center",
-    height: "auto",
-    width: "auto",
+    height: screenHeight,
+    width: screenWidth,
     alignItems: "center",
   },
   title: {
@@ -77,6 +77,7 @@ export default exports = StyleSheet.create({
   formContainer: {
     backgroundColor: "rgba(255, 255, 255, 0.9)",
     padding: 30,
+    marginVertical: "auto",
   },
   backButtonText: {
     textDecorationLine: "underline",
@@ -89,22 +90,24 @@ export default exports = StyleSheet.create({
     margin: 10,
     borderWidth: 1,
     padding: 10,
-    width: 250,
+    width: screenWidth * 0.75,
     alignSelf: "center",
     borderColor: blue,
     borderRadius: 10,
+    backgroundColor: "white",
+    fontSize: 18,
   },
   label: {
     color: "black",
     fontWeight: "bold",
-    fontSize: 15,
+    fontSize: 16,
   },
   error: {
     color: "red",
     marginVertical: 5,
     textAlign: "center",
   },
-  //createNewDeck page
+  //-----------------createNewDeck page------------------
   newDeckButton: {
     margin: 0,
   },
@@ -115,7 +118,7 @@ export default exports = StyleSheet.create({
   newDeckTagSelection: {
     flexDirection: "row",
     flexWrap: "wrap",
-    maxHeight: 200,
+    maxHeight: screenWidth * 0.7,
     justifyContent: "flex-start",
     borderWidth: 1,
     borderColor: blue,
@@ -146,9 +149,7 @@ export default exports = StyleSheet.create({
     marginBottom: 10,
   },
   newDeckCategoryName: {
-    margin: 10,
-    marginHorizontal: "auto",
-
+    marginVertical: 10,
     width: "100%",
     color: blue,
     backgroundColor: "white",
@@ -180,12 +181,11 @@ export default exports = StyleSheet.create({
   tagButtonTextSelected: {
     color: orange,
   },
-  //decksPage
+  //------------------decks Page--------------------
   scrollViewContainer: {
     flex: 1,
     paddingVertical: 10,
-    marginHorizontal: 10,
-    marginTop: 10,
+    margin: 10,
   },
   deckTileFront: {
     backgroundColor: "#FFF",
@@ -196,7 +196,7 @@ export default exports = StyleSheet.create({
   },
   deckTileBack: {
     alignItems: "center",
-    backgroundColor: orange, //"#DDD",
+    backgroundColor: orange,
     flex: 1,
     flexDirection: "row",
     justifyContent: "flex-end",
@@ -209,7 +209,7 @@ export default exports = StyleSheet.create({
     justifyContent: "flex-end",
     width: 75,
   },
-  //deck tile component
+  //---------------deck tile component----------------
   deckTileContainer: {
     flex: 1,
     padding: 10,
@@ -266,7 +266,7 @@ export default exports = StyleSheet.create({
     justifyContent: "space-around",
     padding: 10,
   },
-  //cardTile component
+  //--------------cardTile component-----------------
 
   cardTileContainer: {
     flex: 1,
@@ -308,7 +308,7 @@ export default exports = StyleSheet.create({
     padding: 6,
     height: 26,
   },
-  //play page
+  //----------------play page----------------
   deckProgressLoader: {
     marginHorizontal: "auto",
     marginTop: screenHeight * 0.03,
@@ -338,7 +338,7 @@ export default exports = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-  //flippable card
+  //-----------flippable card---------------
 
   flippableDeckCard: {
     flex: 1,
@@ -351,7 +351,7 @@ export default exports = StyleSheet.create({
     backgroundColor: lightBlue,
     paddingVertical: screenHeight * 0.2,
     marginBottom: screenHeight * 0.2,
-    // position: "relative",
+
     width: screenWidth * 0.9,
     maxWidth: 500,
     marginHorizontal: "auto",
@@ -382,7 +382,6 @@ export default exports = StyleSheet.create({
   },
   flippableCardTextAlt: {
     fontSize: 24,
-    // fontWeight: "bold",
     textAlign: "center",
     margin: 10,
     flex: 1,
@@ -453,5 +452,63 @@ export default exports = StyleSheet.create({
     paddingVertical: 10,
     position: "absolute",
     bottom: 25,
+  },
+  //--------------profile page--------------
+  profileContainer: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  info: {
+    fontSize: 22,
+    marginVertical: 10,
+  },
+  detailsContainer: {
+    width: screenWidth * 0.95,
+    backgroundColor: "#d9eefe",
+    padding: 20,
+    borderRadius: 20,
+  },
+
+  inputInactive: {
+    backgroundColor: "transparent",
+  },
+
+  errorText: {
+    color: "red",
+    textAlign: "center",
+    marginVertical: 10,
+  },
+  btnGroup: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: blue,
+    marginBottom: 30,
+  },
+  btn: {
+    flex: 1,
+  },
+  btnActive: {
+    backgroundColor: lightBlue,
+  },
+  btnText: {
+    textAlign: "center",
+    paddingVertical: 16,
+    fontSize: 18,
+  },
+  btnTextActive: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  logoutButton: {
+    padding: 10,
+  },
+  logoutButtonTxt: {
+    color: "red",
+    marginTop: 20,
+    fontSize: 20,
+    textDecorationLine: "underline",
+    alignSelf: "center",
   },
 });

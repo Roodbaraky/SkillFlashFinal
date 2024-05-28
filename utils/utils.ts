@@ -35,7 +35,11 @@ export function checkField(
   }
   if (field === "password" && !passRegex.test(valueInput)) {
     setIsError((currentError: IsError) => {
-      return { ...currentError, password: "Please enter a valid password" };
+      return {
+        ...currentError,
+        password:
+          "Password must be 8+ characters and contain at least one of the following: uppercase, lowercase, number, and special character(@$!%*?&)",
+      };
     });
   }
   if (field === "confirmPassword" && !valueInput) {
