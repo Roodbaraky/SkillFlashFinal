@@ -3,7 +3,7 @@ const orange = "#FFA62B";
 const blue = "#16697A";
 const lightBlue = "#489FB5";
 const screenWidth = Dimensions.get("window").width;
-
+const screenHeight = Dimensions.get("window").height;
 export default exports = StyleSheet.create({
   container: {
     flex: 1,
@@ -307,5 +307,151 @@ export default exports = StyleSheet.create({
     right: 5,
     padding: 6,
     height: 26,
+  },
+  //play page
+  deckProgressLoader: {
+    marginHorizontal: "auto",
+    marginTop: screenHeight * 0.03,
+  },
+  noSwipeAnimation: {
+    width: screenWidth * 0.3,
+  },
+  yesSwipeAnimation: {
+    width: screenWidth * 0.3,
+  },
+  animationContainer: {
+    position: "absolute",
+    zIndex: 1000,
+    width: screenWidth * 0.9,
+    left: 0,
+    right: 0,
+    top: screenHeight * 0.0055,
+    paddingTop: screenHeight * 0.0855,
+    marginRight: "auto",
+    marginLeft: "auto",
+  },
+
+  playBackground: {
+    backgroundColor: blue,
+  },
+  playContainer: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  //flippable card
+
+  flippableDeckCard: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "grey",
+    backgroundColor: lightBlue,
+    paddingVertical: screenHeight * 0.2,
+    marginBottom: screenHeight * 0.2,
+    // position: "relative",
+    width: screenWidth * 0.9,
+    maxWidth: 500,
+    marginHorizontal: "auto",
+  },
+  flippableDeckCardAlt: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "grey",
+    backgroundColor: "white",
+    paddingVertical: screenHeight * 0.1,
+    marginBottom: screenHeight * 0.2,
+    width: screenWidth * 0.9,
+    maxWidth: 500,
+    marginHorizontal: "auto",
+  },
+  flippableCardText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    textAlign: "center",
+    margin: 10,
+    flex: 1,
+    textAlignVertical: "center",
+    color: "white",
+  },
+  flippableCardTextAlt: {
+    fontSize: 24,
+    // fontWeight: "bold",
+    textAlign: "center",
+    margin: 10,
+    flex: 1,
+    color: blue,
+  },
+  flippableCardBtn: {
+    backgroundColor: "#17697a",
+    padding: 10,
+    borderRadius: 20,
+    marginHorizontal: 10,
+    opacity: 0.5,
+    transform: "scale(1.5)",
+  },
+  flippableCardBtnCl: {
+    backgroundColor: "lightblue",
+    borderColor: "white",
+    borderWidth: 1,
+    color: "white",
+    padding: 10,
+    borderRadius: 20,
+    marginHorizontal: 10,
+    transform: "scale(1.25)",
+  },
+
+  flippableCardYBtn: {
+    backgroundColor: "#17697a",
+    opacity: 0.5,
+    padding: 10,
+    borderRadius: 30,
+    marginHorizontal: 10,
+    transform: "scale(1.7)",
+  },
+  flippableCardYBtnCl: {
+    backgroundColor: "lightgreen",
+    padding: 10,
+    borderRadius: 30,
+    marginHorizontal: 10,
+    transform: "scale(1.7)",
+  },
+  flippableCardNBtn: {
+    backgroundColor: "#17697a",
+    opacity: 0.5,
+    padding: 10,
+    borderRadius: 30,
+    marginHorizontal: 10,
+    transform: "scale(1.7)",
+  },
+  flippableCardNBtnCl: {
+    backgroundColor: "red",
+    padding: 10,
+    borderRadius: 30,
+    marginHorizontal: 10,
+    transform: "scale(1.7)",
+  },
+
+  flippableCardBtnText: {
+    fontSize: 20,
+    color: "white",
+  },
+  flippableCardBtnTextCl: {
+    fontSize: 20,
+    color: "#17697a",
+  },
+  flippableCardBtnContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+    paddingVertical: 10,
+    position: "absolute",
+    bottom: 25,
   },
 });
