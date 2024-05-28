@@ -7,7 +7,6 @@ const screenWidth = Dimensions.get("window").width;
 export default exports = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
   },
   background: {
     flex: 1,
@@ -56,6 +55,8 @@ export default exports = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
+
+    justifyContent: "center",
   },
   button: {
     alignSelf: "center",
@@ -67,13 +68,6 @@ export default exports = StyleSheet.create({
     borderColor: "white",
     borderWidth: 2,
   },
-  "technical-skills": { backgroundColor: "#1E90FF" },
-  "problem-solving": { backgroundColor: "#32CD32" },
-  "system-design": { backgroundColor: "#FFA500" },
-  behavioral: { backgroundColor: "#9370DB" },
-  "practical-knowledge": { backgroundColor: "#008080" },
-  default: { backgroundColor: "#9e9e9e" },
-
   buttonText: {
     color: "white",
     fontSize: 20,
@@ -154,13 +148,15 @@ export default exports = StyleSheet.create({
   newDeckCategoryName: {
     margin: 10,
     marginHorizontal: "auto",
-    minWidth: 350,
+
+    width: "100%",
     color: blue,
     backgroundColor: "white",
     fontSize: 22,
     fontWeight: 500,
     lineHeight: 25,
     textAlign: "center",
+    textTransform: "capitalize",
   },
   tagButton: {
     padding: 6,
@@ -169,7 +165,7 @@ export default exports = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: blue,
     justifyContent: "center",
-    height: 27,
+    height: 30,
   },
   tagButtonText: {
     color: "white",
@@ -217,7 +213,7 @@ export default exports = StyleSheet.create({
   deckTileContainer: {
     flex: 1,
     padding: 10,
-    height: 160,
+    height: 170,
     margin: 10,
     borderWidth: 1,
     borderRadius: 10,
@@ -237,7 +233,7 @@ export default exports = StyleSheet.create({
     alignSelf: "center",
   },
   deckName: {
-    fontSize: 20,
+    fontSize: 25,
     textTransform: "capitalize",
     fontWeight: "bold",
     marginBottom: 5,
@@ -247,7 +243,7 @@ export default exports = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    height: 115,
+    height: 120,
     marginBottom: 10,
     overflow: "hidden",
   },
@@ -256,7 +252,60 @@ export default exports = StyleSheet.create({
     fontSize: 12,
     fontWeight: "bold",
     position: "absolute",
-    bottom: 5,
-    right: 20,
+    bottom: 2,
+    right: 10,
+  },
+  //deck/[id] page
+  scrollViewContent: {
+    flexGrow: 1,
+    paddingVertical: 30,
+    height: "90%",
+  },
+  scrollStopper: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
+  },
+  //cardTile component
+
+  cardTileContainer: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    padding: 5,
+    margin: 8,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "black",
+    backgroundColor: "white",
+    shadowColor: "black",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  cardTileQ: {
+    alignSelf: "center",
+    paddingTop: 35,
+    fontSize: 18,
+    textAlign: "center",
+    width: "90%",
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  stats: {
+    textAlign: "center",
+    width: "100%",
+    margin: 5,
+  },
+  cardTileTag: {
+    position: "absolute",
+    right: 5,
+    padding: 6,
+    height: 26,
   },
 });
