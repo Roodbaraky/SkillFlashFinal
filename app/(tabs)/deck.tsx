@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, View, StyleSheet, Dimensions, Alert } from "react-native";
+import { Text, View, Alert } from "react-native";
 import { UserContext } from "../../contexts/UserContext";
 import { deleteDeck, getDecksByUsername } from "../../utils/api";
-import { HomeDeck } from "../../utils/utils";
 import DeckTile from "../../components/DeckTile";
 import { DecksContext } from "../../contexts/DecksContext";
 import { SwipeListView } from "react-native-swipe-list-view";
@@ -13,7 +12,6 @@ import Loading from "@/components/Loading";
 import Error from "../../components/Error";
 import styles from "@/styling/style";
 
-// const screenWidth = Dimensions.get("window").width;
 export default function TabOneScreen() {
   const { userDetails } = useContext(UserContext);
   const { decks, setDecks } = useContext(DecksContext);
@@ -57,7 +55,15 @@ export default function TabOneScreen() {
         </Text>
       </View>
       <View style={styles.scrollViewContainer}>
-        <Text style={styles.smallTitle}>Your decks</Text>
+        <Text style={[styles.smallTitle, styles.alignLeft]}>
+          Choose a deck to start practicing:
+        </Text>
+        {!decks.length && (
+          <Text style={styles.smallTitle}>
+            Sorry, you don't have any decks to display. Start your learning
+            journey by pressing on the "Create Deck' button below!
+          </Text>
+        )}
         <SwipeListView
           disableRightSwipe
           data={decks}
@@ -89,49 +95,7 @@ export default function TabOneScreen() {
           leftOpenValue={0}
           rightOpenValue={-75}
         />
-        {/* <FlatList
-					data={decks}
-					renderItem={({ item }) => <DeckTile deck={item} />}
-				/> */}
       </View>
     </SafeAreaView>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//   },
-//   scrollViewContent: {
-//     flexGrow: 1,
-//     paddingVertical: 10,
-//     height: "80%",
-//     marginLeft: 10,
-//     marginTop: 10,
-//   },
-//   rowFront: {
-//     backgroundColor: "#FFF",
-//     borderBottomColor: "#CCC",
-//     borderBottomWidth: 1,
-//     justifyContent: "center",
-//     height: 140,
-//     width: screenWidth,
-//   },
-//   rowBack: {
-//     alignItems: "center",
-//     backgroundColor: "#DDD",
-//     flex: 1,
-//     flexDirection: "row",
-//     justifyContent: "flex-end",
-//     paddingRight: 15,
-//     width: screenWidth,
-//     marginVertical: 10,
-//     borderRadius: 10,
-//   },
-//   backRightBtn: {
-//     alignItems: "flex-end",
-//     justifyContent: "flex-end",
-//     width: 75,
-//   },
-// });
