@@ -1,20 +1,14 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useContext, useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import {
-  Text,
-  View,
-  FlatList,
-  StyleSheet,
-  Pressable,
-  Alert,
-} from "react-native";
+import { Text, View, FlatList, Pressable, Alert } from "react-native";
 import { DecksContext } from "@/contexts/DecksContext";
 import CardTile from "@/components/CardTile";
 import { generateMoreQuestions, getDecksByUsername } from "@/utils/api";
 import Loading from "../../../components/Loading";
 import Error from "@/components/Error";
 import { HomeDeck } from "@/utils/utils";
+import styles from "@/styling/style";
 export default function DeckDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { decks, setDecks } = useContext(DecksContext);
@@ -77,77 +71,38 @@ export default function DeckDetailScreen() {
     return <Error />;
   }
   return (
-    <SafeAreaView>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-          padding: 10,
-        }}
-      >
-        <Pressable
-          style={styles.button}
-          onPress={() => {
-            router.push({
-              pathname: `deck/${id}/play`,
-              // params: { id: id },
-            });
-          }}
-        >
-          {/* onPress to be added */}
-          <Text style={styles.button}>Start Review</Text>
-        </Pressable>
-        <Pressable style={styles.button} onPress={handleGenerateMoreCards}>
-          {/* onPress to be added */}
-          <Text style={styles.button}>More Cards</Text>
-        </Pressable>
-      </View>
-
+    <SafeAreaView style={styles.container}>
       {deck ? (
-        <View style={styles.scrollViewContent}>
-          <Text
-            style={{
-              fontSize: 30,
-              fontWeight: "bold",
-              textAlign: "center",
-              textTransform: "capitalize",
-            }}
-          >
+        <>
+          <Text style={[styles.mediumTitle, styles.lessMargin]}>
             {deck.deckName}
           </Text>
-          <FlatList
-            data={deck.cards}
-            renderItem={({ item }) => <CardTile card={item} />}
-          />
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              padding: 10,
-            }}
-          ></View>
-        </View>
+          <View style={styles.buttonContainer}>
+            <Pressable
+              style={styles.button}
+              onPress={() => {
+                router.push({
+                  pathname: `deck/${id}/play`,
+                });
+              }}
+            >
+              <Text style={styles.buttonText}>Start Review</Text>
+            </Pressable>
+            <Pressable style={styles.button} onPress={handleGenerateMoreCards}>
+              <Text style={styles.buttonText}>More Cards</Text>
+            </Pressable>
+          </View>
+          <View style={styles.scrollViewContent}>
+            <FlatList
+              data={deck.cards}
+              renderItem={({ item }) => <CardTile card={item} />}
+            />
+            <View style={styles.scrollStopper}></View>
+          </View>
+        </>
       ) : (
         <Text>Error Page Here</Text>
       )}
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollViewContent: {
-    flexGrow: 1,
-    paddingVertical: 10,
-    height: "90%",
-  },
-  button: {
-    backgroundColor: "lightblue",
-    textAlign: "center",
-    width: 150,
-    alignSelf: "center",
-    padding: 10,
-    borderRadius: 10,
-
-    marginVertical: 10,
-  },
-});

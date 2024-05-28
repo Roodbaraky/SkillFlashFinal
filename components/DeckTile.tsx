@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { HomeDeck } from "../utils/utils";
 import { Link } from "expo-router";
 import styles from "@/styling/style";
@@ -28,7 +28,7 @@ export default function DeckTile(props: { deck: HomeDeck }) {
             {deck.tags.map((tag, index) => {
               const tagCategory = findTagCategory(tag);
               return (
-                <View
+                <Pressable
                   key={index}
                   style={[
                     styles.tagButton,
@@ -38,7 +38,7 @@ export default function DeckTile(props: { deck: HomeDeck }) {
                   <Text style={[styles.tagButtonText, styles.fontSize12]}>
                     {tag}
                   </Text>
-                </View>
+                </Pressable>
               );
             })}
           </View>
