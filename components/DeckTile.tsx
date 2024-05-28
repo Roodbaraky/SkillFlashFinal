@@ -28,7 +28,7 @@ export default function DeckTile(props: { deck: HomeDeck }) {
             {deck.tags.map((tag, index) => {
               const tagCategory = findTagCategory(tag);
               return (
-                <Pressable
+                <View
                   key={index}
                   style={[
                     styles.tagButton,
@@ -38,7 +38,7 @@ export default function DeckTile(props: { deck: HomeDeck }) {
                   <Text style={[styles.tagButtonText, styles.fontSize12]}>
                     {tag}
                   </Text>
-                </Pressable>
+                </View>
               );
             })}
           </View>
