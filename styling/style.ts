@@ -7,6 +7,7 @@ const screenWidth = Dimensions.get("window").width;
 export default exports = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
   background: {
     flex: 1,
@@ -44,6 +45,9 @@ export default exports = StyleSheet.create({
   fontSize12: {
     fontSize: 12,
   },
+  alignLeft: {
+    textAlign: "left",
+  },
   logo: {
     width: 250,
     height: 250,
@@ -63,6 +67,13 @@ export default exports = StyleSheet.create({
     borderColor: "white",
     borderWidth: 2,
   },
+  "technical-skills": { backgroundColor: "#1E90FF" },
+  "problem-solving": { backgroundColor: "#32CD32" },
+  "system-design": { backgroundColor: "#FFA500" },
+  behavioral: { backgroundColor: "#9370DB" },
+  "practical-knowledge": { backgroundColor: "#008080" },
+  default: { backgroundColor: "#9e9e9e" },
+
   buttonText: {
     color: "white",
     fontSize: 20,
@@ -158,6 +169,7 @@ export default exports = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: blue,
     justifyContent: "center",
+    height: 27,
   },
   tagButtonText: {
     color: "white",
@@ -184,9 +196,7 @@ export default exports = StyleSheet.create({
     borderBottomColor: "#CCC",
     borderBottomWidth: 1,
     justifyContent: "center",
-    // height: 150,
     width: screenWidth,
-    // borderRadius: 10,
   },
   deckTileBack: {
     alignItems: "center",
@@ -207,7 +217,7 @@ export default exports = StyleSheet.create({
   deckTileContainer: {
     flex: 1,
     padding: 10,
-
+    height: 160,
     margin: 10,
     borderWidth: 1,
     borderRadius: 10,
@@ -221,7 +231,7 @@ export default exports = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 5,
     elevation: 5,
-    // height: 150,
+
     justifyContent: "center",
     width: screenWidth - 20,
     alignSelf: "center",
@@ -237,25 +247,16 @@ export default exports = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
+    height: 115,
     marginBottom: 10,
+    overflow: "hidden",
   },
-  // tag: {
-  //   padding: 5,
-  //   margin: 5,
-  //   borderRadius: 10,
-  //   backgroundColor: "grey",
-  // },
-  // tagText: {
-  //   color: "white",
-  //   fontSize: 12,
-  //   fontWeight: "bold",
-  //   textTransform: "capitalize",
-  // },
+
   cardCount: {
     fontSize: 12,
     fontWeight: "bold",
     position: "absolute",
-    bottom: 10,
+    bottom: 5,
     right: 20,
   },
 });
