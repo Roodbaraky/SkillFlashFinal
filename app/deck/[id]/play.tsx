@@ -8,6 +8,7 @@ import { useNavigation } from "expo-router";
 import { Card } from "@/utils/utils";
 import { FlippableCard } from "@/components/FlippableCard";
 import LottieView from "lottie-react-native";
+import * as Progress from "react-native-progress";
 
 export default function PlayScreen() {
 	const navigation = useNavigation();
@@ -105,6 +106,7 @@ export default function PlayScreen() {
 
 	return (
 		<View style={styles.container}>
+			<Progress.Bar progress={(currentCardIndex+0.1)/deckLength} style={styles.progress} color="#489FB5" borderWidth={0} width={width*0.25} height={height*0.03} borderRadius={20} unfilledColor="#16697A"/>
 			{anim.status && <Anim />}
 			<View style={styles.background}>
 				<Swiper
@@ -128,21 +130,30 @@ const width = Dimensions.get("screen").width;
 const height = Dimensions.get("screen").height;
 
 const styles = StyleSheet.create({
+progress:{
+	marginLeft:'auto',
+	marginRight:'auto',
+    marginTop:height*0.03,
+    
+   
+    
+},
 	noAnim: {
-		width: width * 0.5,
+		width: width * 0.3,
 		
 	},
 	yesAnim: {
-		width: width * 0.5,
+		width: width * 0.3,
 		
 	},
 	animContainer: {
 		position: 'absolute',
 		zIndex: 1000,
-		width: width*0.15,
+		width: width*0.125,
 		left:0,
 		right:0,
-		top: height * 0.0075,
+		top: height * 0.0055,
+		paddingTop: height * 0.0855,
 		marginRight:'auto',
 		marginLeft:'auto',
 	
