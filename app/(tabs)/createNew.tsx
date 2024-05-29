@@ -16,6 +16,8 @@ import { router } from "expo-router";
 import TagButton from "@/components/tagButton";
 import { DecksContext } from "@/contexts/DecksContext";
 import styles from "@/styling/style";
+import Accordion from 'react-native-collapsible/Accordion';
+
 interface Tags {
 	category: string;
 	tags: string[];
@@ -34,6 +36,7 @@ export default function CreateDeck() {
 	const [deckName, setDeckName] = useState<string>("");
 	const [isError, setIsError] = useState<Error>({});
 	const { decks, setDecks } = useContext(DecksContext);
+	const [activeSections, setActiveSections] = useState<number[]>([]);
 
 	useEffect(() => {
 		getAllTags()
@@ -41,7 +44,7 @@ export default function CreateDeck() {
 				const tagsByCategory = splitByCategory(allTags);
 				setTags(tagsByCategory);
 			})
-			.catch((err) => {});
+			.catch((err) => { });
 	}, []);
 
 	function checkField(field: string) {
@@ -50,7 +53,14 @@ export default function CreateDeck() {
 				...isError,
 				deckName: "Deck name must be at least 3 characters long",
 			});
-		} else if (field === "deckName" && deckName.length >= 3) {
+		}
+		if (field === "deckName" && decks.map((deck) => deck.deckName).includes(deckName)) {
+			setIsError({
+				...isError,
+				deckName: "Deck name already exists",
+			});
+		}
+		else if (field === "deckName" && deckName.length >= 3) {
 			setIsError({
 				...isError,
 				deckName: "",
@@ -86,7 +96,13 @@ export default function CreateDeck() {
 				...isError,
 				selection: "Please select at least 3 tags",
 			});
-		} else {
+		} else if (decks.map((deck) => deck.deckName).includes(deckName)) {
+			setIsError({
+				...isError,
+				deckName: "Deck name already exists",
+			});
+		}
+		else {
 			setIsError({});
 			setIsLoading(true);
 			generateDeck(userDetails.username, deckName, tagSelection)
@@ -108,7 +124,42 @@ export default function CreateDeck() {
 				});
 		}
 	}
+
 	if (isLoading) return <Loading />;
+
+	const renderHeader = (section, index, isActive) => {
+		return (
+			<View >
+				<Text style={styles.newDeckCategoryName}>{`${section.category} ${isActive ? `-` : `⌄`}`}</Text>
+			</View>
+		);
+	};
+
+	const renderContent = (section) => {
+		return (
+			<View style={styles.newDeckCategoryContainer}>
+				{section.tags.map((tag) => (
+					<TagButton
+						key={tag}
+						text={tag}
+						onPress={() => {
+							setTagSelection((currentSelection) => {
+								if (
+									tagSelection &&
+									!tagSelection.includes(tag) &&
+									tagSelection.length < 10
+								) {
+									return [...currentSelection, tag];
+								}
+								return currentSelection;
+							});
+						}}
+						tagSelection={tagSelection}
+					/>
+				))}
+			</View>
+		);
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -117,7 +168,7 @@ export default function CreateDeck() {
 					Let AI create a customized deck of questions for your role
 				</Text>
 				<Text style={styles.smallTitle}>
-					1. Choose an unique name for your new deck:
+					1. Choose a unique name for your new deck:
 				</Text>
 				<TextInput
 					style={styles.input}
@@ -129,7 +180,7 @@ export default function CreateDeck() {
 						checkField("deckName");
 					}}
 					value={deckName}
-					placeholder="job name you are applying for ..."
+					placeholder="Job name you are applying for ..."
 					id="deckName"
 				/>
 				{isError.deckName ? (
@@ -143,24 +194,22 @@ export default function CreateDeck() {
 				</Text>
 
 				<View style={styles.newDeckTagSelection}>
-					{tagSelection &&
-						tagSelection.map((tag) => {
-							return (
-								<TagButton
-									key={tag}
-									text={"X  " + tag}
-									onPress={() => {
-										setTagSelection((currentSelection) => {
-											const filtered = currentSelection.filter(
-												(item) => item !== tag
-											);
-
-											return filtered;
-										});
-									}}
-								/>
-							);
-						})}
+					{tagSelection.map((tag) => {
+						return (
+							<TagButton
+								key={tag}
+								text={"X  " + tag}
+								onPress={() => {
+									setTagSelection((currentSelection) => {
+										const filtered = currentSelection.filter(
+											(item) => item !== tag
+										);
+										return filtered;
+									});
+								}}
+							/>
+						);
+					})}
 				</View>
 
 				{isError.selection ? (
@@ -169,7 +218,7 @@ export default function CreateDeck() {
 					<></>
 				)}
 				<Text style={styles.smallTitle}>
-					3.Press the button to create your deck:
+					3. Press the button to create your deck:
 				</Text>
 				<Pressable
 					style={[styles.button, styles.newDeckButton]}
@@ -185,41 +234,14 @@ export default function CreateDeck() {
 
 				<View style={styles.newDeckTagListContainer}>
 					<Text style={styles.newDeckTagListContainerTitle}>Skills list:</Text>
-					{tags &&
-						tags.map((category) => {
-							return (
-								<View
-									style={styles.newDeckCategoryContainer}
-									key={category.category}
-								>
-									<Text style={styles.newDeckCategoryName}>
-										{category.category}
-									</Text>
-									{category.tags &&
-										category.tags.map((tag) => {
-											return (
-												<TagButton
-													key={tag}
-													text={tag}
-													onPress={() => {
-														setTagSelection((currentSelection) => {
-															if (
-																tagSelection &&
-																!tagSelection.includes(tag) &&
-																tagSelection.length < 10
-															) {
-																return [...currentSelection, tag];
-															}
-															return currentSelection;
-														});
-													}}
-													tagSelection={tagSelection}
-												/>
-											);
-										})}
-								</View>
-							);
-						})}
+					<Accordion
+						sections={tags}
+						activeSections={activeSections}
+						renderHeader={renderHeader}
+						renderContent={renderContent}
+						onChange={setActiveSections}
+						underlayColor='#489FB5'
+					/>
 				</View>
 			</ScrollView>
 		</SafeAreaView>
