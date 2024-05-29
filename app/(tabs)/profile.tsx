@@ -13,7 +13,9 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   ScrollView,
+	StyleSheet,
 } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface UserInfo {
   username?: string;
@@ -35,8 +37,9 @@ export default function TabThreeScreen() {
   const [email, setEmail] = useState(userDetails.email);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+	const [showPw, setShowPw] = useState(false); 
+	const [showConfirmPw, setShowConfirmPw] = useState(false); 
   const [errors, setErrors] = useState<Error>({});
-  const [isValid, setIsValid] = useState(false);
   const [selection, setSelection] = useState(1);
 
   function handleLogout() {
@@ -59,6 +62,14 @@ export default function TabThreeScreen() {
     setIsEditing(!isEditing);
   }
 
+	function toggleShowPw() { 
+		setShowPw(!showPw); 
+	};
+
+	function toggleShowConfirmPw() { 
+		setShowConfirmPw(!showConfirmPw); 
+	};
+
   async function nameValidation() {
     let error: Error = {};
     if (!name) {
@@ -69,7 +80,7 @@ export default function TabThreeScreen() {
       error.username = "Username already exists";
     }
     setErrors((prevErrors) => ({ ...prevErrors, ...error }));
-    setIsValid(Object.keys(error).length === 0);
+		return error
   }
 
   async function emailValidation() {
@@ -79,7 +90,7 @@ export default function TabThreeScreen() {
       error.email = "Please enter a valid email";
     }
     setErrors((prevErrors) => ({ ...prevErrors, ...error }));
-    setIsValid(Object.keys(error).length === 0);
+		return error
   }
 
   async function pwValidation() {
@@ -93,7 +104,7 @@ export default function TabThreeScreen() {
         "Password must be 8+ characters and contain at least one of the following: uppercase, lowercase, number, and special character(@$!%*?&)";
     }
     setErrors((prevErrors) => ({ ...prevErrors, ...error }));
-    setIsValid(Object.keys(error).length === 0);
+		return error
   }
 
   async function confirmPwValidation() {
@@ -104,16 +115,17 @@ export default function TabThreeScreen() {
       error.confirmPassword =
         "The passwords you entered do not match, please try again";
     setErrors((prevErrors) => ({ ...prevErrors, ...error }));
-    setIsValid(Object.keys(error).length === 0);
+		return error
   }
 
   async function handleSave() {
     if (selection === 1) {
+			const error = {...await nameValidation(), ...await emailValidation()}
       if (name === userDetails.username && email === userDetails.email) {
         setIsEditing(false);
         return;
       }
-      if (userDetails.username && isValid) {
+      if (userDetails.username && Object.keys(error).length === 0) {
         let userInfo: UserInfo = {};
         if (name !== userDetails.username) userInfo.username = name;
         if (email !== userDetails.email) userInfo.email = email;
@@ -125,6 +137,8 @@ export default function TabThreeScreen() {
           setIsEditing(false);
         } catch (err) {
           console.log(err);
+					setName(userDetails.username)
+					setEmail(userDetails.email)
           alert(
             "There has been a problem with your request. Please try again later"
           );
@@ -136,11 +150,13 @@ export default function TabThreeScreen() {
         );
       }
     } else if (selection === 2) {
-      if (userDetails.username && isValid) {
+			const error = {...await pwValidation(), ...await confirmPwValidation()}
+      if (userDetails.username && Object.keys(error).length === 0) {
         try {
           updateUserInfo(userDetails.username, { password });
           setIsEditing(false);
           setPassword("");
+					setConfirmPassword("");
         } catch (err) {
           console.log(err);
           alert(
@@ -260,6 +276,7 @@ export default function TabThreeScreen() {
             ) : (
               <>
                 <Text style={styles.label}>New Password: </Text>
+								<View style={pwStyles.PasswordContainer}>
                 <TextInput
                   style={styles.input}
                   value={password}
@@ -272,14 +289,22 @@ export default function TabThreeScreen() {
                   }}
                   onBlur={pwValidation}
                   placeholder="New password"
-                  secureTextEntry={true}
+                  secureTextEntry={!showPw}
                   textContentType="password"
                 />
+								<MaterialCommunityIcons
+                    name={showPw ? 'eye-off' : 'eye'} 
+                    size={24} 
+                    color="#aaa"
+                    onPress={toggleShowPw} 
+                />
+								</View>
                 {errors.password && (
                   <Text style={styles.errorText}>{errors.password}</Text>
                 )}
 
                 <Text style={styles.label}>Confirm Password: </Text>
+								<View style={pwStyles.PasswordContainer}>
                 <TextInput
                   style={styles.input}
                   value={confirmPassword}
@@ -292,9 +317,16 @@ export default function TabThreeScreen() {
                   }}
                   onBlur={confirmPwValidation}
                   placeholder="Re-enter password"
-                  secureTextEntry={true}
+                  secureTextEntry={!showConfirmPw}
                   textContentType="password"
                 />
+								<MaterialCommunityIcons
+                    name={showConfirmPw ? 'eye-off' : 'eye'} 
+                    size={24} 
+                    color="#aaa"
+                    onPress={toggleShowConfirmPw} 
+                />
+								</View>
                 {errors.confirmPassword && (
                   <Text style={styles.errorText}>{errors.confirmPassword}</Text>
                 )}
@@ -313,3 +345,12 @@ export default function TabThreeScreen() {
     </SafeAreaView>
   );
 }
+
+const pwStyles = StyleSheet.create({
+	PasswordContainer: {
+		flexDirection: 'row', 
+		alignItems: 'center', 
+		justifyContent: 'center',  
+		borderRadius: 8, 
+	}
+})
