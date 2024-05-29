@@ -1,6 +1,8 @@
 import { UserContext } from "@/contexts/UserContext";
-import { Stack } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { Stack, router } from "expo-router";
 import React, { useState } from "react";
+import { Button, Pressable, Text, View } from "react-native";
 
 export default function HomeLayout() {
 	interface User {
@@ -19,13 +21,27 @@ export default function HomeLayout() {
 				options={{
 					headerShown: true,
 					headerBackTitle: "Back",
-					headerTitle:'Home',
+					headerTitle: "Home",
+
+					headerLeft: () => (
+						<View style={{ flexDirection: "row" }}>
+							<Pressable onPress={() => router.replace("/deck")}>
+								<View style={{ flexDirection: "row", alignItems: "center" }}>
+									<Ionicons name="chevron-back" size={24} color="white" />
+									<Text style={{ color: "#fff", fontSize: 22, marginLeft: 3 }}>
+										Back
+									</Text>
+								</View>
+							</Pressable>
+						</View>
+					),
+
 					headerStyle: { backgroundColor: "#489FB5" },
-								headerTintColor: "#fff",
-								headerTitleStyle: {
-									fontWeight: "bold",
-									fontSize: 25,
-								},
+					headerTintColor: "#fff",
+					headerTitleStyle: {
+						fontWeight: "bold",
+						fontSize: 25,
+					},
 				}}
 			/>
 			<Stack.Screen
@@ -33,13 +49,13 @@ export default function HomeLayout() {
 				options={{
 					headerShown: true,
 					navigationBarHidden: true,
-					headerTitle:'Back',
+					headerTitle: "Back",
 					headerStyle: { backgroundColor: "#489FB5" },
-								headerTintColor: "#fff",
-								headerTitleStyle: {
-									fontWeight: "bold",
-									fontSize: 25,
-								},
+					headerTintColor: "#fff",
+					headerTitleStyle: {
+						fontWeight: "bold",
+						fontSize: 25,
+					},
 				}}
 			/>
 		</Stack>
