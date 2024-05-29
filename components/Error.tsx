@@ -2,6 +2,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useRef } from "react";
 import LottieView from "lottie-react-native";
 
+
 import { Pressable, Text } from "react-native";
 import styles from "@/styling/style";
 import { router } from "expo-router";
@@ -29,4 +30,5 @@ export default function Error() {
       </Pressable>
     </SafeAreaView>
   );
+
 }

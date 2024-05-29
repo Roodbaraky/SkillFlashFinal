@@ -3,9 +3,10 @@ import { View, Text, Pressable } from "react-native";
 import { HomeDeck } from "../utils/utils";
 import { Link } from "expo-router";
 import styles from "@/styling/style";
-import { tags, categoryColors } from "@/constants/tags";
+import { tags, categoryColors, findTagCategory } from "@/constants/tags";
 
 export default function DeckTile(props: { deck: HomeDeck }) {
+
   const { deck } = props;
   const orderedTagsShortFirst = deck.tags.sort((a, b) => a.length - b.length);
 
@@ -50,4 +51,5 @@ export default function DeckTile(props: { deck: HomeDeck }) {
       </Link>
     </View>
   );
+
 }
