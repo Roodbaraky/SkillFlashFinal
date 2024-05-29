@@ -30,7 +30,7 @@ interface Error {
 }
 
 export default function TabThreeScreen() {
-  const { userDetails, setUserDetails } = useContext(UserContext);
+  const {userDetails, setUserDetails} = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(userDetails.username);
   const [email, setEmail] = useState(userDetails.email);
@@ -159,15 +159,10 @@ export default function TabThreeScreen() {
           await updateUserInfo(userDetails.username, {
             password,
           });
-
           setIsEditing(false);
           setPassword("");
-
           setConfirmPassword("");
           alert("Your password has been changed!");
-
-					
-
         } catch (err) {
           console.log(err);
           alert(
@@ -300,6 +295,7 @@ export default function TabThreeScreen() {
                     }));
                   }}
                   onBlur={pwValidation}
+									editable={true}
                   placeholder="New password"
                   secureTextEntry={!showPw}
                   textContentType="password"
@@ -328,6 +324,7 @@ export default function TabThreeScreen() {
                     }));
                   }}
                   onBlur={confirmPwValidation}
+									editable={true}
                   placeholder="Re-enter password"
                   secureTextEntry={!showConfirmPw}
                   textContentType="password"
