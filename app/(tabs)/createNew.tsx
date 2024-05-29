@@ -57,7 +57,7 @@ export default function CreateDeck() {
 		if (field === "deckName" && decks.map((deck) => deck.deckName).includes(deckName)) {
 			setIsError({
 				...isError,
-				deckName: "Deck name already exists",
+				deckName: `A deck with this name already exists`,
 			});
 		}
 		else if (field === "deckName" && deckName.length >= 3) {
@@ -99,7 +99,7 @@ export default function CreateDeck() {
 		} else if (decks.map((deck) => deck.deckName).includes(deckName)) {
 			setIsError({
 				...isError,
-				deckName: "Deck name already exists",
+				deckName: `A deck with this name already exists`,
 			});
 		}
 		else {
