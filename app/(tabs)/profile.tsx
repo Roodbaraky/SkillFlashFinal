@@ -283,7 +283,7 @@ export default function TabThreeScreen() {
             ) : (
               <>
                 <Text style={styles.label}>New Password: </Text>
-								<View style={pwStyles.PasswordContainer}>
+								<View style={styles.inputGroup}>
                 <TextInput
                   style={styles.input}
                   value={password}
@@ -312,7 +312,7 @@ export default function TabThreeScreen() {
                 )}
 
                 <Text style={styles.label}>Confirm Password: </Text>
-								<View style={pwStyles.PasswordContainer}>
+								<View style={styles.inputGroup}>
                 <TextInput
                   style={styles.input}
                   value={confirmPassword}
@@ -354,12 +354,3 @@ export default function TabThreeScreen() {
     </SafeAreaView>
   );
 }
-
-const pwStyles = StyleSheet.create({
-	PasswordContainer: {
-		flexDirection: 'row', 
-		alignItems: 'center', 
-		justifyContent: 'center',  
-		borderRadius: 8, 
-	}
-})

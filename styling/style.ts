@@ -498,6 +498,11 @@ export default exports = StyleSheet.create({
 	inputInactive: {
 		backgroundColor: "transparent",
 	},
+  inputGroup: {
+    flexDirection: 'row', 
+		alignItems: 'center',  
+		borderRadius: 8, 
+  },
 
 	errorText: {
 		color: "red",
