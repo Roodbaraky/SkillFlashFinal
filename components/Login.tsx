@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
-  Text,
-  TextInput,
-  Pressable,
-  View,
-  ImageBackground,
-  KeyboardAvoidingView,
-  ScrollView,
+	Text,
+	TextInput,
+	Pressable,
+	View,
+	ImageBackground,
+	KeyboardAvoidingView,
+	ScrollView,
 } from "react-native";
 import { router } from "expo-router";
 import { IsError, checkField } from "@/utils/utils";
@@ -17,10 +17,11 @@ import Loading from "./Loading";
 import styles from "../styling/style";
 
 interface LoginProps {
-  setIsLoginOpen: (isLoginOpen: boolean) => void;
+	setIsLoginOpen: (isLoginOpen: boolean) => void;
 }
 
 export default function Login({ setIsLoginOpen }: LoginProps) {
+
   const [usernameInput, setUsernameInput] = React.useState("");
   const [passwordInput, setPasswordInput] = React.useState("");
   const [isError, setIsError] = React.useState<IsError>({});
@@ -111,49 +112,50 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
                 <></>
               )}
 
-              <Text style={styles.label}>Password</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={(text) => {
-                  setPasswordInput(text);
 
-                  setIsError({ ...isError, password: "", general: "" });
-                }}
-                onBlur={() => {
-                  checkField("password", setIsError, passwordInput);
-                }}
-                value={passwordInput}
-                placeholder="password"
-                textContentType="password"
-                secureTextEntry={true}
-                id="password"
-                testID="password"
-              />
-              {isError.password?.length ? (
-                <Text testID="passwordError" style={styles.error}>
-                  {isError.password}
-                </Text>
-              ) : (
-                <></>
-              )}
-              <Pressable
-                testID="submit"
-                onPress={handleSubmit}
-                style={styles.button}
-              >
-                <Text style={styles.buttonText}>Log in</Text>
-              </Pressable>
-              {isError.general?.length ? (
-                <Text testID="generalError" style={styles.error}>
-                  {isError.general}
-                </Text>
-              ) : (
-                <></>
-              )}
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </ImageBackground>
-    </SafeAreaView>
-  );
+							<Text style={styles.label}>Password</Text>
+							<TextInput
+								style={styles.input}
+								onChangeText={(text) => {
+									setPasswordInput(text);
+
+									setIsError({ ...isError, password: "", general: "" });
+								}}
+								onBlur={() => {
+									checkField("password", setIsError, passwordInput);
+								}}
+								value={passwordInput}
+								placeholder="password"
+								textContentType="password"
+								secureTextEntry={true}
+								id="password"
+								testID="password"
+							/>
+							{isError.password?.length ? (
+								<Text testID="passwordError" style={styles.error}>
+									{isError.password}
+								</Text>
+							) : (
+								<></>
+							)}
+							<Pressable
+								testID="submit"
+								onPress={handleSubmit}
+								style={styles.button}
+							>
+								<Text style={styles.buttonText}>Log in</Text>
+							</Pressable>
+							{isError.general?.length ? (
+								<Text testID="generalError" style={styles.error}>
+									{isError.general}
+								</Text>
+							) : (
+								<></>
+							)}
+						</View>
+					</ScrollView>
+				</KeyboardAvoidingView>
+			</ImageBackground>
+		</SafeAreaView>
+	);
 }

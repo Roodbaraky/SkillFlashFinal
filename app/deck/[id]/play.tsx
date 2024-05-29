@@ -5,7 +5,7 @@ import React, {
   useContext,
   useCallback,
 } from "react";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, Text} from "react-native";
 import Swiper from "react-native-deck-swiper";
 import { DecksContext } from "@/contexts/DecksContext";
 import { useLocalSearchParams } from "expo-router";
@@ -29,8 +29,6 @@ export default function PlayScreen() {
   const [reorderDeck, setReorderDeck] = useState(false);
   const swiperReferenceObject = useRef(null);
 
-  // const [anim, setAnim] = useState({ status: false, yes: false, no: false });
-
   const handleExit = useCallback(async () => {
     const deckFromCurrentCardOnwards = deck.slice(currentCardIndex);
     const deckBeforeCurrentCard = deck.slice(0, currentCardIndex);
@@ -43,13 +41,19 @@ export default function PlayScreen() {
       d._id === id ? { ...d, cards: newDeck } : d
     );
     setDecks(updatedDecks);
+   
   }, [deck, currentCardIndex, id, decks, setDecks]);
 
   useEffect(() => {
+    navigation.setOptions({
+      headerTitle:`${deckFromContext?.deckName}`,
+    })
     const exitPage = navigation.addListener("beforeRemove", async (e) => {
       await handleExit();
+    
     });
     return exitPage;
+    
   }, [navigation, handleExit]);
 
   useEffect(() => {
@@ -78,10 +82,7 @@ export default function PlayScreen() {
       return newIndex;
     });
 
-    // setAnim({ status: true, yes: false, no: true });
-    // setTimeout(() => {
-    //   setAnim({ status: false, yes: false, no: false });
-    // }, 2000);
+  
   };
 
   const handleRightSwipe = (cardIndex: number) => {
@@ -99,37 +100,15 @@ export default function PlayScreen() {
       }
       return newIndex;
     });
-    // setAnim({ status: true, yes: true, no: false });
-    // setTimeout(() => {
-    //   setAnim({ status: false, yes: false, no: false });
-    // }, 2000);
+    
   };
 
-  // const Anim = () => {
-  //   return (
-  //     <View style={styles.animationContainer}>
-  //       {anim.no && (
-  //         <LottieView
-  //           autoPlay
-  //           source={require("../../../assets/fasterN.json")}
-  //           style={styles.noSwipeAnimation}
-  //         />
-  //       )}
-  {
-    /* {anim.yes && (
-          <LottieView
-            autoPlay
-            source={require("../../../assets/fasterY.json")}
-  //           style={styles.yesSwipeAnimation}
-  //         />
-  //       )} */
-  }
-  //     </View>
-  //   );
-  // };
+
+ 
 
   return (
     <View style={styles.playContainer}>
+      {/* <Text style={styles.smallTitle}>{deckFromContext?.deckName}</Text> */}
       <Progress.Bar
         progress={(currentCardIndex + 0.1) / deckLength}
         style={styles.deckProgressLoader}
@@ -140,7 +119,7 @@ export default function PlayScreen() {
         borderRadius={20}
         borderWidth={0}
       />
-      {/* {anim.status && <Anim />} */}
+  
       <View style={styles.playBackground}>
         <Swiper
           ref={swiperReferenceObject}

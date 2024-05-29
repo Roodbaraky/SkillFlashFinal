@@ -27,7 +27,7 @@ export default function RootLayout() {
 						<Stack.Screen
 							name="deck/[id]"
 							options={{
-								headerShown: true,
+								headerShown: false,
 								title: "Home",
 
 								headerBackTitle: "Back",

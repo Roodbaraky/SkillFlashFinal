@@ -2,9 +2,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useRef } from "react";
 import LottieView from "lottie-react-native";
 
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 export default function Error() {
   const animation = useRef(null);
+
 
   return (
     <SafeAreaView style={styles.animationContainer}>
@@ -22,6 +23,7 @@ export default function Error() {
       </View>
     </SafeAreaView>
   );
+
 }
 
 const styles = StyleSheet.create({

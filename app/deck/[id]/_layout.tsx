@@ -17,15 +17,29 @@ export default function HomeLayout() {
 			<Stack.Screen
 				name="index"
 				options={{
-					headerShown: false,
+					headerShown: true,
 					headerBackTitle: "Back",
+					headerTitle:'Home',
+					headerStyle: { backgroundColor: "#489FB5" },
+								headerTintColor: "#fff",
+								headerTitleStyle: {
+									fontWeight: "bold",
+									fontSize: 25,
+								},
 				}}
 			/>
 			<Stack.Screen
 				name="play"
 				options={{
-					headerShown: false,
+					headerShown: true,
 					navigationBarHidden: true,
+					headerTitle:'Back',
+					headerStyle: { backgroundColor: "#489FB5" },
+								headerTintColor: "#fff",
+								headerTitleStyle: {
+									fontWeight: "bold",
+									fontSize: 25,
+								},
 				}}
 			/>
 		</Stack>
