@@ -14,6 +14,7 @@ const duplicateTags: Tag[] = [
 	{ tagName: "SQL", tagCategory: "technical-skills" },
 	{ tagName: "Java", tagCategory: "technical-skills" },
 	{ tagName: "Vue.js", tagCategory: "technical-skills" },
+	{ tagName: "Vue", tagCategory: "technical-skills" },
 	{ tagName: "Selenium", tagCategory: "technical-skills" },
 	{ tagName: "Spring Boot", tagCategory: "technical-skills" },
 	{ tagName: "Express.js", tagCategory: "technical-skills" },
@@ -69,6 +70,8 @@ const duplicateTags: Tag[] = [
 	{ tagName: "MongoDB", tagCategory: "technical-skills" },
 	{ tagName: "Redux", tagCategory: "technical-skills" },
 	{ tagName: "Firebase", tagCategory: "technical-skills" },
+	{ tagName: "Supabase", tagCategory: "technical-skills" },
+	{ tagName: "Github", tagCategory: "technical-skills" },
 	{ tagName: "Redis", tagCategory: "technical-skills" },
 	{ tagName: "Elasticsearch", tagCategory: "technical-skills" },
 	{ tagName: "jQuery", tagCategory: "technical-skills" },
@@ -266,3 +269,16 @@ export const categoryColors: { [key: string]: string } = {
 	"practical-knowledge": "#008080",
 	default: "#9e9e9e",
 };
+
+export function findTagCategory(tagName: string, allTags: Tag[] = tags) {
+	const tagString = tagName.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+	const tag = allTags.find(
+		(tag) =>
+			tag.tagName.replace(/[^a-zA-Z0-9]/g, "").toLowerCase() === tagString
+	);
+	if (tag) {
+		return tag.tagCategory;
+	} else {
+		return "default";
+	}
+}
