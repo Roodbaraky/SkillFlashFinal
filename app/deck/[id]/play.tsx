@@ -13,7 +13,6 @@ import { updateCards } from "@/utils/api";
 import { useNavigation } from "expo-router";
 import { Card } from "@/utils/utils";
 import { FlippableCard } from "@/components/FlippableCard";
-import LottieView from "lottie-react-native";
 import * as Progress from "react-native-progress";
 import styles from "@/styling/style";
 
@@ -116,13 +115,15 @@ export default function PlayScreen() {
   //           style={styles.noSwipeAnimation}
   //         />
   //       )}
-        {/* {anim.yes && (
+  {
+    /* {anim.yes && (
           <LottieView
             autoPlay
             source={require("../../../assets/fasterY.json")}
   //           style={styles.yesSwipeAnimation}
   //         />
-  //       )} */}
+  //       )} */
+  }
   //     </View>
   //   );
   // };
@@ -134,7 +135,7 @@ export default function PlayScreen() {
         style={styles.deckProgressLoader}
         color="#489FB5"
         unfilledColor="#16697A"
-        width={width * 0.25}
+        width={width * 0.9}
         height={height * 0.03}
         borderRadius={20}
         borderWidth={0}
@@ -157,44 +158,41 @@ export default function PlayScreen() {
           infinite
           overlayLabels={{
             left: {
-              title: '❌',
+              title: "❌",
               style: {
                 label: {
-                  backgroundColor: '#16697A',
-                  borderColor: 'white',
-                  color: 'white',
+                  backgroundColor: "#16697A",
+                  borderColor: "white",
+                  color: "white",
                   borderWidth: 2,
-                  borderRadius:40,
-                  transform: "scale(2.8)",
+
+                  transform: "scale(2.5)",
                   userSelect: "none",
                 },
                 wrapper: {
-                  flexDirection: 'column',
-                  alignItems: 'flex-end',
-                  justifyContent: 'flex-start',
-                 
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  justifyContent: "flex-start",
                 },
               },
             },
             right: {
-              title: '✅',
+              title: "✅",
               style: {
                 label: {
-                  backgroundColor: '#16697A',
-                  borderColor: 'white',
-                  borderRadius:40,
-                  color: 'white',
+                  backgroundColor: "#16697A",
+                  borderColor: "white",
+
+                  color: "white",
                   borderWidth: 2,
-                  transform: "scale(2.8)",
+                  transform: "scale(2.5)",
                   userSelect: "none",
-                  fill:'green'
+                  fill: "green",
                 },
                 wrapper: {
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  justifyContent: 'flex-start',
-                 
-                  
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  justifyContent: "flex-start",
                 },
               },
             },
