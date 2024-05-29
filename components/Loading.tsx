@@ -8,7 +8,14 @@ export default function Error() {
 
 	return (
 		<SafeAreaView style={styles.animationContainer}>
-			<Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>
+			<Text
+				style={{
+					fontSize: 24,
+					fontWeight: "bold",
+					marginBottom: 20,
+					color: "#489FB5",
+				}}
+			>
 				Please wait...
 			</Text>
 			<View style={styles.animationContainer}>
