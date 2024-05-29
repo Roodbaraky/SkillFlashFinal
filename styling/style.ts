@@ -44,8 +44,9 @@ export default exports = StyleSheet.create({
   fontSize12: {
     fontSize: 12,
   },
-  alignLeft: {
+  alignLeftWithUnderline: {
     textAlign: "left",
+    textDecorationLine: "underline",
   },
   logo: {
     width: 250,
@@ -227,9 +228,8 @@ export default exports = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 5,
     elevation: 5,
-
     justifyContent: "center",
-    width: screenWidth - 20,
+    width: screenWidth * 0.9,
     alignSelf: "center",
   },
   deckName: {

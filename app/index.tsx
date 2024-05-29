@@ -34,7 +34,6 @@ export default function Index() {
         resizeMode="cover"
         style={styles.background}
       >
-        {/* <Text style={styles.title}>SkillFlash</Text> */}
         <Image
           style={styles.logo}
           source={require("../assets/images/SkillFlash(1).png")}

@@ -25,7 +25,7 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
   const [passwordInput, setPasswordInput] = React.useState("");
   const [isError, setIsError] = React.useState<IsError>({});
   const { userDetails, setUserDetails } = useContext(UserContext);
-  const [isLoding, setIsLoding] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleSubmit() {
     if (!passwordInput && !usernameInput) {
@@ -34,29 +34,26 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
         password: "Please enter a password",
         username: "Please enter a valid username",
       });
-      setIsLoding(false);
+      setIsLoading(false);
     } else if (!usernameInput) {
       setIsError({ ...isError, username: "Please enter a valid username" });
     } else if (!passwordInput) {
       setIsError({ ...isError, password: "Please enter a password" });
     } else {
       if (!isError.username && !isError.password) {
-        setIsLoding(true);
+        setIsLoading(true);
         return checkUserExists(usernameInput, passwordInput)
           .then((data) => {
             return data;
           })
           .then((data) => {
             if (data.username) {
-              setIsLoding(false);
+              setIsLoading(false);
               setUserDetails(data);
               router.replace("deck");
             } else {
-              setIsLoding(false);
+              setIsLoading(false);
               setIsError({ ...isError, general: data.response.data.message });
-              setTimeout(() => {
-                alert(data.response.data.message);
-              }, 1000);
             }
           })
           .catch((err) => {
@@ -65,7 +62,7 @@ export default function Login({ setIsLoginOpen }: LoginProps) {
       }
     }
   }
-  if (isLoding) {
+  if (isLoading) {
     return <Loading />;
   }
   return (
