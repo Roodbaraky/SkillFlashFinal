@@ -9,7 +9,6 @@ import {
   TextInput,
   Pressable,
   Alert,
-  TouchableOpacity,
   SafeAreaView,
   KeyboardAvoidingView,
   ScrollView,
@@ -130,10 +129,13 @@ export default function TabThreeScreen() {
         if (name !== userDetails.username) userInfo.username = name;
         if (email !== userDetails.email) userInfo.email = email;
         try {
-          updateUserInfo(userDetails.username, {
-            username: userInfo.username,
-            email: userInfo.email,
-          });
+          const newDetails = await updateUserInfo(
+            userDetails.username,
+            userInfo
+          );
+
+          setUserDetails(newDetails);
+          alert("Your details have been updated!");
           setIsEditing(false);
         } catch (err) {
           console.log(err);
@@ -142,10 +144,11 @@ export default function TabThreeScreen() {
           alert(
             "There has been a problem with your request. Please try again later"
           );
+          setEmail(userDetails.email);
+          setName(userDetails.username);
         }
       } else {
-        Alert.alert(
-          "Error",
+        alert(
           "Please check the information you've entered is correct before saving."
         );
       }
@@ -153,19 +156,28 @@ export default function TabThreeScreen() {
 			const error = {...await pwValidation(), ...await confirmPwValidation()}
       if (userDetails.username && Object.keys(error).length === 0) {
         try {
-          updateUserInfo(userDetails.username, { password });
+          await updateUserInfo(userDetails.username, {
+            password,
+          });
+
           setIsEditing(false);
           setPassword("");
-					setConfirmPassword("");
+
+          setConfirmPassword("");
+          alert("Your password has been changed!");
+
+					
+
         } catch (err) {
           console.log(err);
           alert(
             "There has been a problem with your request. Please try again later"
           );
+          setPassword("");
+          setConfirmPassword("");
         }
       } else {
-        Alert.alert(
-          "Error",
+        alert(
           "Please check the information you've entered is correct before saving."
         );
       }
@@ -189,7 +201,7 @@ export default function TabThreeScreen() {
           </Text>
           <View style={styles.detailsContainer}>
             <View style={styles.btnGroup}>
-              <TouchableOpacity
+              <Pressable
                 style={[styles.btn, selection === 1 ? styles.btnActive : null]}
                 onPress={() => {
                   setSelection(1);
@@ -205,9 +217,9 @@ export default function TabThreeScreen() {
                 >
                   Your Details
                 </Text>
-              </TouchableOpacity>
+              </Pressable>
 
-              <TouchableOpacity
+              <Pressable
                 style={[styles.btn, selection === 2 ? styles.btnActive : null]}
                 onPress={() => {
                   setSelection(2);
@@ -223,7 +235,7 @@ export default function TabThreeScreen() {
                 >
                   Change Password
                 </Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
 
             {selection === 1 ? (

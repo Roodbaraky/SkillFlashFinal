@@ -70,7 +70,10 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
           })
           .catch((err) => {
             console.log(err);
-            alert(err.message);
+            setIsError({
+              general: `Sorry, there has been an error completing your request: ${err.message}`,
+            });
+            // alert(err.message);
           });
       }
     }
@@ -207,6 +210,11 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
               <Pressable onPress={handleSubmit} style={styles.button}>
                 <Text style={styles.buttonText}>Sign Up</Text>
               </Pressable>
+              {isError.general?.length ? (
+                <Text style={styles.error}>{isError.general}</Text>
+              ) : (
+                <></>
+              )}
             </View>
           </ScrollView>
         </KeyboardAvoidingView>

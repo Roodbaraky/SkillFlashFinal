@@ -55,14 +55,19 @@ export default function TabOneScreen() {
         </Text>
       </View>
       <View style={styles.scrollViewContainer}>
-        <Text style={[styles.smallTitle, styles.alignLeft]}>
+        <Text style={[styles.smallTitle, styles.alignLeftWithUnderline]}>
           Choose a deck to start practicing:
         </Text>
         {!decks.length && (
-          <Text style={styles.smallTitle}>
-            Sorry, you don't have any decks to display. Start your learning
-            journey by pressing on the "Create Deck' button below!
-          </Text>
+          <>
+            <Text style={styles.smallTitle}>
+              Sorry, you don't have any decks to display yet.
+            </Text>
+            <Text style={styles.smallTitle}>
+              Start your learning journey by pressing on the "Create Deck'
+              button below!
+            </Text>
+          </>
         )}
         <SwipeListView
           disableRightSwipe
