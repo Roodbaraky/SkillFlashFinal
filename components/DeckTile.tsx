@@ -23,7 +23,9 @@ export default function DeckTile(props: { deck: HomeDeck }) {
         style={{ flex: 1, textDecorationLine: "none" }}
       >
         <View style={styles.deckTileContainer}>
-          <Text style={styles.deckName}>{deck.deckName}</Text>
+          <Text numberOfLines={1} style={styles.deckName}>
+            {deck.deckName}
+          </Text>
           <View style={styles.tagsContainer}>
             {deck.tags.map((tag, index) => {
               const tagCategory = findTagCategory(tag);
