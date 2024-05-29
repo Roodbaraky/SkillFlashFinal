@@ -187,7 +187,7 @@ export default function TabThreeScreen() {
                     selection === 1 ? styles.btnTextActive : null,
                   ]}
                 >
-                  Your details
+                  Your Details
                 </Text>
               </TouchableOpacity>
 
@@ -279,7 +279,7 @@ export default function TabThreeScreen() {
                   <Text style={styles.errorText}>{errors.password}</Text>
                 )}
 
-                <Text style={styles.label}>Confirm Password</Text>
+                <Text style={styles.label}>Confirm Password: </Text>
                 <TextInput
                   style={styles.input}
                   value={confirmPassword}
