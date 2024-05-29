@@ -7,6 +7,7 @@ import { tags, categoryColors, findTagCategory } from "@/constants/tags";
 
 export default function DeckTile(props: { deck: HomeDeck }) {
 	const { deck } = props;
+	const orderedTagsShortFirst = deck.tags.sort((a, b) => a.length - b.length);
 
 	return (
 		<View style={[styles.container, styles.addTopMargin]}>
@@ -19,7 +20,7 @@ export default function DeckTile(props: { deck: HomeDeck }) {
 						{deck.deckName}
 					</Text>
 					<View style={styles.tagsContainer}>
-						{deck.tags.map((tag, index) => {
+						{orderedTagsShortFirst.map((tag, index) => {
 							const tagCategory = findTagCategory(tag);
 							return (
 								<View
