@@ -58,22 +58,20 @@ export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
       </Text>
 
       <View style={styles.flippableCardBtnContainer}>
-        {flipped&& <Pressable
-          onPress={(e) => {
-            handleLeftPress();
-          }}
-        >
-          <AntDesign
-            name="closecircleo"
-            size={20}
-            color="white"
+        {flipped && (
+          <Pressable
+            onPress={(e) => {
+              handleLeftPress();
+            }}
             style={
               clicked.left
                 ? styles.flippableCardNBtnCl
                 : styles.flippableCardNBtn
             }
-          />
-        </Pressable>}
+          >
+            <AntDesign name="closecircleo" size={20} color="white" />
+          </Pressable>
+        )}
         <Pressable
           style={
             clicked.middle ? styles.flippableCardBtnCl : styles.flippableCardBtn
@@ -93,22 +91,20 @@ export const FlippableCard = ({ card, swiperRef }: FlippableCardProps) => {
           </Text>
         </Pressable>
 
-        {flipped && <Pressable
-          onPress={(e) => {
-            handleRightPress();
-          }}
-        >
-          <AntDesign
-            name="checkcircleo"
-            size={20}
-            color="white"
+        {flipped && (
+          <Pressable
+            onPress={(e) => {
+              handleRightPress();
+            }}
             style={
               clicked.right
                 ? styles.flippableCardYBtnCl
                 : styles.flippableCardYBtn
             }
-          />
-        </Pressable>}
+          >
+            <AntDesign name="checkcircleo" size={20} color="white" />
+          </Pressable>
+        )}
       </View>
     </View>
   );

@@ -311,7 +311,7 @@ export default exports = StyleSheet.create({
   //----------------play page----------------
   deckProgressLoader: {
     marginHorizontal: "auto",
-    marginTop: screenHeight * 0.03,
+    marginTop: screenHeight * 0.05,
   },
   noSwipeAnimation: {
     width: screenWidth * 0.3,
@@ -351,7 +351,6 @@ export default exports = StyleSheet.create({
     backgroundColor: lightBlue,
     paddingVertical: screenHeight * 0.2,
     marginBottom: screenHeight * 0.2,
-
     width: screenWidth * 0.9,
     maxWidth: 500,
     marginHorizontal: "auto",
@@ -411,32 +410,41 @@ export default exports = StyleSheet.create({
   flippableCardYBtn: {
     backgroundColor: "#17697a",
     opacity: 0.5,
-    padding: 10,
-    borderRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 11,
+    borderRadius: 50,
     marginHorizontal: 10,
     transform: "scale(1.7)",
+    justifyContent: "center",
   },
   flippableCardYBtnCl: {
     backgroundColor: "lightgreen",
-    padding: 10,
-    borderRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 11,
+    borderRadius: 50,
     marginHorizontal: 10,
     transform: "scale(1.7)",
+    justifyContent: "center",
   },
+
   flippableCardNBtn: {
     backgroundColor: "#17697a",
     opacity: 0.5,
-    padding: 10,
-    borderRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 11,
+    borderRadius: 50,
     marginHorizontal: 10,
     transform: "scale(1.7)",
+    justifyContent: "center",
   },
   flippableCardNBtnCl: {
     backgroundColor: "red",
-    padding: 10,
-    borderRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 11,
+    borderRadius: 50,
     marginHorizontal: 10,
     transform: "scale(1.7)",
+    justifyContent: "center",
   },
 
   flippableCardBtnText: {
@@ -472,6 +480,7 @@ export default exports = StyleSheet.create({
     backgroundColor: "#d9eefe",
     padding: 20,
     borderRadius: 20,
+    alignSelf: "center",
   },
 
   inputInactive: {
@@ -506,11 +515,12 @@ export default exports = StyleSheet.create({
     fontWeight: "bold",
   },
   logoutButton: {
-    padding: 10,
+    width: screenWidth * 0.3,
+    alignSelf: "center",
   },
   logoutButtonTxt: {
     color: "red",
-    marginTop: 20,
+    marginVertical: 30,
     fontSize: 20,
     textDecorationLine: "underline",
     alignSelf: "center",
