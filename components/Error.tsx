@@ -28,7 +28,7 @@ export default function Error() {
 						height: 200,
 						marginTop: 50,
 					}}
-					source={require("../assets/error.json")}
+					source={require("../assets/Error.json")}
 				/>
 			</View>
 		</SafeAreaView>
