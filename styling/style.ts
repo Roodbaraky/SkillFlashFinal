@@ -5,6 +5,7 @@ const lightBlue = "#489FB5";
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 export default exports = StyleSheet.create({
+
   container: {
     flex: 1,
   },
@@ -76,58 +77,59 @@ export default exports = StyleSheet.create({
     fontWeight: 400,
   },
 
-  formContainer: {
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    padding: 30,
-    marginVertical: "auto",
-  },
-  backButtonText: {
-    textDecorationLine: "underline",
-    textDecorationColor: blue,
-    color: blue,
-    fontSize: 18,
-  },
-  input: {
-    height: 50,
-    margin: 10,
-    borderWidth: 1,
-    padding: 10,
-    width: screenWidth * 0.75,
-    alignSelf: "center",
-    borderColor: blue,
-    borderRadius: 10,
-    backgroundColor: "white",
-    fontSize: 18,
-  },
-  label: {
-    color: "black",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-  error: {
-    color: "red",
-    marginVertical: 5,
-    textAlign: "center",
-  },
-  //-----------------createNewDeck page------------------
-  newDeckButton: {
-    margin: 0,
-  },
-  newDeckScrollContainer: {
-    flex: 1,
-    marginHorizontal: 10,
-  },
-  newDeckTagSelection: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    maxHeight: screenWidth * 0.7,
-    justifyContent: "flex-start",
-    borderWidth: 1,
-    borderColor: blue,
-    borderRadius: 10,
-    minHeight: 50,
-    marginVertical: 10,
-  },
+	formContainer: {
+		backgroundColor: "rgba(255, 255, 255, 0.9)",
+		padding: 30,
+		marginVertical: "auto",
+	},
+	backButtonText: {
+		textDecorationLine: "underline",
+		textDecorationColor: blue,
+		color: blue,
+		fontSize: 18,
+	},
+	input: {
+		height: 50,
+		margin: 10,
+		borderWidth: 1,
+		padding: 10,
+		width: screenWidth * 0.75,
+		alignSelf: "center",
+		borderColor: blue,
+		borderRadius: 10,
+		backgroundColor: "white",
+		fontSize: 18,
+	},
+	label: {
+		color: "black",
+		fontWeight: "bold",
+		fontSize: 16,
+	},
+	error: {
+		color: "red",
+		marginVertical: 5,
+		textAlign: "center",
+	},
+	//-----------------createNewDeck page------------------
+	newDeckButton: {
+		margin: 0,
+	},
+	newDeckScrollContainer: {
+		flex: 1,
+		marginHorizontal: 10,
+	},
+	newDeckTagSelection: {
+		flexDirection: "row",
+		flexWrap: "wrap",
+		maxHeight: screenWidth * 0.7,
+		justifyContent: "flex-start",
+		borderWidth: 1,
+		borderColor: blue,
+		borderRadius: 10,
+		minHeight: 50,
+		marginVertical: 10,
+	},
+
 
   newDeckTagListContainer: {
     flex: 1,
@@ -258,97 +260,98 @@ export default exports = StyleSheet.create({
     alignSelf: "center",
   },
 
-  cardCount: {
-    fontSize: 12,
-    fontWeight: "bold",
-    position: "absolute",
-    bottom: 2,
-    right: 10,
-  },
-  //deck/[id] page
-  scrollViewContent: {
-    flexGrow: 1,
-    paddingVertical: 30,
-    height: "90%",
-  },
-  scrollStopper: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    padding: 10,
-  },
-  //--------------cardTile component-----------------
 
-  cardTileContainer: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    padding: 5,
-    margin: 8,
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: "black",
-    backgroundColor: "white",
-    shadowColor: "black",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  cardTileQ: {
-    alignSelf: "center",
-    paddingTop: 35,
-    fontSize: 18,
-    textAlign: "center",
-    width: "90%",
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  stats: {
-    textAlign: "center",
-    width: "100%",
-    margin: 5,
-  },
-  cardTileTag: {
-    position: "absolute",
-    right: 5,
-    padding: 6,
-    height: 26,
-  },
-  //----------------play page----------------
-  deckProgressLoader: {
-    marginHorizontal: "auto",
-    marginTop: screenHeight * 0.05,
-  },
-  noSwipeAnimation: {
-    width: screenWidth * 0.3,
-  },
-  yesSwipeAnimation: {
-    width: screenWidth * 0.3,
-  },
-  animationContainer: {
-    position: "absolute",
-    zIndex: 1000,
-    width: screenWidth * 0.9,
-    left: 0,
-    right: 0,
-    top: screenHeight * 0.0055,
-    paddingTop: screenHeight * 0.0855,
-    marginRight: "auto",
-    marginLeft: "auto",
-  },
+	cardCount: {
+		fontSize: 12,
+		fontWeight: "bold",
+		position: "absolute",
+		bottom: 2,
+		right: 10,
+	},
+	//deck/[id] page
+	scrollViewContent: {
+		flexGrow: 1,
+		paddingVertical: 30,
+		height: "90%",
+	},
+	scrollStopper: {
+		flexDirection: "row",
+		justifyContent: "space-around",
+		padding: 10,
+	},
+	//--------------cardTile component-----------------
 
-  playBackground: {
-    backgroundColor: blue,
-  },
-  playContainer: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-  //-----------flippable card---------------
+	cardTileContainer: {
+		flex: 1,
+		flexDirection: "row",
+		flexWrap: "wrap",
+		justifyContent: "center",
+		padding: 5,
+		margin: 8,
+		borderWidth: 1,
+		borderRadius: 10,
+		borderColor: "black",
+		backgroundColor: "white",
+		shadowColor: "black",
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 5,
+	},
+	cardTileQ: {
+		alignSelf: "center",
+		paddingTop: 35,
+		fontSize: 18,
+		textAlign: "center",
+		width: "90%",
+		fontWeight: "bold",
+		marginBottom: 5,
+	},
+	stats: {
+		textAlign: "center",
+		width: "100%",
+		margin: 5,
+	},
+	cardTileTag: {
+		position: "absolute",
+		right: 5,
+		padding: 6,
+		height: 26,
+	},
+	//----------------play page----------------
+	deckProgressLoader: {
+		marginHorizontal: "auto",
+		marginTop: screenHeight * 0.05,
+	},
+	noSwipeAnimation: {
+		width: screenWidth * 0.3,
+	},
+	yesSwipeAnimation: {
+		width: screenWidth * 0.3,
+	},
+	animationContainer: {
+		position: "absolute",
+		zIndex: 1000,
+		width: screenWidth * 0.9,
+		left: 0,
+		right: 0,
+		top: screenHeight * 0.0055,
+		paddingTop: screenHeight * 0.0855,
+		marginRight: "auto",
+		marginLeft: "auto",
+	},
+
+	playBackground: {
+		backgroundColor: blue,
+	},
+	playContainer: {
+		flex: 1,
+		backgroundColor: "white",
+	},
+	//-----------flippable card---------------
 
   flippableDeckCard: {
     flex: 1,
@@ -415,122 +418,123 @@ export default exports = StyleSheet.create({
     transform: "scale(1.25)",
   },
 
-  flippableCardYBtn: {
-    backgroundColor: "#17697a",
-    opacity: 0.5,
-    paddingVertical: 10,
-    paddingHorizontal: 11,
-    borderRadius: 50,
-    marginHorizontal: 10,
-    transform: "scale(1.7)",
-    justifyContent: "center",
-  },
-  flippableCardYBtnCl: {
-    backgroundColor: "lightgreen",
-    paddingVertical: 10,
-    paddingHorizontal: 11,
-    borderRadius: 50,
-    marginHorizontal: 10,
-    transform: "scale(1.7)",
-    justifyContent: "center",
-  },
 
-  flippableCardNBtn: {
-    backgroundColor: "#17697a",
-    opacity: 0.5,
-    paddingVertical: 10,
-    paddingHorizontal: 11,
-    borderRadius: 50,
-    marginHorizontal: 10,
-    transform: "scale(1.7)",
-    justifyContent: "center",
-  },
-  flippableCardNBtnCl: {
-    backgroundColor: "red",
-    paddingVertical: 10,
-    paddingHorizontal: 11,
-    borderRadius: 50,
-    marginHorizontal: 10,
-    transform: "scale(1.7)",
-    justifyContent: "center",
-  },
+	flippableCardYBtn: {
+		backgroundColor: "#17697a",
+		opacity: 0.5,
+		paddingVertical: 10,
+		paddingHorizontal: 11,
+		borderRadius: 50,
+		marginHorizontal: 10,
+		transform: "scale(1.7)",
+		justifyContent: "center",
+	},
+	flippableCardYBtnCl: {
+		backgroundColor: "lightgreen",
+		paddingVertical: 10,
+		paddingHorizontal: 11,
+		borderRadius: 50,
+		marginHorizontal: 10,
+		transform: "scale(1.7)",
+		justifyContent: "center",
+	},
 
-  flippableCardBtnText: {
-    fontSize: 20,
-    color: "white",
-    userSelect: "none",
-  },
-  flippableCardBtnTextCl: {
-    fontSize: 20,
-    color: "#17697a",
-    userSelect: "none",
-  },
-  flippableCardBtnContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    paddingVertical: 10,
-    position: "absolute",
-    bottom: 25,
-  },
-  //--------------profile page--------------
-  profileContainer: {
-    flex: 1,
-    alignItems: "center",
-    marginTop: 20,
-  },
-  info: {
-    fontSize: 22,
-    marginVertical: 10,
-  },
-  detailsContainer: {
-    width: screenWidth * 0.95,
-    backgroundColor: "#d9eefe",
-    padding: 20,
-    borderRadius: 20,
-    alignSelf: "center",
-  },
+	flippableCardNBtn: {
+		backgroundColor: "#17697a",
+		opacity: 0.5,
+		paddingVertical: 10,
+		paddingHorizontal: 11,
+		borderRadius: 50,
+		marginHorizontal: 10,
+		transform: "scale(1.7)",
+		justifyContent: "center",
+	},
+	flippableCardNBtnCl: {
+		backgroundColor: "red",
+		paddingVertical: 10,
+		paddingHorizontal: 11,
+		borderRadius: 50,
+		marginHorizontal: 10,
+		transform: "scale(1.7)",
+		justifyContent: "center",
+	},
 
-  inputInactive: {
-    backgroundColor: "transparent",
-  },
+	flippableCardBtnText: {
+		fontSize: 20,
+		color: "white",
+		userSelect: "none",
+	},
+	flippableCardBtnTextCl: {
+		fontSize: 20,
+		color: "#17697a",
+		userSelect: "none",
+	},
+	flippableCardBtnContainer: {
+		flexDirection: "row",
+		justifyContent: "space-around",
+		width: "100%",
+		paddingVertical: 10,
+		position: "absolute",
+		bottom: 25,
+	},
+	//--------------profile page--------------
+	profileContainer: {
+		flex: 1,
+		alignItems: "center",
+		marginTop: 20,
+	},
+	info: {
+		fontSize: 22,
+		marginVertical: 10,
+	},
+	detailsContainer: {
+		width: screenWidth * 0.95,
+		backgroundColor: "#d9eefe",
+		padding: 20,
+		borderRadius: 20,
+		alignSelf: "center",
+	},
 
-  errorText: {
-    color: "red",
-    textAlign: "center",
-    marginVertical: 10,
-  },
-  btnGroup: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: blue,
-    marginBottom: 30,
-  },
-  btn: {
-    flex: 1,
-  },
-  btnActive: {
-    backgroundColor: lightBlue,
-  },
-  btnText: {
-    textAlign: "center",
-    paddingVertical: 16,
-    fontSize: 18,
-  },
-  btnTextActive: {
-    color: "white",
-    fontWeight: "bold",
-  },
-  logoutButton: {
-    width: screenWidth * 0.3,
-    alignSelf: "center",
-  },
-  logoutButtonTxt: {
-    color: "red",
-    marginVertical: 30,
-    fontSize: 20,
-    textDecorationLine: "underline",
-    alignSelf: "center",
-  },
+	inputInactive: {
+		backgroundColor: "transparent",
+	},
+
+	errorText: {
+		color: "red",
+		textAlign: "center",
+		marginVertical: 10,
+	},
+	btnGroup: {
+		flexDirection: "row",
+		alignItems: "center",
+		borderBottomWidth: 1,
+		borderBottomColor: blue,
+		marginBottom: 30,
+	},
+	btn: {
+		flex: 1,
+	},
+	btnActive: {
+		backgroundColor: lightBlue,
+	},
+	btnText: {
+		textAlign: "center",
+		paddingVertical: 16,
+		fontSize: 18,
+	},
+	btnTextActive: {
+		color: "white",
+		fontWeight: "bold",
+	},
+	logoutButton: {
+		width: screenWidth * 0.3,
+		alignSelf: "center",
+	},
+	logoutButtonTxt: {
+		color: "red",
+		marginVertical: 30,
+		fontSize: 20,
+		textDecorationLine: "underline",
+		alignSelf: "center",
+	},
 });
