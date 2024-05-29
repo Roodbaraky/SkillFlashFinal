@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Text,
@@ -14,6 +14,7 @@ import { router } from "expo-router";
 import { createUser, doesUserExist } from "@/utils/api";
 import { UserContext } from "@/contexts/UserContext";
 import styles from "../styling/style";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface SignUpProps {
   setIsSignupOpen: (isLoginOpen: boolean) => void;
@@ -23,6 +24,8 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
   const [usernameInput, setUsernameInput] = React.useState("");
   const [passwordInput, setPasswordInput] = React.useState("");
   const [confirmPasswordInput, setConfirmPasswordInput] = React.useState("");
+  const [showPw, setShowPw] = useState(false)
+  const [showConfirmPw, setShowConfirmPw] = useState(false)
   const [emailInput, setEmailInput] = React.useState("");
   const { userDetails, setUserDetails } = useContext(UserContext);
   const [isError, setIsError] = React.useState<IsError>({});
@@ -102,6 +105,8 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
               </Pressable>
               <Text style={styles.title}>Sign Up</Text>
               <Text style={styles.label}>Username</Text>
+
+              <View style={styles.inputGroup}>
               <TextInput
                 style={styles.input}
                 onChangeText={(text) => {
@@ -124,12 +129,14 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
                 placeholder="username"
                 id="username"
               />
+              </View>
               {isError.username?.length ? (
                 <Text style={styles.error}>{isError.username}</Text>
               ) : (
                 <></>
               )}
               <Text style={styles.label}>Email</Text>
+              <View style={styles.inputGroup}>
               <TextInput
                 style={styles.input}
                 onChangeText={(text) => {
@@ -145,6 +152,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
                 }}
                 id="email"
               />
+              </View>
               {isError.email?.length ? (
                 <Text style={styles.error}>{isError.email}</Text>
               ) : (
@@ -152,55 +160,70 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
               )}
               <Text style={styles.label}>Password</Text>
 
-              <TextInput
-                style={styles.input}
-                onChangeText={(text) => {
-                  setPasswordInput(text);
-                  setIsError({ ...isError, password: "" });
-                }}
-                onBlur={() => {
-                  checkField("password", setIsError, passwordInput);
-                }}
-                value={passwordInput}
-                placeholder="Password"
-                secureTextEntry={true}
-                textContentType="password"
-                id="password"
-              />
+              <View style={styles.inputGroup}>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(text) => {
+                    setPasswordInput(text);
+                    setIsError({ ...isError, password: "" });
+                  }}
+                  onBlur={() => {
+                    checkField("password", setIsError, passwordInput);
+                  }}
+                  value={passwordInput}
+                  placeholder="Password"
+                  secureTextEntry={!showPw}
+                  textContentType="password"
+                  id="password"
+                />
+                <MaterialCommunityIcons
+                    name={showPw ? 'eye-off' : 'eye'} 
+                    size={24} 
+                    color="#aaa"
+                    onPress={()=>setShowPw(!showPw)} 
+                />
+              </View>
               {isError.password?.length ? (
                 <Text style={styles.error}>{isError.password}</Text>
               ) : (
                 <></>
               )}
               <Text style={styles.label}>Confirm password</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={(text) => {
-                  setConfirmPasswordInput(text);
-
-                  setIsError({ ...isError, confirmPassword: "" });
-                }}
-                onBlur={() => {
-                  checkField(
-                    "confirmPassword",
-                    setIsError,
-                    confirmPasswordInput
-                  );
-                  if (
-                    confirmPasswordInput &&
-                    passwordInput !== confirmPasswordInput
-                  )
-                    setIsError({
-                      ...isError,
-                      confirmPassword: "passwords do not match",
-                    });
-                }}
-                value={confirmPasswordInput}
-                placeholder="confirm your password"
-                secureTextEntry={true}
-                textContentType="password"
-                id="confirmPassword"
-              />
+              <View style={styles.inputGroup}>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(text) => {
+                    setConfirmPasswordInput(text);
+                    setIsError({ ...isError, confirmPassword: "" });
+                  }}
+                  onBlur={() => {
+                    checkField(
+                      "confirmPassword",
+                      setIsError,
+                      confirmPasswordInput
+                    );
+                    if (
+                      confirmPasswordInput &&
+                      passwordInput !== confirmPasswordInput
+                    )
+                      setIsError({
+                        ...isError,
+                        confirmPassword: "passwords do not match",
+                      });
+                  }}
+                  value={confirmPasswordInput}
+                  placeholder="confirm your password"
+                  secureTextEntry={!showConfirmPw}
+                  textContentType="password"
+                  id="confirmPassword"
+                />
+                <MaterialCommunityIcons
+                    name={showConfirmPw ? 'eye-off' : 'eye'} 
+                    size={24} 
+                    color="#aaa"
+                    onPress={()=>setShowConfirmPw(!showConfirmPw)} 
+                />
+              </View>
               {isError.confirmPassword?.length ? (
                 <Text style={styles.error}>{isError.confirmPassword}</Text>
               ) : (
