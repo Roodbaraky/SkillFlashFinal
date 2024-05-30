@@ -12,7 +12,6 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   ScrollView,
-	StyleSheet,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -30,14 +29,14 @@ interface Error {
 }
 
 export default function TabThreeScreen() {
-  const {userDetails, setUserDetails} = useContext(UserContext);
+  const { userDetails, setUserDetails } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(userDetails.username);
   const [email, setEmail] = useState(userDetails.email);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-	const [showPw, setShowPw] = useState(false); 
-	const [showConfirmPw, setShowConfirmPw] = useState(false); 
+  const [showPw, setShowPw] = useState(false);
+  const [showConfirmPw, setShowConfirmPw] = useState(false);
   const [errors, setErrors] = useState<Error>({});
   const [selection, setSelection] = useState(1);
 
@@ -61,13 +60,13 @@ export default function TabThreeScreen() {
     setIsEditing(!isEditing);
   }
 
-	function toggleShowPw() { 
-		setShowPw(!showPw); 
-	};
+  function toggleShowPw() {
+    setShowPw(!showPw);
+  }
 
-	function toggleShowConfirmPw() { 
-		setShowConfirmPw(!showConfirmPw); 
-	};
+  function toggleShowConfirmPw() {
+    setShowConfirmPw(!showConfirmPw);
+  }
 
   async function nameValidation() {
     let error: Error = {};
@@ -79,7 +78,7 @@ export default function TabThreeScreen() {
       error.username = "Username already exists";
     }
     setErrors((prevErrors) => ({ ...prevErrors, ...error }));
-		return error
+    return error;
   }
 
   async function emailValidation() {
@@ -89,7 +88,7 @@ export default function TabThreeScreen() {
       error.email = "Please enter a valid email";
     }
     setErrors((prevErrors) => ({ ...prevErrors, ...error }));
-		return error
+    return error;
   }
 
   async function pwValidation() {
@@ -103,7 +102,7 @@ export default function TabThreeScreen() {
         "Password must be 8+ characters and contain at least one of the following: uppercase, lowercase, number, and special character(@$!%*?&)";
     }
     setErrors((prevErrors) => ({ ...prevErrors, ...error }));
-		return error
+    return error;
   }
 
   async function confirmPwValidation() {
@@ -114,12 +113,15 @@ export default function TabThreeScreen() {
       error.confirmPassword =
         "The passwords you entered do not match, please try again";
     setErrors((prevErrors) => ({ ...prevErrors, ...error }));
-		return error
+    return error;
   }
 
   async function handleSave() {
     if (selection === 1) {
-			const error = {...await nameValidation(), ...await emailValidation()}
+      const error = {
+        ...(await nameValidation()),
+        ...(await emailValidation()),
+      };
       if (name === userDetails.username && email === userDetails.email) {
         setIsEditing(false);
         return;
@@ -135,25 +137,30 @@ export default function TabThreeScreen() {
           );
 
           setUserDetails(newDetails);
-          alert("Your details have been updated!");
+          Alert.alert("Success!", "Your details have been updated!");
           setIsEditing(false);
         } catch (err) {
           console.log(err);
-					setName(userDetails.username)
-					setEmail(userDetails.email)
-          alert(
+          setName(userDetails.username);
+          setEmail(userDetails.email);
+          Alert.alert(
+            "Error",
             "There has been a problem with your request. Please try again later"
           );
           setEmail(userDetails.email);
           setName(userDetails.username);
         }
       } else {
-        alert(
+        Alert.alert(
+          "Error",
           "Please check the information you've entered is correct before saving."
         );
       }
     } else if (selection === 2) {
-			const error = {...await pwValidation(), ...await confirmPwValidation()}
+      const error = {
+        ...(await pwValidation()),
+        ...(await confirmPwValidation()),
+      };
       if (userDetails.username && Object.keys(error).length === 0) {
         try {
           await updateUserInfo(userDetails.username, {
@@ -162,17 +169,19 @@ export default function TabThreeScreen() {
           setIsEditing(false);
           setPassword("");
           setConfirmPassword("");
-          alert("Your password has been changed!");
+          Alert.alert("Success", "Your password has been changed!");
         } catch (err) {
           console.log(err);
-          alert(
+          Alert.alert(
+            "Error",
             "There has been a problem with your request. Please try again later"
           );
           setPassword("");
           setConfirmPassword("");
         }
       } else {
-        alert(
+        Alert.alert(
+          "Error",
           "Please check the information you've entered is correct before saving."
         );
       }
@@ -283,59 +292,59 @@ export default function TabThreeScreen() {
             ) : (
               <>
                 <Text style={styles.label}>New Password: </Text>
-								<View style={styles.inputGroup}>
-                <TextInput
-                  style={styles.input}
-                  value={password}
-                  onChangeText={(text) => {
-                    setPassword(text);
-                    setErrors((prevErrors) => ({
-                      ...prevErrors,
-                      password: "",
-                    }));
-                  }}
-                  onBlur={pwValidation}
-									editable={true}
-                  placeholder="New password"
-                  secureTextEntry={!showPw}
-                  textContentType="password"
-                />
-								<MaterialCommunityIcons
-                    name={showPw ? 'eye-off' : 'eye'} 
-                    size={24} 
+                <View style={styles.inputGroup}>
+                  <TextInput
+                    style={styles.input}
+                    value={password}
+                    onChangeText={(text) => {
+                      setPassword(text);
+                      setErrors((prevErrors) => ({
+                        ...prevErrors,
+                        password: "",
+                      }));
+                    }}
+                    onBlur={pwValidation}
+                    editable={true}
+                    placeholder="New password"
+                    secureTextEntry={!showPw}
+                    textContentType="password"
+                  />
+                  <MaterialCommunityIcons
+                    name={showPw ? "eye-off" : "eye"}
+                    size={24}
                     color="#aaa"
-                    onPress={toggleShowPw} 
-                />
-								</View>
+                    onPress={toggleShowPw}
+                  />
+                </View>
                 {errors.password && (
                   <Text style={styles.errorText}>{errors.password}</Text>
                 )}
 
                 <Text style={styles.label}>Confirm Password: </Text>
-								<View style={styles.inputGroup}>
-                <TextInput
-                  style={styles.input}
-                  value={confirmPassword}
-                  onChangeText={(text) => {
-                    setConfirmPassword(text);
-                    setErrors((prevErrors) => ({
-                      ...prevErrors,
-                      confirmPassword: "",
-                    }));
-                  }}
-                  onBlur={confirmPwValidation}
-									editable={true}
-                  placeholder="Re-enter password"
-                  secureTextEntry={!showConfirmPw}
-                  textContentType="password"
-                />
-								<MaterialCommunityIcons
-                    name={showConfirmPw ? 'eye-off' : 'eye'} 
-                    size={24} 
+                <View style={styles.inputGroup}>
+                  <TextInput
+                    style={styles.input}
+                    value={confirmPassword}
+                    onChangeText={(text) => {
+                      setConfirmPassword(text);
+                      setErrors((prevErrors) => ({
+                        ...prevErrors,
+                        confirmPassword: "",
+                      }));
+                    }}
+                    onBlur={confirmPwValidation}
+                    editable={true}
+                    placeholder="Re-enter password"
+                    secureTextEntry={!showConfirmPw}
+                    textContentType="password"
+                  />
+                  <MaterialCommunityIcons
+                    name={showConfirmPw ? "eye-off" : "eye"}
+                    size={24}
                     color="#aaa"
-                    onPress={toggleShowConfirmPw} 
-                />
-								</View>
+                    onPress={toggleShowConfirmPw}
+                  />
+                </View>
                 {errors.confirmPassword && (
                   <Text style={styles.errorText}>{errors.confirmPassword}</Text>
                 )}
