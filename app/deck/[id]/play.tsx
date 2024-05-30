@@ -5,7 +5,7 @@ import React, {
   useContext,
   useCallback,
 } from "react";
-import { View, Dimensions, Text} from "react-native";
+import { View, Dimensions } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import { DecksContext } from "@/contexts/DecksContext";
 import { useLocalSearchParams } from "expo-router";
@@ -41,19 +41,16 @@ export default function PlayScreen() {
       d._id === id ? { ...d, cards: newDeck } : d
     );
     setDecks(updatedDecks);
-   
   }, [deck, currentCardIndex, id, decks, setDecks]);
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle:`${deckFromContext?.deckName}`,
-    })
+      headerTitle: `${deckFromContext?.deckName}`,
+    });
     const exitPage = navigation.addListener("beforeRemove", async (e) => {
       await handleExit();
-    
     });
     return exitPage;
-    
   }, [navigation, handleExit]);
 
   useEffect(() => {
@@ -81,8 +78,6 @@ export default function PlayScreen() {
       }
       return newIndex;
     });
-
-  
   };
 
   const handleRightSwipe = (cardIndex: number) => {
@@ -100,11 +95,7 @@ export default function PlayScreen() {
       }
       return newIndex;
     });
-    
   };
-
-
- 
 
   return (
     <View style={styles.playContainer}>
@@ -119,7 +110,7 @@ export default function PlayScreen() {
         borderRadius={20}
         borderWidth={0}
       />
-  
+
       <View style={styles.playBackground}>
         <Swiper
           ref={swiperReferenceObject}
