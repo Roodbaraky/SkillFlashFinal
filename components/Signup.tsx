@@ -24,8 +24,8 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
   const [usernameInput, setUsernameInput] = React.useState("");
   const [passwordInput, setPasswordInput] = React.useState("");
   const [confirmPasswordInput, setConfirmPasswordInput] = React.useState("");
-  const [showPw, setShowPw] = useState(false)
-  const [showConfirmPw, setShowConfirmPw] = useState(false)
+  const [showPw, setShowPw] = useState(false);
+  const [showConfirmPw, setShowConfirmPw] = useState(false);
   const [emailInput, setEmailInput] = React.useState("");
   const { userDetails, setUserDetails } = useContext(UserContext);
   const [isError, setIsError] = React.useState<IsError>({});
@@ -85,7 +85,7 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
   return (
     <SafeAreaView testID="signup-container" style={styles.container}>
       <ImageBackground
-        source={require("../assets/images/welcome-background.jpg")}
+        source={require("../assets/images/background.png")}
         resizeMode="cover"
         style={styles.background}
       >
@@ -107,28 +107,28 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
               <Text style={styles.label}>Username</Text>
 
               <View style={styles.inputGroup}>
-              <TextInput
-                style={styles.input}
-                onChangeText={(text) => {
-                  setUsernameInput(text);
-                  setIsError({
-                    ...isError,
-                    username: "",
-                  });
-                }}
-                onBlur={async () => {
-                  if (await checkUsername(usernameInput)) {
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(text) => {
+                    setUsernameInput(text);
                     setIsError({
                       ...isError,
-                      username: "username already exists",
+                      username: "",
                     });
-                  }
-                  checkField("username", setIsError, usernameInput);
-                }}
-                value={usernameInput}
-                placeholder="username"
-                id="username"
-              />
+                  }}
+                  onBlur={async () => {
+                    if (await checkUsername(usernameInput)) {
+                      setIsError({
+                        ...isError,
+                        username: "username already exists",
+                      });
+                    }
+                    checkField("username", setIsError, usernameInput);
+                  }}
+                  value={usernameInput}
+                  placeholder="username"
+                  id="username"
+                />
               </View>
               {isError.username?.length ? (
                 <Text style={styles.error}>{isError.username}</Text>
@@ -137,21 +137,21 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
               )}
               <Text style={styles.label}>Email</Text>
               <View style={styles.inputGroup}>
-              <TextInput
-                style={styles.input}
-                onChangeText={(text) => {
-                  setEmailInput(text);
+                <TextInput
+                  style={styles.input}
+                  onChangeText={(text) => {
+                    setEmailInput(text);
 
-                  setIsError({ ...isError, email: "" });
-                }}
-                value={emailInput}
-                placeholder="email"
-                textContentType="emailAddress"
-                onBlur={() => {
-                  checkField("email", setIsError, emailInput);
-                }}
-                id="email"
-              />
+                    setIsError({ ...isError, email: "" });
+                  }}
+                  value={emailInput}
+                  placeholder="email"
+                  textContentType="emailAddress"
+                  onBlur={() => {
+                    checkField("email", setIsError, emailInput);
+                  }}
+                  id="email"
+                />
               </View>
               {isError.email?.length ? (
                 <Text style={styles.error}>{isError.email}</Text>
@@ -177,10 +177,10 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
                   id="password"
                 />
                 <MaterialCommunityIcons
-                    name={showPw ? 'eye-off' : 'eye'} 
-                    size={24} 
-                    color="#aaa"
-                    onPress={()=>setShowPw(!showPw)} 
+                  name={showPw ? "eye-off" : "eye"}
+                  size={24}
+                  color="#aaa"
+                  onPress={() => setShowPw(!showPw)}
                 />
               </View>
               {isError.password?.length ? (
@@ -218,10 +218,10 @@ export default function Signup({ setIsSignupOpen }: SignUpProps) {
                   id="confirmPassword"
                 />
                 <MaterialCommunityIcons
-                    name={showConfirmPw ? 'eye-off' : 'eye'} 
-                    size={24} 
-                    color="#aaa"
-                    onPress={()=>setShowConfirmPw(!showConfirmPw)} 
+                  name={showConfirmPw ? "eye-off" : "eye"}
+                  size={24}
+                  color="#aaa"
+                  onPress={() => setShowConfirmPw(!showConfirmPw)}
                 />
               </View>
               {isError.confirmPassword?.length ? (
