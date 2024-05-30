@@ -31,7 +31,7 @@ export default exports = StyleSheet.create({
     color: blue,
     fontWeight: "bold",
     fontSize: 18,
-    marginVertical: 10,
+    margin: 10,
     paddingTop: 10,
     textAlign: "center",
   },
@@ -239,7 +239,6 @@ export default exports = StyleSheet.create({
   },
   deckName: {
     fontSize: 25,
-    textTransform: "capitalize",
     fontWeight: "bold",
     marginBottom: 5,
     textAlign: "center",
@@ -495,9 +494,9 @@ export default exports = StyleSheet.create({
     backgroundColor: "transparent",
   },
   inputGroup: {
-    flexDirection: 'row', 
-		alignItems: 'center',  
-		borderRadius: 8, 
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 8,
   },
 
   errorText: {

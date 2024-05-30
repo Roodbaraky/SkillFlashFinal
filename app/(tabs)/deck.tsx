@@ -13,94 +13,94 @@ import Error from "../../components/Error";
 import styles from "@/styling/style";
 
 export default function TabOneScreen() {
-	const { userDetails } = useContext(UserContext);
-	const { decks, setDecks } = useContext(DecksContext);
-	const [isLoading, setIsLoading] = useState(false);
-	const [isError, setError] = useState(false);
-	useEffect(() => {
-		setIsLoading(true);
-		getDecksByUsername(userDetails.username || "")
-			.then((data) => {
-				setIsLoading(false);
-				const invertedArray = data.reverse();
-				setDecks(invertedArray);
-			})
-			.catch(() => {
-				setError(true);
-			});
-	}, [userDetails.username]);
+  const { userDetails } = useContext(UserContext);
+  const { decks, setDecks } = useContext(DecksContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setError] = useState(false);
+  useEffect(() => {
+    setIsLoading(true);
+    getDecksByUsername(userDetails.username || "")
+      .then((data) => {
+        setIsLoading(false);
+        const invertedArray = data.reverse();
+        setDecks(invertedArray);
+      })
+      .catch(() => {
+        setError(true);
+      });
+  }, [userDetails.username]);
 
-	const deleteRow = (rowKey: string) => {
-		const newData = decks.filter((item) => item._id !== rowKey);
-		setDecks(newData);
-		deleteDeck(rowKey).catch(() => {
-			setError(true);
-			Alert.alert("Error", "Failed to delete deck");
-		});
-	};
-	if (isLoading) {
-		return <Loading />;
-	}
-	if (isError) {
-		return <Error />;
-	}
-	return (
-		<SafeAreaView testID="home-container" style={styles.container}>
-			<View>
-				<Text style={[styles.mediumTitle, styles.lessMargin]}>
-					Hi {userDetails.username},
-				</Text>
-				<Text style={[styles.mediumTitle, styles.lessMargin]}>
-					Welcome to SkillFlash!
-				</Text>
-			</View>
-			<View style={styles.scrollViewContainer}>
-				<Text style={[styles.smallTitle, styles.alignLeftWithUnderline]}>
-					Choose a deck to start practicing:
-				</Text>
-				{!decks.length && (
-					<>
-						<Text style={styles.smallTitle}>
-							Sorry, you don't have any decks to display yet.
-						</Text>
-						<Text style={styles.smallTitle}>
-							Start your learning journey by pressing on the "Create Deck'
-							button below!
-						</Text>
-					</>
-				)}
-				<SwipeListView
-					disableRightSwipe
-					data={decks}
-					keyExtractor={(item) => item._id}
-					renderItem={(data, rowMap) => (
-						<View style={styles.deckTileFront}>
-							<DeckTile deck={data.item} />
-						</View>
-					)}
-					renderHiddenItem={(data, rowMap) => (
-						<View style={styles.deckTileBack}>
-							<TouchableOpacity
-								style={styles.backRightBtn}
-								onPress={() =>
-									Alert.alert(
-										"Delete deck",
-										"Are you sure you want to delete? This action cannot be reversed.",
-										[
-											{ text: "Cancel", style: "cancel" },
-											{ text: "OK", onPress: () => deleteRow(data.item._id) },
-										]
-									)
-								}
-							>
-								<Feather name="trash-2" size={35} color="red" />
-							</TouchableOpacity>
-						</View>
-					)}
-					leftOpenValue={0}
-					rightOpenValue={-75}
-				/>
-			</View>
-		</SafeAreaView>
-	);
+  const deleteRow = (rowKey: string) => {
+    const newData = decks.filter((item) => item._id !== rowKey);
+    setDecks(newData);
+    deleteDeck(rowKey).catch(() => {
+      setError(true);
+      Alert.alert("Error", "Failed to delete deck");
+    });
+  };
+  if (isLoading) {
+    return <Loading />;
+  }
+  if (isError) {
+    return <Error />;
+  }
+  return (
+    <SafeAreaView testID="home-container" style={styles.container}>
+      <View>
+        <Text style={[styles.mediumTitle, styles.lessMargin]}>
+          Hi {userDetails.username},
+        </Text>
+        <Text style={[styles.mediumTitle, styles.lessMargin]}>
+          Welcome to SkillFlash!
+        </Text>
+      </View>
+      <View style={styles.scrollViewContainer}>
+        <Text style={[styles.smallTitle, styles.alignLeftWithUnderline]}>
+          Choose a deck to start practicing:
+        </Text>
+        {!decks.length && (
+          <>
+            <Text style={styles.smallTitle}>
+              Sorry, you don't have any decks to display yet.
+            </Text>
+            <Text style={styles.smallTitle}>
+              Start your learning journey by pressing on the "Create Deck'
+              button below!
+            </Text>
+          </>
+        )}
+        <SwipeListView
+          disableRightSwipe
+          data={decks}
+          keyExtractor={(item) => item._id}
+          renderItem={(data, rowMap) => (
+            <View style={styles.deckTileFront}>
+              <DeckTile deck={data.item} />
+            </View>
+          )}
+          renderHiddenItem={(data, rowMap) => (
+            <View style={styles.deckTileBack}>
+              <TouchableOpacity
+                style={styles.backRightBtn}
+                onPress={() =>
+                  Alert.alert(
+                    "Delete deck",
+                    "Are you sure you want to delete? This action cannot be reversed.",
+                    [
+                      { text: "Cancel", style: "cancel" },
+                      { text: "OK", onPress: () => deleteRow(data.item._id) },
+                    ]
+                  )
+                }
+              >
+                <Feather name="trash-2" size={35} color="red" />
+              </TouchableOpacity>
+            </View>
+          )}
+          leftOpenValue={0}
+          rightOpenValue={-75}
+        />
+      </View>
+    </SafeAreaView>
+  );
 }

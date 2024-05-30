@@ -106,11 +106,13 @@ export async function deleteDeck(deckId: string) {
 }
 
 export async function updateCards(deckId: string, cards: Card[]) {
-  const { data } = await axios.patch(
+  await axios.patch(
     `https://skillflashbackend.onrender.com/api/decks/${deckId}/cards`,
     { cards: cards }
   );
-  return data.deck;
+  return;
+  // console.log(data, "returned cards from api");
+  // return data.deck;
 }
 
 export async function updateUserInfo(username: string, userInfo: object) {
