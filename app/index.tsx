@@ -30,7 +30,7 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
-        source={require("../assets/images/welcome-background.jpg")}
+        source={require("../assets/images/background.png")}
         resizeMode="cover"
         style={styles.background}
       >
@@ -42,6 +42,7 @@ export default function Index() {
           <Pressable onPress={() => handlePress("login")} style={styles.button}>
             <Text style={styles.buttonText}>Log in</Text>
           </Pressable>
+
           <Pressable
             onPress={() => handlePress("signup")}
             style={styles.button}
